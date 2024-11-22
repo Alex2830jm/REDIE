@@ -16,3 +16,17 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/login', function() {
+    return view('login');
+});
+
+Route::get('bootstrap', function () {
+    return view('layouts/dashboardBT');
+});
+
+Route::get('tailwind', function () {
+    return view('layouts/dashboardTW');
+});
+
+Route::get('usuarios', function () {{ return view('users/index'); }});

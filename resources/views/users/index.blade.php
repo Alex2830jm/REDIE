@@ -4,11 +4,11 @@
 <h1 class="px-4 py-2 text-2xl font-semibold text-gray-700">
     Usuarios
 </h1>
-<div class="px-4 py-6 mb-8 bg-white rounded-lg shadow-md space-y-6 dark:bg-gray-800">
+<div class="px-4 py-6 mb-8 bg-white rounded-lg shadow-md space-y-6">
     <section class="container px-4 mx-auto">
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div class="flex items-center gap-x-3">
-                <h2 class="text-lg font-medium text-gray-800 dark:text-white">Listado de Usuarios</h2>
+                <h2 class="text-lg font-medium text-gray-800">Listado de Usuarios</h2>
             </div>
     
             <div class="flex justify-end">
@@ -27,20 +27,20 @@
         <div class="flex flex-col mt-6">
             <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-                    <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
-                        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                            <thead class="bg-gray-50 dark:bg-gray-800">
+                    <div class="overflow-hidden border border-gray-200 md:rounded-lg">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
                                 <tr>
                                     <th scope="col"
-                                        class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                        class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500">
                                         Nombre Completo
                                     </th>
                                     <th scope="col"
-                                        class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                        class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
                                         Rol
                                     </th>
                                     <th scope="col"
-                                        class="px-4 py-3.5 text-sm font-normal text-left rtl:text-tight tezt-gray-500 dark:text-gray-400">
+                                        class="px-4 py-3.5 text-sm font-normal text-left rtl:text-tight tezt-gray-500">
                                         Activo
                                     </th>
                                     <th scope="col" class="relative py-3.5 px-4">
@@ -48,15 +48,15 @@
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
+                            <tbody class="bg-white divide-y divide-gray-200">
                                 <tr>
                                     <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                                         <div class="inline-flex items-center gap-x-3">
                                             <div class="flex items-center gap-x-2">
                                                 <div>
-                                                    <h2 class="font-medium text-gray-800 dark:text-white">Alex Donaldo
+                                                    <h2 class="font-medium text-gray-800">Alex Donaldo
                                                         Martínez Jiménez</h2>
-                                                    <p class="text-sm font-normal text-gray-600 dark:text-gray-400">
+                                                    <p class="text-sm font-normal text-gray-600">
                                                         amartinezj</p>
                                                 </div>
                                             </div>
@@ -66,8 +66,8 @@
                                         <div class="inline-flex items-center gap-x-3">
                                             <div class="flex items-center gap-x-2">
                                                 <div>
-                                                    <h2 class="font-medium text-gray-800 dark:text-white">DEE</h2>
-                                                    <p class="text-sm font-normal text-gray-600 dark:text-gray-400">
+                                                    <h2 class="font-medium text-gray-800">DEE</h2>
+                                                    <p class="text-sm font-normal text-gray-600">
                                                         Departamento de Estadística
                                                         Económica</p>
                                                 </div>
@@ -77,7 +77,7 @@
                                     <td
                                         class="px-12 py-4 text-sm font-medium font-medium text-gray-700 whitespace-nowrap">
                                         <div
-                                            class="inline-flex items-center px-3 py-1 rounded-full gap-x-2 bg-emerald-100-60 dark:bg-gray-800">
+                                            class="inline-flex items-center px-3 py-1 rounded-full gap-x-2 bg-emerald-100-60">
                                             <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
                                             <h2 class="text-sm font-normal text-emerald-500">Activo</h2>
                                         </div>
@@ -85,7 +85,7 @@
                                     <td class="px-4 py-4 text-sm whitespace-nowrap">
                                         <div class="flex items-center gap-x-6">
                                             <a href=""
-                                                class="text-gray-500 transition-color duration-200 dark:hover:text-red-500 dark:text-gray-300  hover:text-red-500 focus:outline-none">
+                                                class="text-gray-500 transition-color duration-200  hover:text-red-500 focus:outline-none">
                                                 <div class="inline-flex items-center px-3 py-1 rounded-full gap-x-2">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -97,7 +97,7 @@
                                                 </div>
                                             </a>
                                             <a href=""
-                                                class="text-gray-500 transition-color duration-200 dark:hover:text-amber-500 dark:text-gray-300 hover:text-amber-500 focus:outline-none">
+                                                class="text-gray-500 transition-color duration-200 hover:text-amber-500 focus:outline-none">
                                                 <div class="inline-flex items-center px-3 py-1 rounded-full gap-x-2">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -116,9 +116,9 @@
                                         <div class="inline-flex items-center gap-x-3">
                                             <div class="flex items-center gap-x-2">
                                                 <div>
-                                                    <h2 class="font-medium text-gray-800 dark:text-white">Marilu Sanchez
+                                                    <h2 class="font-medium text-gray-800">Marilu Sanchez
                                                         Garcia</h2>
-                                                    <p class="text-sm font-normal text-gray-600 dark:text-gray-400">
+                                                    <p class="text-sm font-normal text-gray-600">
                                                         msanchezg</p>
                                                 </div>
                                             </div>
@@ -128,8 +128,8 @@
                                         <div class="inline-flex items-center gap-x-3">
                                             <div class="flex items-center gap-x-2">
                                                 <div>
-                                                    <h2 class="font-medium text-gray-800 dark:text-white">DES</h2>
-                                                    <p class="text-sm font-normal text-gray-600 dark:text-gray-400">
+                                                    <h2 class="font-medium text-gray-800">DES</h2>
+                                                    <p class="text-sm font-normal text-gray-600">
                                                         Departamento de Estadística
                                                         Social</p>
                                                 </div>
@@ -139,7 +139,7 @@
                                     <td
                                         class="px-12 py-4 text-sm font-medium font-medium text-gray-700 whitespace-nowrap">
                                         <div
-                                            class="inline-flex items-center px-3 py-1 rounded-full gap-x-2 bg-emerald-100-60 dark:bg-gray-800">
+                                            class="inline-flex items-center px-3 py-1 rounded-full gap-x-2 bg-emerald-100-60">
                                             <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
                                             <h2 class="text-sm font-normal text-emerald-500">Activo</h2>
                                         </div>
@@ -147,7 +147,7 @@
                                     <td class="px-4 py-4 text-sm whitespace-nowrap">
                                         <div class="flex items-center gap-x-6">
                                             <a href=""
-                                                class="text-gray-500 transition-color duration-200 dark:hover:text-red-500 dark:text-gray-300  hover:text-red-500 focus:outline-none">
+                                                class="text-gray-500 transition-color duration-200  hover:text-red-500 focus:outline-none">
                                                 <div class="inline-flex items-center px-3 py-1 rounded-full gap-x-2">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -159,7 +159,7 @@
                                                 </div>
                                             </a>
                                             <a href=""
-                                                class="text-gray-500 transition-color duration-200 dark:hover:text-amber-500 dark:text-gray-300 hover:text-amber-500 focus:outline-none">
+                                                class="text-gray-500 transition-color duration-200 hover:text-amber-500 focus:outline-none">
                                                 <div class="inline-flex items-center px-3 py-1 rounded-full gap-x-2">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -181,7 +181,7 @@
         </div>
 
         <div class="flex items-center justify-between mt-6">
-            <a href="" class="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-color duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-400 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800">
+            <a href="" class="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-color duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-400">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M21 16.811c0 .864-.933 1.406-1.683.977l-7.108-4.061a1.125 1.125 0 0 1 0-1.954l7.108-4.061A1.125 1.125 0 0 1 21 8.689v8.122ZM11.25 16.811c0 .864-.933 1.406-1.683.977l-7.108-4.061a1.125 1.125 0 0 1 0-1.954l7.108-4.061a1.125 1.125 0 0 1 1.683.977v8.122Z" />
                 </svg>                  
@@ -189,16 +189,16 @@
             </a>
 
             <div class="items-center hidden lg:flex gap-x-3">
-                <a href="#" class="px-2 py-1 text-sm text-blue-500 rounded-md dark:bg-gray-800 bg-blue-100/60">1</a>
-                <a href="#" class="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">2</a>
-                <a href="#" class="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">3</a>
-                <a href="#" class="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">...</a>
-                <a href="#" class="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">12</a>
-                <a href="#" class="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">13</a>
-                <a href="#" class="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">14</a>
+                <a href="#" class="px-2 py-1 text-sm text-blue-500 rounded-md bg-blue-100/60">1</a>
+                <a href="#" class="px-2 py-1 text-sm text-gray-500 rounded-md hover:bg-gray-100">2</a>
+                <a href="#" class="px-2 py-1 text-sm text-gray-500 rounded-md hover:bg-gray-100">3</a>
+                <a href="#" class="px-2 py-1 text-sm text-gray-500 rounded-md hover:bg-gray-100">...</a>
+                <a href="#" class="px-2 py-1 text-sm text-gray-500 rounded-md hover:bg-gray-100">12</a>
+                <a href="#" class="px-2 py-1 text-sm text-gray-500 rounded-md hover:bg-gray-100">13</a>
+                <a href="#" class="px-2 py-1 text-sm text-gray-500 rounded-md hover:bg-gray-100">14</a>
             </div>
 
-            <a href="" class="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-color duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-400 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800">
+            <a href="" class="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-color duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-400">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 8.689c0-.864.933-1.406 1.683-.977l7.108 4.061a1.125 1.125 0 0 1 0 1.954l-7.108 4.061A1.125 1.125 0 0 1 3 16.811V8.69ZM12.75 8.689c0-.864.933-1.406 1.683-.977l7.108 4.061a1.125 1.125 0 0 1 0 1.954l-7.108 4.061a1.125 1.125 0 0 1-1.683-.977V8.69Z" />
                 </svg>                  

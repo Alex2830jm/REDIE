@@ -4,14 +4,14 @@
     <h1 class="px-4 py-2 text-2xl font-semibold text-gray-700">
         Usuarios
     </h1>
-    <div class="px-4 py-6 mb-8 bg-white rounded-lg shadow-md space-y-6 dark:bg-gray-900">
+    <div class="px-4 py-6 mb-8 bg-white rounded-lg shadow-md space-y-6">
         <div class="flex items-center gap-x-3">
-            <h2 class="text-xl font-medium text-gray-800 dark:text-white">Formulario de Usuarios - Registro</h2>
+            <h2 class="text-xl font-medium text-gray-800">Formulario de Usuarios - Registro</h2>
         </div>
         <section>
             <span class="flex m-2 items-center">
                 <span class="h-px flex-1 bg-black"></span>
-                <span class="font-sans text-md font-medium text-gray-600 dark:text-white shrink-0 px-6">Datos del
+                <span class="font-sans text-md font-medium text-gray-600 shrink-0 px-6">Datos del
                     Usuario</span>
                 <span class="h-px flex-1 bg-black"></span>
             </span>
@@ -39,7 +39,7 @@
         <section>
             <span class="flex m-2 items-center">
                 <span class="h-px flex-1 bg-black"></span>
-                <span class="font-sans text-md font-medium text-gray-600 dark:text-white shrink-0 px-6">Datos de
+                <span class="font-sans text-md font-medium text-gray-600 shrink-0 px-6">Datos de
                     Acceso</span>
                 <span class="h-px flex-1 bg-black"></span>
             </span>
@@ -62,39 +62,39 @@
         <section>
             <span class="flex m-2 items-center">
                 <span class="h-px flex-1 bg-black"></span>
-                <span class="font-sans text-md font-medium text-gray-600 dark:text-white shrink-0 px-6">Rol</span>
+                <span class="font-sans text-md font-medium text-gray-600 shrink-0 px-6">Rol</span>
                 <span class="h-px flex-1 bg-black"></span>
             </span>
-            <h4 class="font-sans text-md font-medium text-gray-600 dark:text-white">Selecciona el rol que ocupará</h4>
+            <h4 class="font-sans text-md font-medium text-gray-600">Selecciona el rol que ocupará</h4>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 <label for="DE"
-                    class="flex cursor-pointer justify-between gap-4 rounded-lg border border-gray-100 bg-white p-4 text-sm font-medium shadow-sm hover:border-gray-200 has-[:checked]:border-blue-500 has-[:checked]:ring-1 has-[:checked]:ring-blue-500 dark:bg-gray-800">
+                    class="flex cursor-pointer justify-between gap-4 rounded-lg border border-gray-100 bg-white p-4 text-sm font-medium shadow-sm hover:border-gray-200 has-[:checked]:border-blue-500 has-[:checked]:ring-1 has-[:checked]:ring-blue-500">
                     <div>
-                        <p class="text-gray-700 dark:text-white">DE</p>
+                        <p class="text-gray-700">DE</p>
 
-                        <p class="mt-1 text-gray-500 dark:text-gray-400">Dirección de Estadística</p>
+                        <p class="mt-1 text-gray-500">Dirección de Estadística</p>
                     </div>
 
                     <input type="radio" name="role_id" value="DE" id="DE"
                         class="size-5 border-gray-300 text-blue-500" checked />
                 </label>
                 <label for="DEE"
-                    class="flex cursor-pointer justify-between gap-4 rounded-lg border border-gray-100 bg-white p-4 text-sm font-medium shadow-sm hover:border-gray-200 has-[:checked]:border-blue-500 has-[:checked]:ring-1 has-[:checked]:ring-blue-500 dark:bg-gray-800">
+                    class="flex cursor-pointer justify-between gap-4 rounded-lg border border-gray-100 bg-white p-4 text-sm font-medium shadow-sm hover:border-gray-200 has-[:checked]:border-blue-500 has-[:checked]:ring-1 has-[:checked]:ring-blue-500">
                     <div>
-                        <p class="text-gray-700 dark:text-white">DEE</p>
+                        <p class="text-gray-700">DEE</p>
 
-                        <p class="mt-1 text-gray-500 dark:text-gray-400">Departamento de Estadística Económica</p>
+                        <p class="mt-1 text-gray-500">Departamento de Estadística Económica</p>
                     </div>
 
                     <input type="radio" name="role_id" value="DEE" id="DEE"
                         class="size-5 border-gray-300 text-blue-500" checked />
                 </label>
                 <label for="DES"
-                    class="flex cursor-pointer justify-between gap-4 rounded-lg border border-gray-100 bg-white p-4 text-sm font-medium shadow-sm hover:border-gray-200 has-[:checked]:border-blue-500 has-[:checked]:ring-1 has-[:checked]:ring-blue-500 dark:bg-gray-800">
+                    class="flex cursor-pointer justify-between gap-4 rounded-lg border border-gray-100 bg-white p-4 text-sm font-medium shadow-sm hover:border-gray-200 has-[:checked]:border-blue-500 has-[:checked]:ring-1 has-[:checked]:ring-blue-500">
                     <div>
-                        <p class="text-gray-700 dark:text-white">DES</p>
+                        <p class="text-gray-700">DES</p>
 
-                        <p class="mt-1 text-gray-500 dark:text-gray-400">Departamento de Estadística Social</p>
+                        <p class="mt-1 text-gray-500">Departamento de Estadística Social</p>
                     </div>
 
                     <input type="radio" name="role_id" value="DES" id="DES"

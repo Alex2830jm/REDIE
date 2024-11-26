@@ -6,12 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}">
     <title>REDIE - @yield('tittle')</title>
 </head>
 
-<body>
-    <div class="flex flex-col flex-1 w-full bg-gray-100">
+<body class="bg-gray-100">
+    <div class="flex flex-col flex-1 w-full">
         {{-- Header --}}
         <div class="md:container md:mx-auto">
             <div class="grid grid-cols-1 md:grid-cols-12 p-4 items-center">
@@ -19,7 +19,7 @@
                     <img src="{{ asset('assets/img/logo_h1.png') }}" alt="Logo" class="w-full md:w-auto">
                 </div>
                 <div class="col-span-1 md:col-span-9">
-                    <h2 class="text-pink-900 text-2xl md:text-4xl font-sans leading-tight">
+                    <h2 class="text-primary text-2xl font-semibold md:text-4xl font-sans leading-tight">
                         Instituto de Información e Investigación Geográfica, Estadística y Catastral del Estado de
                         México IGECEM
                     </h2>
@@ -27,17 +27,17 @@
             </div>  
         </div>
         {{-- Navbar --}}
-        <nav x-data="{ isOpen: false }" class="bg-pink-800 shadow">
-            <div class="px-6 py-4 container mx-auto text-white md:flex md:justify-between md:items-center">
+        <nav x-data="{ isOpen: false }" class="bg-header shadow">
+            <div class="px-6 py-4 md:container md:mx-auto text-white md:flex md:justify-between md:items-center">
                 <div class="flex items-center text-white justify-between">
-                    <a href="#" class="text-xl font-lg">
+                    <a href="#" class="text-xl font-lg hover:text-secondary">
                         Dirección de Estadística
                     </a>
 
                     <!-- Mobile menu button -->
                     <div class="flex lg:hidden">
                         <button x-cloak @click="isOpen = !isOpen" type="button"
-                            class="hover:text-gray-600  focus:outline-none focus:text-gray-600"
+                            class="hover:text-secondary  focus:outline-none focus:text-gray-600"
                             aria-label="toggle menu">
                             <svg x-show="!isOpen" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -56,7 +56,7 @@
                 <div x-cloak :class="[isOpen ? 'translate-x-0 opacity-100 ' : 'opacity-0 -translate-x-full']"
                     class="absolute inset-x-0 z-20 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-pink-800 border border-amber-400 sm:border-0 md:mt-0 md:p-0 md:top-0 md:relative md:bg-transparent md:w-auto md:opacity-100 md:translate-x-0 md:flex md:items-center">
                     <div class="flex flex-col md:flex-row md:mx-6">
-                        <a class="my-2 transition-colors duration-300 transform hover:text-zinc-400 md:mx-4 md:my-0"
+                        <a class="my-2 transition-colors duration-300 transform hover:text-secondary md:mx-4 md:my-0"
                             href="#">
                             <div class="relative flex items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -67,7 +67,7 @@
                                 <span class="block w-full pl-3 mr-3">Inicio</span>
                             </div>
                         </a>
-                        <a class="my-2 transition-colors duration-300 transform hover:text-gray-500 md:mx-4 md:my-0"
+                        <a class="my-2 transition-colors duration-300 transform hover:text-secondary md:mx-4 md:my-0"
                             href="#">
                             <div class="relative flex items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -84,13 +84,16 @@
         </nav>
     </div>
     {{-- Contenido --}}
-    <main class="h-full overflow-y-auto bg-gray-100">
+    <main class="h-full overflow-y-auto">
         <div class="md:container md:mx-auto">
             @yield('content')
         </div>
     </main>
+    <script src="{{ asset('assets/js/jquery-3.3.1.js') }}"></script>
+    @yield('scripts')
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
     <script src="{{ asset('assets/js/script.js') }}"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </body>
 
 </html>

@@ -29,4 +29,8 @@ Route::get('tailwind', function () {
     return view('layouts/dashboardTW');
 });
 
-Route::get('usuarios', function () {{ return view('users/index'); }});
+Route::name('usuarios.')->prefix('usuarios')->group(function() {
+    Route::get('/', function() { return view('users/index'); })->name('index');
+    Route::get('registrar', function() { return view('users/create'); })->name('create');
+});
+//Route::get('usuarios', function () {{ return view('authentication/createRoles'); }});

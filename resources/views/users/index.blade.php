@@ -1,93 +1,210 @@
 @extends('layouts.dashboard')
 @section('tittle', 'Gestión de Usuarios')
 @section('content')
-<div class="container px-6 mx-auto grid">
-    <h1 class="my-6 text-2xl font-semibold text-gray-700">
-        Formulario de Roles
-    </h1>
-    <div class="px-4 py-6 mb-8 bg-white rounded-lg shadow-md space-y-6">
-        <!-- Nombre del Rol -->
-        <section>
-            <h4 class="text-xl font-semibold text-gray-600">Nombre del Rol:</h4>
-            <p class="text-sm text-gray-400">Asigna un nombre al rol con el que identificará un usuario</p>
-            <div class="mt-3 relative">
-                <input type="text" placeholder="Nombre del Rol"
-                    class="block w-full py-2.5 text-gray-700 placeholder-gray-400 bg-gray-100 border border-gray-300 rounded-lg pl-12 pr-5 focus:border-blue-400 focus:ring focus:ring-blue-300">
-                <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                    class="absolute left-3 top-1/2 transform -translate-y-1/2 h-6 w-6 text-gray-400">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z" />
-                </svg>
+<h1 class="px-4 py-2 text-2xl font-semibold text-gray-700">
+    Usuarios
+</h1>
+<div class="px-4 py-6 mb-8 bg-white rounded-lg shadow-md space-y-6 dark:bg-gray-800">
+    <section class="container px-4 mx-auto">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div class="flex items-center gap-x-3">
+                <h2 class="text-lg font-medium text-gray-800 dark:text-white">Listado de Usuarios</h2>
             </div>
-            <p class="mt-3 text-sm text-gray-400">Asigna una abreviatura (opcional)</p>
-            <div class="relative">
-                <input type="text" placeholder="Nombre del Rol"
-                    class="block w-full py-2.5 text-gray-700 placeholder-gray-400 bg-gray-100 border border-gray-300 rounded-lg pl-12 pr-5 focus:border-blue-400 focus:ring focus:ring-blue-300">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="absolute left-3 top-1/2 transform -translate-y-1/2 h-6 w-6 text-gray-400">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
-                </svg>                      
-        </section>
-
-        <!-- Selección de Permisos -->
-        <section>
-            <h4 class="text-xl font-semibold text-gray-600">Selección de Permisos:</h4>
-            <p class="text-sm text-gray-400">Selecciona los permisos con los que contará este rol</p>
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-4 border border-pink-400 rounded-lg p-4  bg-gray-100">
-                <!-- Checkbox -->
-                <label class="flex items-center gap-3 p-4 border border-gray-200 bg-white rounded-lg cursor-pointer hover:bg-gray-50">
-                    <input type="checkbox" class="rounded border-gray-300">
-                    <span class="font-medium text-gray-700">Consulta</span>
-                </label>
-                <label class="flex items-center gap-3 p-4 border border-gray-200 bg-white rounded-lg cursor-pointer hover:bg-gray-50">
-                    <input type="checkbox" class="rounded border-gray-300">
-                    <span class="font-medium text-gray-700">Edición</span>
-                </label>
-                <!-- Agrega más opciones aquí -->
+    
+            <div class="flex justify-end">
+                <a
+                    href="{{ route('usuarios.create') }}"
+                    class="flex items-center px-5 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg gap-x-2 hover:bg-blue-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
+                    </svg>
+                    Agregar Usuario
+                </a>
             </div>
-        </section>
+        </div>    
 
-        <!-- Asignación de Temas -->
-        <section>
-            <h4 class="text-lg font-semibold text-gray-600 mb-4">Asignación de Temas</h4>
-            <div class="space-y-6">
-                <!-- Temas Estadísticos Disponibles -->
-                <div>
-                    <label class="block text-md font-semibold text-gray-700 mb-2">Temas Estadísticos Disponibles</label>
-                    <div class="flex flex-wrap gap-4  bg-gray-100 border-dashed border-2 border-yellow-500 p-4 rounded-lg" id="group-temas">
-                        <!-- Tarjeta de Tema -->
-                        <div class="w-40 bg-white rounded-lg shadow">
-                            <h3 class="py-2 text-center text-gray-800 font-semibold uppercase">Población</h3>
-                            <div class="bg-orange-400/75 py-2 text-center font-bold text-gray-800">Hechos Vitales</div>
-                        </div>
-                        <!-- Repite las tarjetas según sea necesario -->
+        <div class="flex flex-col mt-6">
+            <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                    <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
+                        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                            <thead class="bg-gray-50 dark:bg-gray-800">
+                                <tr>
+                                    <th scope="col"
+                                        class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                        Nombre Completo
+                                    </th>
+                                    <th scope="col"
+                                        class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                        Rol
+                                    </th>
+                                    <th scope="col"
+                                        class="px-4 py-3.5 text-sm font-normal text-left rtl:text-tight tezt-gray-500 dark:text-gray-400">
+                                        Activo
+                                    </th>
+                                    <th scope="col" class="relative py-3.5 px-4">
+                                        <span class="sr-only">Acciones</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
+                                <tr>
+                                    <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                                        <div class="inline-flex items-center gap-x-3">
+                                            <div class="flex items-center gap-x-2">
+                                                <div>
+                                                    <h2 class="font-medium text-gray-800 dark:text-white">Alex Donaldo
+                                                        Martínez Jiménez</h2>
+                                                    <p class="text-sm font-normal text-gray-600 dark:text-gray-400">
+                                                        amartinezj</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                                        <div class="inline-flex items-center gap-x-3">
+                                            <div class="flex items-center gap-x-2">
+                                                <div>
+                                                    <h2 class="font-medium text-gray-800 dark:text-white">DEE</h2>
+                                                    <p class="text-sm font-normal text-gray-600 dark:text-gray-400">
+                                                        Departamento de Estadística
+                                                        Económica</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td
+                                        class="px-12 py-4 text-sm font-medium font-medium text-gray-700 whitespace-nowrap">
+                                        <div
+                                            class="inline-flex items-center px-3 py-1 rounded-full gap-x-2 bg-emerald-100-60 dark:bg-gray-800">
+                                            <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+                                            <h2 class="text-sm font-normal text-emerald-500">Activo</h2>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-4 text-sm whitespace-nowrap">
+                                        <div class="flex items-center gap-x-6">
+                                            <a href=""
+                                                class="text-gray-500 transition-color duration-200 dark:hover:text-red-500 dark:text-gray-300  hover:text-red-500 focus:outline-none">
+                                                <div class="inline-flex items-center px-3 py-1 rounded-full gap-x-2">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                        class="size-6">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m6 4.125 2.25 2.25m0 0 2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
+                                                    </svg>
+                                                    Eliminar
+                                                </div>
+                                            </a>
+                                            <a href=""
+                                                class="text-gray-500 transition-color duration-200 dark:hover:text-amber-500 dark:text-gray-300 hover:text-amber-500 focus:outline-none">
+                                                <div class="inline-flex items-center px-3 py-1 rounded-full gap-x-2">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                        class="size-6">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                                    </svg>
+                                                    Editar
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                                        <div class="inline-flex items-center gap-x-3">
+                                            <div class="flex items-center gap-x-2">
+                                                <div>
+                                                    <h2 class="font-medium text-gray-800 dark:text-white">Marilu Sanchez
+                                                        Garcia</h2>
+                                                    <p class="text-sm font-normal text-gray-600 dark:text-gray-400">
+                                                        msanchezg</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                                        <div class="inline-flex items-center gap-x-3">
+                                            <div class="flex items-center gap-x-2">
+                                                <div>
+                                                    <h2 class="font-medium text-gray-800 dark:text-white">DES</h2>
+                                                    <p class="text-sm font-normal text-gray-600 dark:text-gray-400">
+                                                        Departamento de Estadística
+                                                        Social</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td
+                                        class="px-12 py-4 text-sm font-medium font-medium text-gray-700 whitespace-nowrap">
+                                        <div
+                                            class="inline-flex items-center px-3 py-1 rounded-full gap-x-2 bg-emerald-100-60 dark:bg-gray-800">
+                                            <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+                                            <h2 class="text-sm font-normal text-emerald-500">Activo</h2>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-4 text-sm whitespace-nowrap">
+                                        <div class="flex items-center gap-x-6">
+                                            <a href=""
+                                                class="text-gray-500 transition-color duration-200 dark:hover:text-red-500 dark:text-gray-300  hover:text-red-500 focus:outline-none">
+                                                <div class="inline-flex items-center px-3 py-1 rounded-full gap-x-2">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                        class="size-6">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m6 4.125 2.25 2.25m0 0 2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
+                                                    </svg>
+                                                    Eliminar
+                                                </div>
+                                            </a>
+                                            <a href=""
+                                                class="text-gray-500 transition-color duration-200 dark:hover:text-amber-500 dark:text-gray-300 hover:text-amber-500 focus:outline-none">
+                                                <div class="inline-flex items-center px-3 py-1 rounded-full gap-x-2">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                        class="size-6">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                                    </svg>
+                                                    Editar
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-
-                <!-- Permisos Asignados -->
-                <div>
-                    <label class="block text-md font-semibold text-gray-700 mb-2">Permisos Asignados</label>
-                    <div class="flex flex-wrap gap-4  bg-gray-100 border-dashed border-2 border-green-500 p-4 rounded-lg" id="temas-selected">
-                    </div>
-                </div>
             </div>
-        </section>
-
-        <!-- Botones -->
-        <div class="flex justify-between gap-4">
-            <button type="button" class="rounded bg-red-500 text-white px-4 py-2 hover:bg-red-700 flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9.75 14.25 12m0 0 2.25 2.25M14.25 12l2.25-2.25M14.25 12 12 14.25m-2.58 4.92-6.374-6.375a1.125 1.125 0 0 1 0-1.59L9.42 4.83c.21-.211.497-.33.795-.33H19.5a2.25 2.25 0 0 1 2.25 2.25v10.5a2.25 2.25 0 0 1-2.25 2.25h-9.284c-.298 0-.585-.119-.795-.33Z" />
-                </svg>                  
-                Cancelar
-            </button>
-            <button type="submit" class="rounded bg-green-500 text-white px-4 py-2 hover:bg-green-700 flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0 1 18 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h6.375c.621 0 1.125.504 1.125 1.125v9.375m-8.25-3 1.5 1.5 3-3.75" />
-                </svg>                  
-                Guardar
-            </button>
         </div>
-    </div>
-</div>
 
+        <div class="flex items-center justify-between mt-6">
+            <a href="" class="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-color duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-400 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 16.811c0 .864-.933 1.406-1.683.977l-7.108-4.061a1.125 1.125 0 0 1 0-1.954l7.108-4.061A1.125 1.125 0 0 1 21 8.689v8.122ZM11.25 16.811c0 .864-.933 1.406-1.683.977l-7.108-4.061a1.125 1.125 0 0 1 0-1.954l7.108-4.061a1.125 1.125 0 0 1 1.683.977v8.122Z" />
+                </svg>                  
+                <span>Anterior</span>
+            </a>
+
+            <div class="items-center hidden lg:flex gap-x-3">
+                <a href="#" class="px-2 py-1 text-sm text-blue-500 rounded-md dark:bg-gray-800 bg-blue-100/60">1</a>
+                <a href="#" class="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">2</a>
+                <a href="#" class="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">3</a>
+                <a href="#" class="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">...</a>
+                <a href="#" class="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">12</a>
+                <a href="#" class="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">13</a>
+                <a href="#" class="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">14</a>
+            </div>
+
+            <a href="" class="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-color duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-400 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 8.689c0-.864.933-1.406 1.683-.977l7.108 4.061a1.125 1.125 0 0 1 0 1.954l-7.108 4.061A1.125 1.125 0 0 1 3 16.811V8.69ZM12.75 8.689c0-.864.933-1.406 1.683-.977l7.108 4.061a1.125 1.125 0 0 1 0 1.954l-7.108 4.061a1.125 1.125 0 0 1-1.683-.977V8.69Z" />
+                </svg>                  
+                <span>Siguiente</span>
+            </a>
+        </div>
+    </section>
+</div>
 @endsection

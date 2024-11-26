@@ -16,16 +16,21 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->middleware(['auth', 'verifed']);
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
+Route::get('/inicio', function () {
+    return view('index');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+Route::middleware('auth')->name('usuarios.')->prefix('usuarios')->group(function() {
+    Route::get('/', function() { return view('users/index'); })->name('index');
+    Route::get('registrar', function() { return view('users/create'); })->name('create');
 });
 
 require __DIR__.'/auth.php';

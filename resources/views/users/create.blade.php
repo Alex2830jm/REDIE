@@ -1,6 +1,4 @@
-@extends('layouts.dashboard')
-@section('tittle', 'Gestión de Usuarios ')
-@section('content')
+<x-dashboard-layout>
     <h1 class="px-4 py-2 text-2xl font-semibold text-gray-700">
         Usuarios
     </h1>
@@ -126,27 +124,26 @@
             </div>
         </section>
     </div>
-@endsection
-@section('scripts')
-<script>
-    $(document).ready(function() {
-        const today = new Date();
-
-        $("#segundoApellido").change(function() {
-            const nombres = $("#nombres").val();
-            const primerApellido = $("#primerApellido").val();
-            const segundoApellido = $("#segundoApellido").val();
-
-            // Validar que los campos no estén vacíos para evitar errores
-            if (nombres && primerApellido && segundoApellido) {
-                const username = (nombres.charAt(0) + primerApellido + segundoApellido.charAt(0)).toLowerCase();
-                $("#username").val(username);
-                $("#password").val(username + today.getFullYear());
-            } else {
-                console.warn("Algunos campos están vacíos.");
-            }
-        });
-    });
-</script>
-
-@endsection
+    <x-slot name="scripts">
+        <script>
+            $(document).ready(function() {
+                const today = new Date();
+        
+                $("#segundoApellido").change(function() {
+                    const nombres = $("#nombres").val();
+                    const primerApellido = $("#primerApellido").val();
+                    const segundoApellido = $("#segundoApellido").val();
+        
+                    // Validar que los campos no estén vacíos para evitar errores
+                    if (nombres && primerApellido && segundoApellido) {
+                        const username = (nombres.charAt(0) + primerApellido + segundoApellido.charAt(0)).toLowerCase();
+                        $("#username").val(username);
+                        $("#password").val(username + today.getFullYear());
+                    } else {
+                        console.warn("Algunos campos están vacíos.");
+                    }
+                });
+            });
+        </script>
+    </x-slot>
+</x-dashboard-layout>

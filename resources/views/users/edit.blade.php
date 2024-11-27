@@ -4,10 +4,10 @@
     </h1>
     <div class="px-4 py-6 mb-8 bg-white rounded-lg shadow-md space-y-6">
         <div class="flex items-center gap-x-3">
-            <h2 class="text-xl font-medium text-gray-800">Formulario de Usuarios - Registro</h2>
+            <h2 class="text-xl font-medium text-gray-800">Formulario de Usuarios - Edición</h2>
         </div>
-        <form method="POST" action="{{ route('register') }}">
-            @csrf
+        <form action="{{ route('usuarios.update', $user->id) }}" method="POST">
+            @csrf @method('PUT')
             <section>
                 <span class="flex m-2 items-center">
                     <span class="h-px flex-1 bg-black"></span>
@@ -19,48 +19,20 @@
                     <label for="nombres"
                         class="md:col-span-2 block overflow-hidden rounded-md border border-gray-200 px-3 py-1 shadow-sm focus:within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
                         <span class="text-xs font-medium text-gray-700">Nombre(s): * </span>
-                        <input type="text" id="nombres" name="name"
+                        <input type="text" id="nombres" name="name" value="{{ $user->name }}"
                             class="mt-1 w-full border-none p-0 focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm" />
-                        <x-input-error :messages="$errors->get('name')" class="mt-2" />
                     </label>
                     <label for="primerApellido"
                         class="block overflow-hidden rounded-md border border-gray-200 px-3 py-1 shadow-sm focus:within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
                         <span class="text-xs font-medium text-gray-700">Primer Apellido: * </span>
-                        <input type="text" id="primerApellido" name="primerApellido"
+                        <input type="text" id="primerApellido" name="primerApellido" value="{{ $user->primerApellido }}"
                             class="mt-1 w-full border-none p-0 focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm" />
-                            <x-input-error :messages="$errors->get('primerApellido')" class="mt-2" />
                     </label>
                     <label for="segundoApellido"
                         class="block overflow-hidden rounded-md border border-gray-200 px-3 py-1 shadow-sm focus:within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
                         <span class="text-xs font-medium text-gray-700">Segundo Apellido: * </span>
-                        <input type="text" id="segundoApellido" name="segundoApellido"
+                        <input type="text" id="segundoApellido" name="segundoApellido" value="{{ $user->segundoApellido }}"
                             class="mt-1 w-full border-none p-0 focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm" />
-                            <x-input-error :messages="$errors->get('segundoApellido')" class="mt-2" />
-                    </label>
-                </div>
-            </section>
-            <section>
-                <span class="flex m-2 items-center">
-                    <span class="h-px flex-1 bg-black"></span>
-                    <span class="font-sans text-md font-medium text-gray-600 shrink-0 px-6">Datos de
-                        Acceso</span>
-                    <span class="h-px flex-1 bg-black"></span>
-                </span>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <label for="username"
-                        class="block overflow-hidden rounded-md border border-gray-200 px-3 py-1 shadow-sm focus:within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
-                        <span class="text-xs font-medium text-gray-700">Usuario de Acceso: * </span>
-                        <input type="text" id="username" name="username"
-                            class="mt-1 w-full border-none p-0 focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm" readonly />
-                        <x-input-error :messages="$errors->get('username')" class="mt-2" />
-                    </label>
-
-                    <label for="password"
-                        class="block overflow-hidden rounded-md border border-gray-200 px-3 py-1 shadow-sm focus:within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
-                        <span class="text-xs font-medium text-gray-700">Contraseña: * </span>
-                        <input type="password" id="password" name="password"
-                            class="mt-1 w-full border-none p-0 focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm" readonly />
-                        <x-input-error :messages="$errors->get('password')" class="mt-2" />
                     </label>
                 </div>
             </section>
@@ -126,32 +98,10 @@
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M10.125 2.25h-4.5c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125v-9M10.125 2.25h.375a9 9 0 0 1 9 9v.375M10.125 2.25A3.375 3.375 0 0 1 13.5 5.625v1.5c0 .621.504 1.125 1.125 1.125h1.5a3.375 3.375 0 0 1 3.375 3.375M9 15l2.25 2.25L15 12" />
                         </svg>
-                        Guardar Datos
+                        Guardar Cambios
                     </button>
                 </div>
             </section>
         </form>
     </div>
-    <x-slot name="scripts">
-        <script>
-            $(document).ready(function() {
-                const today = new Date();
-        
-                $("#segundoApellido").change(function() {
-                    const nombres = $("#nombres").val();
-                    const primerApellido = $("#primerApellido").val();
-                    const segundoApellido = $("#segundoApellido").val();
-        
-                    // Validar que los campos no estén vacíos para evitar errores
-                    if (nombres && primerApellido && segundoApellido) {
-                        const username = (nombres.charAt(0) + primerApellido + segundoApellido.charAt(0)).toLowerCase();
-                        $("#username").val(username);
-                        $("#password").val(username + today.getFullYear());
-                    } else {
-                        console.warn("Algunos campos están vacíos.");
-                    }
-                });
-            });
-        </script>
-    </x-slot>
 </x-dashboard-layout>

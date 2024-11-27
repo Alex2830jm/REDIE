@@ -36,7 +36,7 @@
         <nav x-data="{ isOpen: false }" class="bg-header shadow">
             <div class="px-6 py-4 md:container md:mx-auto text-white md:flex md:justify-between md:items-center">
                 <div class="flex items-center text-white justify-between">
-                    <a href="#" class="text-xl font-lg hover:text-secondary">
+                    <a href="#" class="text-xl font-lg hover:text-yellow-500">
                         Dirección de Estadística
                     </a>
 
@@ -62,7 +62,7 @@
                 <div x-cloak :class="[isOpen ? 'translate-x-0 opacity-100 ' : 'opacity-0 -translate-x-full']"
                     class="absolute inset-x-0 z-20 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-pink-800 border border-amber-400 sm:border-0 md:mt-0 md:p-0 md:top-0 md:relative md:bg-transparent md:w-auto md:opacity-100 md:translate-x-0 md:flex md:items-center">
                     <div class="flex flex-col md:flex-row md:mx-6">
-                        <a class="my-2 transition-colors duration-300 transform hover:text-secondary md:mx-4 md:my-0"
+                        <a class="my-2 transition-colors hover:text-yellow-500 duration-300 transform md:mx-4 md:my-0"
                             href="#">
                             <div class="relative flex items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -73,7 +73,7 @@
                                 <span class="block w-full pl-3 mr-3">Inicio</span>
                             </div>
                         </a>
-                        <a class="my-2 transition-colors duration-300 transform hover:text-secondary md:mx-4 md:my-0"
+                        <a class="my-2 transition-colors hover:text-yellow-500 duration-300 transform hover:text-secondary md:mx-4 md:my-0"
                             href="#">
                             <div class="relative flex items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -84,7 +84,10 @@
                                 <span class="block w-full pl-3 mr-3">Directorio de Dependencias</span>
                             </div>
                         </a>
-                        <a class="my-2 transition-colors duration-300 transform hover:text-secondary md:mx-4 md:my-0"
+
+                        
+                        
+                        <a class="my-2 transition-colors hover:text-yellow-500 duration-300 transform hover:text-secondary md:mx-4 md:my-0"
                             href="#">
                             <div class="relative flex items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"

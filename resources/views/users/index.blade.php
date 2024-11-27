@@ -47,15 +47,18 @@
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
+                                    @foreach ($users as $user)
                                     <tr>
                                         <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                                             <div class="inline-flex items-center gap-x-3">
                                                 <div class="flex items-center gap-x-2">
                                                     <div>
-                                                        <h2 class="font-medium text-gray-800">Alex Donaldo
-                                                            Martínez Jiménez</h2>
+                                                        <h2 class="font-medium text-gray-800">
+                                                            {{ $user->name }} {{ $user->primerApellido }} {{ $user->segundoApellido }}
+                                                        </h2>
                                                         <p class="text-sm font-normal text-gray-600">
-                                                            amartinezj</p>
+                                                            {{ $user->username }}
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -76,13 +79,13 @@
                                             class="px-12 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                                             <div
                                                 class="inline-flex items-center px-3 py-1 rounded-full gap-x-2 bg-emerald-100-60">
-                                                <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
-                                                <h2 class="text-sm font-normal text-emerald-500">Activo</h2>
+                                                <span class="h-1.5 w-1.5 rounded-full {{ $user->activo === 1 ? 'bg-emerald-500' : 'bg-red-500'}}"></span>
+                                                <h2 class="text-sm font-normal {{ $user->activo === 1 ? 'text-emerald-500' : 'text-red-500'}}">Activo</h2>
                                             </div>
                                         </td>
                                         <td class="px-4 py-4 text-sm whitespace-nowrap">
                                             <div class="flex items-center gap-x-6">
-                                                <a href=""
+                                                <a href="{{ route('usuarios.destroy', $user->id ) }}"
                                                     class="text-gray-500 transition-color duration-200  hover:text-red-500 focus:outline-none">
                                                     <div class="inline-flex items-center px-3 py-1 rounded-full gap-x-2">
                                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -94,7 +97,7 @@
                                                         Eliminar
                                                     </div>
                                                 </a>
-                                                <a href=""
+                                                <a href="{{ route('usuarios.edit', $user->id) }}"
                                                     class="text-gray-500 transition-color duration-200 hover:text-amber-500 focus:outline-none">
                                                     <div class="inline-flex items-center px-3 py-1 rounded-full gap-x-2">
                                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -108,69 +111,8 @@
                                                 </a>
                                             </div>
                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                                            <div class="inline-flex items-center gap-x-3">
-                                                <div class="flex items-center gap-x-2">
-                                                    <div>
-                                                        <h2 class="font-medium text-gray-800">Marilu Sanchez
-                                                            Garcia</h2>
-                                                        <p class="text-sm font-normal text-gray-600">
-                                                            msanchezg</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                                            <div class="inline-flex items-center gap-x-3">
-                                                <div class="flex items-center gap-x-2">
-                                                    <div>
-                                                        <h2 class="font-medium text-gray-800">DES</h2>
-                                                        <p class="text-sm font-normal text-gray-600">
-                                                            Departamento de Estadística
-                                                            Social</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td
-                                            class="px-12 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                                            <div
-                                                class="inline-flex items-center px-3 py-1 rounded-full gap-x-2 bg-emerald-100-60">
-                                                <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
-                                                <h2 class="text-sm font-normal text-emerald-500">Activo</h2>
-                                            </div>
-                                        </td>
-                                        <td class="px-4 py-4 text-sm whitespace-nowrap">
-                                            <div class="flex items-center gap-x-6">
-                                                <a href=""
-                                                    class="text-gray-500 transition-color duration-200  hover:text-red-500 focus:outline-none">
-                                                    <div class="inline-flex items-center px-3 py-1 rounded-full gap-x-2">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                            class="size-6">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m6 4.125 2.25 2.25m0 0 2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
-                                                        </svg>
-                                                        Eliminar
-                                                    </div>
-                                                </a>
-                                                <a href=""
-                                                    class="text-gray-500 transition-color duration-200 hover:text-amber-500 focus:outline-none">
-                                                    <div class="inline-flex items-center px-3 py-1 rounded-full gap-x-2">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                            class="size-6">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-                                                        </svg>
-                                                        Editar
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    </tr>    
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

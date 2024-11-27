@@ -20,7 +20,7 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('auth.register');
+        return view('users.create');
     }
 
     /**
@@ -28,24 +28,32 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
+        //dd($request);
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'primerApellido' => ['required', 'string', 'max:255'],
+            'segundoApellido' => ['string', 'max:255'],
+            'username' => ['required', 'string', 'lowercase', 'unique:users,username'],
+            //'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => ['required', 'string'],
         ]);
 
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'name'              => $request->get('name'),
+            'primerApellido'    => $request->get('primerApellido'),
+            'segundoApellido'   => $request->get('segundoApellido'),
+            'username'          => $request->get('username'),
+            'password'          => Hash::make($request->get('password')),
+            'activo'            => TRUE,
         ]);
 
-        event(new Registered($user));
+        //event(new Registered($user));
 
-        Auth::login($user);
+        //Auth::login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+        //return redirect(RouteServiceProvider::HOME);
+        return redirect()->route('usuarios.index');
     }
 }

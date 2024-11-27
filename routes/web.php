@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,13 +15,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->middleware(['auth', 'verifed']);
 
-Route::get('/inicio', function () {
+
+Route::get('/', function () {
     return view('index');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth'])->name('inicio');
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -29,8 +32,12 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('auth')->name('usuarios.')->prefix('usuarios')->group(function() {
-    Route::get('/', function() { return view('users/index'); })->name('index');
-    Route::get('registrar', function() { return view('users/create'); })->name('create');
+    Route::get('/', [UserController::class, 'index'])->name('index');
+    Route::get('/registrar', [ UserController::class, 'create'])->name('create');
+    Route::post('/registrar', [ UserController::class, 'store'])->name('store');
+    Route::get('/{id}/editar', [UserController::class, 'edit'])->name('edit');
+    Route::put('/{id}/update',[UserController::class, 'update'])->name('update');
+    Route::get('/{id}/eliminar', [UserController::class, 'destroy'])->name('destroy');
 });
 
 require __DIR__.'/auth.php';

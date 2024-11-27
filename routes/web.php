@@ -31,13 +31,17 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware('auth')->name('usuarios.')->prefix('usuarios')->group(function() {
-    Route::get('/', [UserController::class, 'index'])->name('index');
-    Route::get('/registrar', [ UserController::class, 'create'])->name('create');
-    Route::post('/registrar', [ UserController::class, 'store'])->name('store');
-    Route::get('/{id}/editar', [UserController::class, 'edit'])->name('edit');
-    Route::put('/{id}/update',[UserController::class, 'update'])->name('update');
-    Route::get('/{id}/eliminar', [UserController::class, 'destroy'])->name('destroy');
+Route::middleware('auth')->group(function () {
+
+    Route::name('usuarios.')->prefix('usuarios')->group(function() {
+        Route::get('/', [UserController::class, 'index'])->name('index');
+        Route::get('/registrar', [ UserController::class, 'create'])->name('create');
+        Route::post('/registrar', [ UserController::class, 'store'])->name('store');
+        Route::get('/{id}/editar', [UserController::class, 'edit'])->name('edit');
+        Route::put('/{id}/update',[UserController::class, 'update'])->name('update');
+        Route::get('/{id}/eliminar', [UserController::class, 'destroy'])->name('destroy');
+    });
+
 });
 
 require __DIR__.'/auth.php';

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,9 +30,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
 
-Route::middleware('auth')->group(function () {
+    Route::name('roles.')->prefix('roles')->group(function() {
+        Route::get('/', [RoleController::class, 'index'])->name('index');
+        Route::get('/create', [RoleController::class, 'create'])->name('create');
+        Route::post('/store', [RoleController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [RoleController::class, 'edit'])->name('edit');
+        Route::put('/{id}/updated', [RoleController::class, 'update'])->name('update');
+        Route::get('/{id}/delete', [RoleController::class, 'destroy'])->name('destroy');
+    });
 
     Route::name('usuarios.')->prefix('usuarios')->group(function() {
         Route::get('/', [UserController::class, 'index'])->name('index');

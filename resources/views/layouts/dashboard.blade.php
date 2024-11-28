@@ -14,6 +14,10 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    @if(isset($styles))
+    {{ $styles }}
+@endif
 </head>
 
 <body class="bg-gray-100">
@@ -107,7 +111,7 @@
     </div>
     {{-- Contenido --}}
     <main class="h-full overflow-y-auto">
-        <div class="md:container md:mx-auto">
+        <div class="md:container md:mx-auto" x-data="{ isOpen: false }">
             {{ $slot }}
         </div>
     </main>
@@ -115,8 +119,9 @@
     @if(isset($scripts))
         {{ $scripts }}
     @endif
-    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
-    <script src="{{ asset('assets/js/script.js') }}"></script>
+    
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js" defer></script>
+    
 </body>
 
 </html>

@@ -1,5 +1,6 @@
 :root {
     --colorprincipal: #8a2036;
+    --colorTexto: #b28e5e;
     --colorprincipaldegradado: #9f2041;
     --colorsecundario: #efe1ca;
     --colorterciario: #BC955B;
@@ -19,6 +20,10 @@
 
 .bg-header { 
     background-color: #9f2041;
+}
+
+.text-gold-500 {
+    color: #b28e5e;
 }
 
 .wrapper {

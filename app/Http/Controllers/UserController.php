@@ -6,18 +6,23 @@ use App\Http\Requests\UserFormRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
     
     public function index() {
         $users = User::all();
+        //return response()->json($users);
         return view('users/index')
             ->with(['users' => $users]);
     }
 
     public function create() {
-        return view('users/create');
+        $roles = Role::all();
+        return view('users/create')->with([
+            'roles' => $roles
+        ]);
     }
 
     public function store(UserFormRequest $request) {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
+use Flasher\Prime\FlasherInterface;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use Spatie\Permission\Models\Role;
 
 class RegisteredUserController extends Controller
 {
@@ -20,7 +22,10 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('users.create');
+        $roles = Role::all();
+        return view('users.create')->with([
+            'roles' => $roles
+        ]);
     }
 
     /**
@@ -28,7 +33,7 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request)
+    public function store(Request $request, FlasherInterface  $flasher)
     {
         //dd($request);
         $request->validate([
@@ -54,6 +59,11 @@ class RegisteredUserController extends Controller
         //Auth::login($user);
 
         //return redirect(RouteServiceProvider::HOME);
+        $flasher
+            ->options([
+                'position' => 'top-center'
+            ])
+            ->addSuccess('El usuaurio se ha registrado con exito', 'Registrado');
         return redirect()->route('usuarios.index');
     }
 }

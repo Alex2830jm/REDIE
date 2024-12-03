@@ -21,12 +21,12 @@ switch ($width) {
 }
 @endphp
 
-<div class="relative" x-data="{ open: false }" @click.outside="open = false" @close.stop="open = false">
-    <div @click="open = ! open">
+<div class="relative" x-data="{ openDropdown: false }" @click.outside="open = false" @close.stop="open = false">
+    <div @click="openDropdown = !openDropdown" class="text-white hover:text-brown-300">
         {{ $trigger }}
     </div>
 
-    <div x-show="open"
+    <div x-show="openDropdown"
             x-transition:enter="transition ease-out duration-200"
             x-transition:enter-start="opacity-0 scale-95"
             x-transition:enter-end="opacity-100 scale-100"
@@ -36,7 +36,7 @@ switch ($width) {
             class="absolute z-50 mt-2 {{ $width }} rounded-md shadow-lg {{ $alignmentClasses }}"
             style="display: none;"
             @click="open = false">
-        <div class="rounded-md ring-1 ring-black ring-opacity-5 {{ $contentClasses }}">
+        <div class="rounded-md ring-1  {{ $contentClasses }}">
             {{ $content }}
         </div>
     </div>

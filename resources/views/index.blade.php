@@ -1,6 +1,7 @@
 <x-dashboard-layout>
     <section>
         <div class="relative w-full px-4 py-6">
+            <span class="justify-end font-semibold text-gray-500">DEE - Departamento de Estadíscitca Económica</span>
             <div class="wrapper">
                 <div class="wrapper-content">
                     <!-- Contenido que quieras poner dentro del wrapper -->
@@ -10,7 +11,7 @@
     </section>
 
     <section>
-        <div class="mt-2 bg-header text-center text-white text-xl font-bold">GRUPOS DE INFORMACIÓN</div>
+        <div class="mt-2 bg-cherry-800 text-center text-white text-xl font-bold">GRUPOS DE INFORMACIÓN</div>
         <ul class="px-4 py-3 grid w-full gap-6 md:grid-cols-4">
             <li>
                 <input type="checkbox" id="grupo1" value="1" class="hidden peer" required="" />

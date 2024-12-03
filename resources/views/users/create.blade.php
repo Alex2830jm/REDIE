@@ -19,21 +19,21 @@
                     <label for="nombres"
                         class="md:col-span-2 block overflow-hidden rounded-md border border-gray-200 px-3 py-1 shadow-sm focus:within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
                         <span class="text-xs font-medium text-gray-700">Nombre(s): * </span>
-                        <input type="text" id="nombres" name="name"
+                        <input type="text" id="nombres" name="name" value="{{ old('name') }}"
                             class="mt-1 w-full border-none p-0 focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm" />
                         <x-input-error :messages="$errors->get('name')" class="mt-2" />
                     </label>
                     <label for="primerApellido"
                         class="block overflow-hidden rounded-md border border-gray-200 px-3 py-1 shadow-sm focus:within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
                         <span class="text-xs font-medium text-gray-700">Primer Apellido: * </span>
-                        <input type="text" id="primerApellido" name="primerApellido"
+                        <input type="text" id="primerApellido" name="primerApellido" value="{{ old('primerApellido') }}"
                             class="mt-1 w-full border-none p-0 focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm" />
                             <x-input-error :messages="$errors->get('primerApellido')" class="mt-2" />
                     </label>
                     <label for="segundoApellido"
                         class="block overflow-hidden rounded-md border border-gray-200 px-3 py-1 shadow-sm focus:within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
                         <span class="text-xs font-medium text-gray-700">Segundo Apellido: * </span>
-                        <input type="text" id="segundoApellido" name="segundoApellido"
+                        <input type="text" id="segundoApellido" name="segundoApellido" value="{{ old('segundoApellido') }}"
                             class="mt-1 w-full border-none p-0 focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm" />
                             <x-input-error :messages="$errors->get('segundoApellido')" class="mt-2" />
                     </label>
@@ -50,7 +50,7 @@
                     <label for="username"
                         class="block overflow-hidden rounded-md border border-gray-200 px-3 py-1 shadow-sm focus:within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
                         <span class="text-xs font-medium text-gray-700">Usuario de Acceso: * </span>
-                        <input type="text" id="username" name="username"
+                        <input type="text" id="username" name="username" value="{{ old('username') }}"
                             class="mt-1 w-full border-none p-0 focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm" readonly />
                         <x-input-error :messages="$errors->get('username')" class="mt-2" />
                     </label>
@@ -58,7 +58,7 @@
                     <label for="password"
                         class="block overflow-hidden rounded-md border border-gray-200 px-3 py-1 shadow-sm focus:within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
                         <span class="text-xs font-medium text-gray-700">Contraseña: * </span>
-                        <input type="password" id="password" name="password"
+                        <input type="password" id="password" name="password" value="{{ old('password') }}"
                             class="mt-1 w-full border-none p-0 focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm" readonly />
                         <x-input-error :messages="$errors->get('password')" class="mt-2" />
                     </label>
@@ -72,39 +72,20 @@
                 </span>
                 <h4 class="font-sans text-md font-medium text-gray-600">Selecciona el rol que ocupará</h4>
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                    <label for="DE"
-                        class="flex cursor-pointer justify-between gap-4 rounded-lg border border-gray-100 bg-white p-4 text-sm font-medium shadow-sm hover:border-gray-200 has-[:checked]:border-blue-500 has-[:checked]:ring-1 has-[:checked]:ring-blue-500">
-                        <div>
-                            <p class="text-gray-700">DE</p>
+                    @foreach ($roles as $role)
+                        <label for="{{ $role->name }}"
+                            class="flex cursor-pointer justify-between gap-4 rounded-lg border border-gray-100 bg-white p-4 text-sm font-medium shadow-sm hover:border-gray-200 has-[:checked]:border-blue-500 has-[:checked]:ring-1 has-[:checked]:ring-blue-500">
+                            <div>
+                                <p class="text-gray-700">{{ $role->name }}</p>
 
-                            <p class="mt-1 text-gray-500">Dirección de Estadística</p>
-                        </div>
+                                <p class="mt-1 text-gray-500"> {{ $role->description }} </p>
+                            </div>
 
-                        <input type="radio" name="role_id" value="DE" id="DE"
-                            class="size-5 border-gray-300 text-blue-500" checked />
-                    </label>
-                    <label for="DEE"
-                        class="flex cursor-pointer justify-between gap-4 rounded-lg border border-gray-100 bg-white p-4 text-sm font-medium shadow-sm hover:border-gray-200 has-[:checked]:border-blue-500 has-[:checked]:ring-1 has-[:checked]:ring-blue-500">
-                        <div>
-                            <p class="text-gray-700">DEE</p>
-
-                            <p class="mt-1 text-gray-500">Departamento de Estadística Económica</p>
-                        </div>
-
-                        <input type="radio" name="role_id" value="DEE" id="DEE"
-                            class="size-5 border-gray-300 text-blue-500" checked />
-                    </label>
-                    <label for="DES"
-                        class="flex cursor-pointer justify-between gap-4 rounded-lg border border-gray-100 bg-white p-4 text-sm font-medium shadow-sm hover:border-gray-200 has-[:checked]:border-blue-500 has-[:checked]:ring-1 has-[:checked]:ring-blue-500">
-                        <div>
-                            <p class="text-gray-700">DES</p>
-
-                            <p class="mt-1 text-gray-500">Departamento de Estadística Social</p>
-                        </div>
-
-                        <input type="radio" name="role_id" value="DES" id="DES"
-                            class="size-5 border-gray-300 text-blue-500" checked />
-                    </label>
+                            <input type="radio" name="role_id" value="{{ $role->name }}" id="{{ $role->name }}"
+                                class="size-5 border-gray-300 text-blue-500" checked />
+                        </label>
+                    @endforeach
+ 
                 </div>
             </section>
             <section>

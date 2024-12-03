@@ -24,7 +24,7 @@
                             México IGECEM</h2>
                     </div-col-xs-12>
                 </div>
-                <hr class="border border-danger border-2">
+                <hr class="border border-danger">
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
                         <h4>Dirección de Estadística</h4>

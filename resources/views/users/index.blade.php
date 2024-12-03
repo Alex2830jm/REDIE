@@ -67,10 +67,16 @@
                                             <div class="inline-flex items-center gap-x-3">
                                                 <div class="flex items-center gap-x-2">
                                                     <div>
-                                                        <h2 class="font-medium text-gray-800">DEE</h2>
+                                                        <h2 class="font-medium text-gray-800">
+                                                            @foreach($user->roles as $role)
+                                                                {{ $role->name }}
+                                                            @endforeach
+                                                        </h2>
                                                         <p class="text-sm font-normal text-gray-600">
-                                                            Departamento de Estadística
-                                                            Económica</p>
+                                                            @foreach($user->roles as $role)
+                                                                {{ $role->description }}
+                                                            @endforeach
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -80,7 +86,7 @@
                                             <div
                                                 class="inline-flex items-center px-3 py-1 rounded-full gap-x-2 bg-emerald-100-60">
                                                 <span class="h-1.5 w-1.5 rounded-full {{ $user->activo === 1 ? 'bg-emerald-500' : 'bg-red-500'}}"></span>
-                                                <h2 class="text-sm font-normal {{ $user->activo === 1 ? 'text-emerald-500' : 'text-red-500'}}">Activo</h2>
+                                                <h2 class="text-sm font-normal {{ $user->activo === 1 ? 'text-emerald-500' : 'text-red-500'}}"> {{ $user->activo === 1 ? 'Activo' : 'Inactivo'}} </h2>
                                             </div>
                                         </td>
                                         <td class="px-4 py-4 text-sm whitespace-nowrap">

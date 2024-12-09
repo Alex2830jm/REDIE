@@ -15,6 +15,10 @@ class Temas extends Model
     protected $guarded = [];
 
 
+    public function sector() {
+        return $this->belongsTo(Sector::class, 'sector_id');
+    }
+
     public function roles(): BelongsToMany {
         return $this->belongsToMany(Role::class, 'role_has_tema');
         

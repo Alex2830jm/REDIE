@@ -14,6 +14,10 @@ export default {
         extend: {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                'monserrat': ['Monserrat'],
+                'lato': ['Lato'],
+                'garamond': ['Garamond']
+
             },
             colors: {
                 "brown-50"  : "#faf7f2",

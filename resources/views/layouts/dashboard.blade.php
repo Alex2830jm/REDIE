@@ -31,7 +31,7 @@
                     <span class="hidden sm:block font-light text-2xl text-center text-gold-500">Secretería de Finanzas</span>
                 </div>
                 <div class="col-span-1 md:col-span-9">
-                    <h2 class="hidden sm:block text-cherry-800 text-2xl font-semibold sm:lg md:text-xl lg:text-4xl font-sans leading-tight">
+                    <h2 class="hidden sm:block font-montserrat font-light text-cherry-800 text-2xl sm:lg md:text-xl lg:text-4xl font-sans leading-tight">
                         Instituto de Información e Investigación Geográfica, Estadística y Catastral del Estado de
                         México IGECEM
                     </h2>
@@ -42,18 +42,16 @@
         @include('layouts.navigation')
     </div>
     {{-- Contenido --}}
-    <main class="h-full overflow-y-auto">
+    <main class="h-full mb-7">
         <div class="md:container md:mx-auto">
             {{ $slot }}
         </div>
     </main>
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js" defer></script>
     <script src="{{ asset('assets/js/jquery-3.3.1.js') }}"></script>
     @if (isset($scripts))
         {{ $scripts }}
     @endif
-
-    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js" defer></script>
-
 </body>
 
 </html>

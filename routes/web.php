@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -18,9 +19,14 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::get('/', function () {
+/* Route::get('/', function () {
     return view('index');
-})->middleware(['auth'])->name('home');
+})->middleware(['auth'])->name('home'); */
+
+Route::get('/', [DashboardController::class, 'grupos' ])->middleware(['auth'])->name('home');
+Route::get('/sectores-grupo', [DashboardController::class, 'sectores'])->name('sectorsByGroup');
+Route::get('/temas-sector', [DashboardController::class, 'temas'])->name('temasBySector');
+Route::get('/cuadro-estadistico', [DashboardController::class, 'cuadroEstadistico'])->name('cuadrosEstadisticosByTema');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

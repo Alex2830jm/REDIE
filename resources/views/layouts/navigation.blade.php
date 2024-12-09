@@ -3,7 +3,7 @@
         <div class="flex h-16 items-center justify-between px-4">
             <!-- Logo -->
             <div class="flex items-center text-white">
-                <a href="#" class="text-xl font-lg hover:text-brown-300">
+                <a href="#" class=" font-monserrat text-xl font-lg hover:text-brown-300">
                     Dirección de Estadística
                 </a>
             </div>

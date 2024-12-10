@@ -11,7 +11,6 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="../path/to/notyf/notyf.css" />
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -68,15 +67,6 @@
             </div>
         </div>
     </div>
-
-    <script src="../path/to/notyf/notyf.js"></script>
-    <script lenguaje="javascript">
-        $(document).ready(function () {
-            const notyf = new Notyf();
-
-            notyf.successs("Hola :)")
-        });
-    </script>
 </body>
 
 </html>

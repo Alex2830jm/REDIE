@@ -23,40 +23,42 @@ use Illuminate\Support\Facades\Route;
     return view('index');
 })->middleware(['auth'])->name('home'); */
 
-Route::get('/', [DashboardController::class, 'grupos' ])->middleware(['auth'])->name('home');
-Route::get('/sectores-grupo', [DashboardController::class, 'sectores'])->name('sectorsByGroup');
-Route::get('/temas-sector', [DashboardController::class, 'temas'])->name('temasBySector');
-Route::get('/cuadro-estadistico', [DashboardController::class, 'cuadroEstadistico'])->name('cuadrosEstadisticosByTema');
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-    Route::name('roles.')->prefix('roles')->group(function() {
-        Route::get('/', [RoleController::class, 'index'])->name('index');
-        Route::get('/create', [RoleController::class, 'create'])->name('create');
-        Route::post('/store', [RoleController::class, 'store'])->name('store');
-        Route::get('/{id}/edit', [RoleController::class, 'edit'])->name('edit');
-        Route::put('/{id}/updated', [RoleController::class, 'update'])->name('update');
-        Route::get('/{id}/delete', [RoleController::class, 'destroy'])->name('destroy');
+Route::middleware(['custom.headers'])->group(function () {
+    Route::get('/', [DashboardController::class, 'grupos' ])->middleware(['auth'])->name('home');
+    Route::get('/sectores-grupo', [DashboardController::class, 'sectores'])->name('sectorsByGroup');
+    Route::get('/temas-sector', [DashboardController::class, 'temas'])->name('temasBySector');
+    Route::get('/cuadro-estadistico', [DashboardController::class, 'cuadroEstadistico'])->name('cuadrosEstadisticosByTema');
+    
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->middleware(['auth'])->name('dashboard');
+    
+    Route::middleware('auth')->group(function () {
+        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    
+        Route::name('roles.')->prefix('roles')->group(function() {
+            Route::get('/', [RoleController::class, 'index'])->name('index');
+            Route::get('/create', [RoleController::class, 'create'])->name('create');
+            Route::post('/store', [RoleController::class, 'store'])->name('store');
+            Route::get('/{id}/edit', [RoleController::class, 'edit'])->name('edit');
+            Route::put('/{id}/updated', [RoleController::class, 'update'])->name('update');
+            Route::get('/{id}/delete', [RoleController::class, 'destroy'])->name('destroy');
+        });
+    
+        Route::name('usuarios.')->prefix('usuarios')->group(function() {
+            Route::get('/', [UserController::class, 'index'])->name('index');
+            Route::get('/registrar', [ UserController::class, 'create'])->name('create');
+            Route::post('/registrar', [ UserController::class, 'store'])->name('store');
+            Route::get('/{id}/editar', [UserController::class, 'edit'])->name('edit');
+            Route::put('/{id}/update',[UserController::class, 'update'])->name('update');
+            Route::get('/{id}/eliminar', [UserController::class, 'destroy'])->name('destroy');
+        });
+    
+        Route::get('sectores', function () { return view('grupos/sectores'); })->name('sectores.index');
+    
     });
-
-    Route::name('usuarios.')->prefix('usuarios')->group(function() {
-        Route::get('/', [UserController::class, 'index'])->name('index');
-        Route::get('/registrar', [ UserController::class, 'create'])->name('create');
-        Route::post('/registrar', [ UserController::class, 'store'])->name('store');
-        Route::get('/{id}/editar', [UserController::class, 'edit'])->name('edit');
-        Route::put('/{id}/update',[UserController::class, 'update'])->name('update');
-        Route::get('/{id}/eliminar', [UserController::class, 'destroy'])->name('destroy');
-    });
-
-    Route::get('sectores', function () { return view('grupos/sectores'); })->name('sectores.index');
-
 });
 
 require __DIR__.'/auth.php';

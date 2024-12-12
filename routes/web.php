@@ -28,6 +28,7 @@ Route::middleware(['custom.headers'])->group(function () {
     Route::get('/sectores-grupo', [DashboardController::class, 'sectores'])->name('sectorsByGroup');
     Route::get('/temas-sector', [DashboardController::class, 'temas'])->name('temasBySector');
     Route::get('/cuadro-estadistico', [DashboardController::class, 'cuadroEstadistico'])->name('cuadrosEstadisticosByTema');
+    Route::get('/archivos-ce', [DashboardController::class, 'archivos'])->name('archivosByCuadroEstadistico');
     
     Route::get('/dashboard', function () {
         return view('dashboard');

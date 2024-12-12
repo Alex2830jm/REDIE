@@ -1,210 +1,97 @@
-<div class=" text-2xl font-semibold text-gray-700">
+<section class="cointainer mx-auto">
+    <div class="sm:flex sm:items-center sm:justify-between">
+        <h2 class="text-lg font-medium text-gray-800">Cuadros Estadisticos del Tema: </h2>
+
+        <div class="flex items-center mt-4 gap-x-3">
+            <button
+                class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg sm:w-auto gap-x-2 hover:bg-blue-600">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M12 10.5v6m3-3H9m4.06-7.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
+                </svg>
+                <span>Agregar Cuadro</span>
+            </button>
+        </div>
+    </div>
+
     <div class="flex flex-col mt-6">
-        <div class="overflow-x-auto lg:-mx-8">
+        <div class="overflow-x-auto sm:-mx-8">
             <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
                 <div class="overflow-hidden border border-gray-200 md:rounded-lg">
-                    <table class="w-full divide-y divide-gray-200">
-                        <thead class=" bg-cherry-800 text-white">
-                            <tr class="border border-brown-300">
-                                <th colspan="6" class="text-lg font-semibold text-center rtl:text-left">
-                                    Tema: {{ $tema->nombreTema }}
-                                </th>
-                            </tr>
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="min-w-full divide-y divide-gray-200">
                             <tr>
-                                <th scope="col" class="text-sm font-normal text-center rtl:text-left">
+                                <th scope="col"
+                                    class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
                                     No. Cuadro
                                 </th>
-                                <th scope="col" class="text-sm font-normal text-center rtl:text-left">
+                                <th scope="col"
+                                    class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
                                     Nombre del Cuadro
                                 </th>
-                                <th scope="col" class="text-sm font-sm text-center rtl:text-left">
+                                <th scope="col"
+                                    class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
                                     Grado de Desagregación
                                 </th>
-                                <th scope="col" class="text-sm font-normal text-center rtl:text-left">
-                                    Frecuencia de actualización
+                                <th scope="col"
+                                    class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                                    Frecuencia de Actualización
                                 </th>
-                                <th scope="col" class="text-sm font-normal text-center rtl:text-left">
+                                <th scope="col"
+                                    class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
                                     Fuente
                                 </th>
-                                <th scope="col" class="relative py-3.5 px-4">
-                                    <span class="sr-only">Acciones</span>
+                                <th scope="col"
+                                    class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                                    Acciones
                                 </th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                            <tr>
-                                <td class="px-4 py-4 text-sm font-medium text-gray-200 whitespace-nowrap">
-                                    <h2 class="font-medium text-gray-800">2.1.1 </h2>
+                            <tr id="1">
+                                <td class="px-4 py-4 text-sm text-gray-500 whitespace-nowrap">2.2.1</td>
+                                <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                                    <h2 class="font-normal text-gray-800">
+                                        Nacimientos registrados por municipio según mes de registro y sexo
+                                    </h2>
                                 </td>
-                                <td class="px-4 py-4 text-sm font-medium text-gray-200 whitespace-nowrap">
-                                    <h2 class="font-medium text-gray-800"> Nacimientos registrados por municipio según
-                                        mes de
-                                        registro y sexo </h2>
-                                </td>
-                                <td class="px-4 py-4 text-sm font-medium text-gray-200 whitespace-nowrap">
-                                    <h2 class="font-medium text-gray-800"> Municipal </h2>
-                                </td>
-                                <td class="px-4 py-4 text-sm font-medium text-gray-200 whitespace-nowrap">
-                                    <h2 class="font-medium text-gray-800"> Mensual </h2>
-                                </td>
-                                <td class="px-4 py-4 text-sm font-medium text-gray-200 whitespace-nowrap">
-                                    <h2 class="font-medium text-gray-800">
+                                <td class="px-4 py-4 text-sm text-gray-500 whitespace-nowrap">Municipal</td>
+                                <td class="px-4 py-4 text-sm text-gray-500 whitespace-nowrap">Semestral</td>
+                                <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                                    <h2 class="font-normal text-gray-800">
                                         Secretaría de Justicia y Derechos Humanos. Dirección General del Registro Civil.
                                     </h2>
                                 </td>
-                                <td class="px-4 py-4 text-sm whitespace-nowrap">
-                                    <button data-tooltip-target="tooltipHistorial" type="button"
-                                        class=" bg-transparent text-gray-800 hover:text-green-500 font-medium">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke-width="1.5" stroke="currentColor" class="size-6">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-                                        </svg>
-                                    </button>
-                                    <div id="tooltipHistorial" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                                        Descargar Archivos
-                                        <div class="tooltip-arrow" data-popper-arrow></div>
+                                <td class="px-4 py-4 text-sm text-gray-500 whitespace-nowrap">
+                                    {{-- <div class="relative group">
+                                        <p class="text-slate-800 font-mono font-bold cursor-pointer">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 0 0-1.883 2.542l.857 6a2.25 2.25 0 0 0 2.227 1.932H19.05a2.25 2.25 0 0 0 2.227-1.932l.857-6a2.25 2.25 0 0 0-1.883-2.542m-16.5 0V6A2.25 2.25 0 0 1 6 3.75h3.879a1.5 1.5 0 0 1 1.06.44l2.122 2.12a1.5 1.5 0 0 0 1.06.44H18A2.25 2.25 0 0 1 20.25 9v.776" />
+                                            </svg>
+                                        </p>
+                                        <div
+                                            class="absolute -left-2 -translate-x-1/2 bottom-full opacity-0 group-hover:opacity-100 transition duration-100 transform group-hover:translate-y-0 translate-y-2 z-50">
+                                            <div class="bg-slate-800/80 backdrop-blur-sm w-max max-w-xs text-white rounded-lg px-2 py-2 shadow-lg">
+                                                <p class="font-bold text-md">Ver Documentos</p>
+                                            </div>
+                                        </div>
+                                    </div> --}}
+                                    <div class="group relative">
+                                        <button>
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 hover:scale-125 duration-200 hover:stroke-blue-500">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 0 0-1.883 2.542l.857 6a2.25 2.25 0 0 0 2.227 1.932H19.05a2.25 2.25 0 0 0 2.227-1.932l.857-6a2.25 2.25 0 0 0-1.883-2.542m-16.5 0V6A2.25 2.25 0 0 1 6 3.75h3.879a1.5 1.5 0 0 1 1.06.44l2.122 2.12a1.5 1.5 0 0 0 1.06.44H18A2.25 2.25 0 0 1 20.25 9v.776" />
+                                            </svg>
+                                        </button>
+                                        <span
+                                            class="absolute -top-10 -left-[10%] -translate-x-[50%] z-20 origin-left scale-0 px-3 rounded-lg border border-gray-300 bg-slate-800/80 text-white py-2 text-sm font-bold shadow-md transition-all duration-300 ease-in-out group-hover:scale-100">Ver Documentos<span>
+                                            </span></span>
                                     </div>
                                 </td>
                             </tr>
-                            <tr>
-                                <td class="px-4 py-4 text-sm font-medium text-gray-200 whitespace-nowrap">
-                                    <h2 class="font-medium text-gray-800">2.1.2 </h2>
-                                </td>
-                                <td class="px-4 py-4 text-sm font-medium text-gray-200 whitespace-nowrap">
-                                    <h2 class="font-medium text-gray-800"> Nacimientos registrados de menores de un año
-                                        por
-                                        municipio según mes de registro y sexo </h2>
-                                </td>
-                                <td class="px-4 py-4 text-sm font-medium text-gray-200 whitespace-nowrap">
-                                    <h2 class="font-medium text-gray-800"> Municipal </h2>
-                                </td>
-                                <td class="px-4 py-4 text-sm font-medium text-gray-200 whitespace-nowrap">
-                                    <h2 class="font-medium text-gray-800"> Mensual </h2>
-                                </td>
-                                <td class="px-4 py-4 text-sm font-medium text-gray-200 whitespace-nowrap">
-                                    <h2 class="font-medium text-gray-800">
-                                        Secretaría de Justicia y Derechos Humanos. Dirección General del Registro Civil.
-                                    </h2>
-                                </td>
-                                <td class="px-4 py-4 text-sm whitespace-nowrap">
-                                    <button data-tooltip-target="tooltipHistorial" type="button"
-                                        class=" bg-transparent text-gray-800 hover:text-green-500 font-medium">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke-width="1.5" stroke="currentColor" class="size-6">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-                                        </svg>
-                                    </button>
-                                    <div id="tooltipHistorial" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                                        Descargar Archivos
-                                        <div class="tooltip-arrow" data-popper-arrow></div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="px-4 py-4 text-sm font-medium text-gray-200 whitespace-nowrap">
-                                    <h2 class="font-medium text-gray-800">2.1.1 </h2>
-                                </td>
-                                <td class="px-4 py-4 text-sm font-medium text-gray-200 whitespace-nowrap">
-                                    <h2 class="font-medium text-gray-800"> Defunciones registradas por municipio según
-                                        mes de
-                                        registro y sexo </h2>
-                                </td>
-                                <td class="px-4 py-4 text-sm font-medium text-gray-200 whitespace-nowrap">
-                                    <h2 class="font-medium text-gray-800"> Municipal </h2>
-                                </td>
-                                <td class="px-4 py-4 text-sm font-medium text-gray-200 whitespace-nowrap">
-                                    <h2 class="font-medium text-gray-800"> Mensual </h2>
-                                </td>
-                                <td class="px-4 py-4 text-sm font-medium text-gray-200 whitespace-nowrap">
-                                    <h2 class="font-medium text-gray-800">
-                                        Secretaría de Justicia y Derechos Humanos. Dirección General del Registro Civil.
-                                    </h2>
-                                </td>
-                                <td class="px-4 py-4 text-sm whitespace-nowrap">
-                                    <button data-tooltip-target="tooltipHistorial" type="button"
-                                        class=" bg-transparent text-gray-800 hover:text-green-500 font-medium">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke-width="1.5" stroke="currentColor" class="size-6">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-                                        </svg>
-                                    </button>
-                                    <div id="tooltipHistorial" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                                        Descargar Archivos
-                                        <div class="tooltip-arrow" data-popper-arrow></div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="px-4 py-4 text-sm font-medium text-gray-200 whitespace-nowrap">
-                                    <h2 class="font-medium text-gray-800">2.1.1 </h2>
-                                </td>
-                                <td class="px-4 py-4 text-sm font-medium text-gray-200 whitespace-nowrap">
-                                    <h2 class="font-medium text-gray-800"> Defunciones registradas de menores de un año
-                                        por
-                                        municipio según mes de registro y sexo </h2>
-                                </td>
-                                <td class="px-4 py-4 text-sm font-medium text-gray-200 whitespace-nowrap">
-                                    <h2 class="font-medium text-gray-800"> Municipal </h2>
-                                </td>
-                                <td class="px-4 py-4 text-sm font-medium text-gray-200 whitespace-nowrap">
-                                    <h2 class="font-medium text-gray-800"> Mensual </h2>
-                                </td>
-                                <td class="px-4 py-4 text-sm font-medium text-gray-200 whitespace-nowrap">
-                                    <h2 class="font-medium text-gray-800">
-                                        Secretaría de Justicia y Derechos Humanos. Dirección General del Registro Civil.
-                                    </h2>
-                                </td>
-                                <td class="px-4 py-4 text-sm whitespace-nowrap">
-                                    <button data-tooltip-target="tooltipHistorial" type="button"
-                                        class=" bg-transparent text-gray-800 hover:text-green-500 font-medium">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke-width="1.5" stroke="currentColor" class="size-6">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-                                        </svg>
-                                    </button>
-                                    <div id="tooltipHistorial" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                                        Descargar Archivos
-                                        <div class="tooltip-arrow" data-popper-arrow></div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="px-4 py-4 text-sm font-medium text-gray-200 whitespace-nowrap">
-                                    <h2 class="font-medium text-gray-800">2.1.1 </h2>
-                                </td>
-                                <td class="px-4 py-4 text-sm font-medium text-gray-200 whitespace-nowrap">
-                                    <h2 class="font-medium text-gray-800"> Defunciones registradas de 1 a 18 años por
-                                        municipio
-                                        según mes de registro y sexo </h2>
-                                </td>
-                                <td class="px-4 py-4 text-sm font-medium text-gray-200 whitespace-nowrap">
-                                    <h2 class="font-medium text-gray-800"> Municipal </h2>
-                                </td>
-                                <td class="px-4 py-4 text-sm font-medium text-gray-200 whitespace-nowrap">
-                                    <h2 class="font-medium text-gray-800"> Mensual </h2>
-                                </td>
-                                <td class="px-4 py-4 text-sm font-medium text-gray-200 whitespace-nowrap">
-                                    <h2 class="font-medium text-gray-800">
-                                        Secretaría de Justicia y Derechos Humanos. Dirección General del Registro Civil.
-                                    </h2>
-                                </td>
-                                <td class="px-4 py-4 text-sm whitespace-nowrap">
-                                    <button data-tooltip-target="tooltipHistorial" type="button"
-                                        class=" bg-transparent text-gray-800 hover:text-green-500 font-medium">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke-width="1.5" stroke="currentColor" class="size-6">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-                                        </svg>
-                                    </button>
-                                    <div id="tooltipHistorial" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                                        Descargar Archivos
-                                        <div class="tooltip-arrow" data-popper-arrow></div>
-                                    </div>
+                            <tr id="1">
+                                <td colspan="6">
+                                    <div id="archivosCuadro_1"></div>
                                 </td>
                             </tr>
                         </tbody>
@@ -213,4 +100,25 @@
             </div>
         </div>
     </div>
-</div>
+</section>
+<x-slot name="scripts">
+    <script languaje="javascript">
+        $(document).ready(function () {
+            var close = '';
+            var after = '';
+
+            $("tr").click(function () {
+                $("#archivosCuadro_"+close).text();
+                after = close;
+
+                close = $(this).attr("id");
+                var id = $(this).attr("id");
+                if(close == after) {
+                    $("archivosCuadro_"+after).text("");
+                } else {
+                    $("archivosCuadro_"+id).load("archivos-ce?id="+id);
+                }
+            })
+        });
+    </script>
+</x-slot>

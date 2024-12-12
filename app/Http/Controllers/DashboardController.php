@@ -40,4 +40,11 @@ class DashboardController extends Controller
             'tema' => $tema
         ]);
     }
+
+    public function archivos(Request $request) {
+        return view("compoents/archivos_cuadro_estadistico")
+            ->with([
+                'id' => $request->get('idCuadro'),
+            ]);
+    }
 }

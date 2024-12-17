@@ -29,6 +29,11 @@
         <div x-cloak :class="[open ? 'translate-x-0 opacity-100 ' : 'opacity-0 -translate-x-full']"
             class="absolute inset-x-0 z-20 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-cherry-800 border border-gold-400 sm:border-0 md:mt-0 md:p-0 md:top-0 md:relative md:bg-transparent md:w-auto md:opacity-100 md:translate-x-0 md:flex md:items-center">
             <div class="flex flex-col md:flex-row md:mx-6">
+                <x-nav-link :href="route('index.home')">
+                    <div class="relative flex">
+                        <span class="block w-full pl-3 mr-3">Diseño 2</span>
+                    </div>
+                </x-nav-link>
                 <x-nav-link :href="route('home')" :active="request()->routeIs('roles.*')">
                     <div class="relative flex">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"

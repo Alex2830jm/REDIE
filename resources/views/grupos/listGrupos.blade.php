@@ -15,7 +15,7 @@
                 this.openTemas = false,
                 this.openCuadroEstadistico = false;
             setTimeout(async () => {
-                $('#sectorGroup').load(`{{ route('sectorsByGroup') }}?grupo_id=${id}`, () => {
+                $('#sectorGroup').load(`{{ route('index.sectorsByGroup') }}?id=${id}`, () => {
                     this.openSectores = true;
                 });
             }, 300);
@@ -24,7 +24,7 @@
                 this.openTemas = false,
                 this.openCuadroEstadistico = false;
             setTimeout(async () => {
-                $('#temasSectorGroup').load(`{{ route('temasBySector') }}?sector_id=${id}`, () => {
+                $('#temasSectorGroup').load(`{{ route('index.temasBySector') }}?id=${id}`, () => {
                     this.openTemas = true;
                 });
             }, 300);
@@ -33,7 +33,7 @@
                 this.openTemas = true,
                 this.openCuadroEstadistico = false;
             setTimeout(async () => {
-                $('#cuadrosEstadisticos').load(`{{ route('cuadrosEstadisticosByTema') }}?tema_id=${id}`, () => {
+                $('#cuadrosEstadisticos').load(`{{ route('index.cuadrosEstadisticosByTema') }}?id=${id}`, () => {
                     this.openCuadroEstadistico = true;
                 });
             }, 300);
@@ -45,8 +45,8 @@
 
     <ul class="px-4 py-3 grid w-full gap-6 md:grid-cols-4">
         <li>
-            <button type="button" id="grupo_1" class="w-full" @click="searchContent($event)">
-                <label for="1"
+            <button type="button" id="grupo_2" class="w-full" @click="searchContent($event)">
+                <label for="grupo_2"
                     class="inline-flex items-center w-full rounded-md text-gray-500 bg-white border-2 border-orange-200 has-[:checked]:ring-1 has-[:checked]:ring-orange-500 transition ease-in-out delay-75 hover:translate-y-1 hover:scale-110 cursor-pointer">
                     <div class="bg-orange-600 p-3 flex items-center justify-center aspect-square w-16">
                         <svg class="h-3/4 w-3/4"
@@ -60,8 +60,8 @@
             </button>
         </li>
         <li>
-            <button type="button" id="grupo_2" value="2" class="w-full" @click="searchContent($event)">
-                <label for="2"
+            <button type="button" id="grupo_14" value="2" class="w-full" @click="searchContent($event)">
+                <label for="grupo_14"
                     class="inline-flex items-center w-full rounded-md text-gray-500 bg-white border-2 border-sky-200 transition ease-in-out delay-75 hover:translate-y-1 hover:scale-110 cursor-pointer has-[:checked]:ring-1 has-[:checked]:ring-sky-500">
                     <div class="bg-sky-600 p-3 flex items-center justify-center aspect-square w-16">
                         <svg class="h-3/4 w-3/4" viewBox="0 0 576 512">
@@ -75,8 +75,8 @@
             </button>
         </li>
         <li>
-            <button type="button" id="grupo_3" value="3" class="w-full" @click="searchContent($event)">
-                <label for="3"
+            <button type="button" id="grupo_32" value="32" class="w-full" @click="searchContent($event)">
+                <label for="grupo_32"
                     class="inline-flex items-center w-full rounded-md text-gray-500 bg-white border-2 border-green-200 transition ease-in-out delay-75 hover:translate-y-1 hover:scale-110 cursor-pointer has-[:checked]:ring-8 has-[:checked]:ring-green-500">
                     <div class="bg-green-600 p-3 flex items-center justify-center aspect-square w-16">
                         <svg class="h-3/4 w-3/4" viewBox="0 0 512 512">
@@ -90,8 +90,8 @@
         </li>
 
         <li>
-            <button type="button" id="grupo_4 " value="4" class="w-full" @click="searchContent($event)">
-                <label for="4"
+            <button type="button" id="grupo_37" value="37" class="w-full" @click="searchContent($event)">
+                <label for="grupo_37"
                     class="inline-flex items-center w-full rounded-md text-gray-500 bg-white border-2 border-fuchsia-200 transition ease-in-out delay-75 hover:translate-y-1 hover:scale-110 cursor-pointer has-[:checked]:ring-1 has-[:checked]:ring-fuchsia-500">
                     <div class="bg-fuchsia-600 p-3 flex items-center justify-center aspect-square w-16">
                         <svg class="h-3/4 w-3/4" viewBox="0 0 576 512">

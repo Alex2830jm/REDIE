@@ -24,11 +24,20 @@ use Illuminate\Support\Facades\Route;
 })->middleware(['auth'])->name('home'); */
 
 Route::middleware(['custom.headers'])->group(function () {
+    
     Route::get('/', [DashboardController::class, 'grupos' ])->middleware(['auth'])->name('home');
     Route::get('/sectores-grupo', [DashboardController::class, 'sectores'])->name('sectorsByGroup');
     Route::get('/temas-sector', [DashboardController::class, 'temas'])->name('temasBySector');
     Route::get('/cuadro-estadistico', [DashboardController::class, 'cuadroEstadistico'])->name('cuadrosEstadisticosByTema');
-    Route::get('/archivos-ce', [DashboardController::class, 'archivos'])->name('archivosByCuadroEstadistico');
+    Route::get('/archivos-ce', [DashboardController::class, 'archivosCE'])->name('archivosByCuadrosEstadisticos');
+
+    Route::prefix('index')->name('index.')->group( function ()  {
+        Route::get('/', [DashboardController::class, 'grupos1' ])->middleware(['auth'])->name('home');
+        Route::get('/sectores-grupo', [DashboardController::class, 'sectores1'])->name('sectorsByGroup');
+        Route::get('/temas-sector', [DashboardController::class, 'temas1'])->name('temasBySector');
+        Route::get('/cuadro-estadistico', [DashboardController::class, 'cuadroEstadistico'])->name('cuadrosEstadisticosByTema');
+        Route::get('/archivos-ce', [DashboardController::class, 'archivosCE1'])->name('archivosByCuadrosEstadisticos');
+    });
     
     Route::get('/dashboard', function () {
         return view('dashboard');

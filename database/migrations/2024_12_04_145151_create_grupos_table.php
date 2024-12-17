@@ -14,7 +14,12 @@ return new class extends Migration
         Schema::create('grupos', function (Blueprint $table) {
             $table->id();
             $table->string('nombreGrupo');
-            $table->string('colorGrupo');
+            $table->string('colorGrupo')->nullable()->default('N.A');
+            $table->integer('grupo_padre')->nullable()->default(0);
+            $table->integer('grupo_nivel')->nullable()->default(0);
+
+            /* $table->foreign('grupo_padre')
+                ->references('id')->on('grupos'); */
             $table->timestamps();
         });
     }

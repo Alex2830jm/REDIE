@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Grupo;
 use App\Models\Temas;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
@@ -18,7 +19,7 @@ class RoleController extends Controller
 
     public function create() {
         $permissions = Permission::all();
-        $temas = Temas::all();
+        $temas = Grupo::where('grupo_nivel', '4')->get();
 
         return view('auth/roles/create')
             ->with([
@@ -44,7 +45,7 @@ class RoleController extends Controller
     public function edit(string $id) {
         $role = Role::find($id);
         $permissions = Permission::all();
-        $temas = Temas::all();
+        $temas = Grupo::where('grupo_nivel', '4')->get();
 
         return view('auth/roles/edit')
             ->with([

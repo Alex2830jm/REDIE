@@ -61,7 +61,7 @@ class GrupoSeeder extends Seeder
             //Grupo 3 con sectores y temas
             /* 32 */ ['nombreGrupo' => 'Geografía y Medio Ambiente', 'colorGrupo' => 'green', 'grupo_padre' => '1', 'grupo_nivel' => '2'],
             /* 33 */ ['nombreGrupo' => 'Aspectos Geográficos y Medio Ambiente', 'colorGrupo' => 'N.A', 'grupo_padre' => '32', 'grupo_nivel' => '3'],
-            /* 34 */ ['nombreGrupo' => 'Agricultura', 'colorGrupo' => 'N.A', 'grupo_padre' => '33', 'grupo_nivel' => '4'],
+            /* 34 */ ['nombreGrupo' => 'Medio Ambiente', 'colorGrupo' => 'N.A', 'grupo_padre' => '33', 'grupo_nivel' => '4'],
             /* 35 */ ['nombreGrupo' => 'Agua', 'colorGrupo' => 'N.A', 'grupo_padre' => '33', 'grupo_nivel' => '4'],
             /* 36 */ ['nombreGrupo' => 'Actividad Forestal', 'colorGrupo' => 'N.A', 'grupo_padre' => '33', 'grupo_nivel' => '4'],
         ]);

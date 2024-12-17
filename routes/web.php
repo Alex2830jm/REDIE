@@ -71,4 +71,6 @@ Route::middleware(['custom.headers'])->group(function () {
     });
 });
 
+
+Route::get('/pruebas', [DashboardController::class, 'pruebas']);
 require __DIR__.'/auth.php';

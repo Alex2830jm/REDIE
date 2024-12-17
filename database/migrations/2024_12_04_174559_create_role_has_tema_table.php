@@ -13,16 +13,16 @@ return new class extends Migration
     {
         Schema::create('role_has_tema', function (Blueprint $table) {
             //$table->id();
-            $table->unsignedBigInteger('temas_id');
+            $table->unsignedBigInteger('grupo_id');
             $table->unsignedBigInteger('role_id');
             $table->foreign('role_id')
                 ->references('id')
                 ->on('roles')
                 ->onDelete('cascade');
 
-            $table->foreign('temas_id')
+            $table->foreign('grupo_id')
                 ->references('id')
-                ->on('temas')
+                ->on('grupos')
                 ->onDelete('cascade');
             //$table->timestamps();
         });

@@ -74,4 +74,10 @@ class DashboardController extends Controller
     public function archivosCE2() {
         return view("grupos/archivosCuadroEstadistico");
     }
+
+    public function pruebas() {
+        $temas = Grupo::where('grupo_nivel', '4')->get();
+        //return response()->json(['Temas' => $temas]);
+        return view('pruebas')->with(['Temas' => $temas]);
+    }
 }

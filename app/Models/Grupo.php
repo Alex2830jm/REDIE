@@ -11,11 +11,11 @@ class Grupo extends Model
     protected $table = "grupos";
     
     
-    public function secundario() {
-        return $this->hasMany(Grupo::class, 'grupo_padre');
-    }
-
     public function principal() {
         return $this->belongsTo(Grupo::class, 'grupo_padre');
+    }
+
+    public function secundario() {
+        return $this->hasMany(Grupo::class, 'grupo_padre');
     }
 }

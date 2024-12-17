@@ -107,7 +107,7 @@
                                             class="appearance-none cursor-pointer border border-gray-300  rounded-md mr-2 checked:bg-no-repeat checked:bg-center checked:border-blue-500 checked:bg-blue-500"
                                             id="tema_id{{ $tema->id }}">
                                         <span class="text-sm font-normal justify-center text-gray-600 ml-2">
-                                            {{ $tema->nombreTema }} </span>
+                                            {{ $tema->nombreGrupo }} </span>
                                     </label>
                                 @endforeach
                             </div>

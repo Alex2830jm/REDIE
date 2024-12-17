@@ -16,52 +16,24 @@ class RoleSeeder extends Seeder
     {
 
         //Roles
-        $roleSA = Role::create([
+        /* 1 */ $roleSA = Role::create([
             'name' => 'SA',
             'description' => 'Super Administrador'
         ]);
 
-        $roleDE = Role::create([
+        /* 2 */ $roleDE = Role::create([
             'name' => 'DE',
             'description' => 'Dirección de Estadística'
         ]);
 
-        $roleDEE = Role::create([
+        /* 3 */ $roleDEE = Role::create([
             'name' => 'DEE',
             'description' => 'Departamento de Estadíscitca Económica '
         ]);
 
-        $roleDES = Role::create([
+        /* 4 */ $roleDES = Role::create([
             'name' => 'DES',
             'description' => 'Departamento de Estadística Social'
         ]);
-
-        //Permisos
-        $consultaCE = Permission::create(['name' => 'consultaCE']);
-        $cargaCE = Permission::create(['name' => 'cargaCE']);
-        $reportesCE = Permission::create(['name' => 'reportesCE']);
-
-        $permissionsSA = [
-            $consultaCE,
-            $cargaCE,
-            $reportesCE
-        ];
-
-        $permissionsDE = [
-            $consultaCE,
-            $reportesCE
-        ];
-
-        $permissionsDptos = [
-            $consultaCE,
-            $cargaCE,
-            $reportesCE
-        ];
-
-
-        $roleSA->syncPermissions($permissionsSA);
-        $roleDE->syncPermissions($permissionsDE);
-        $roleDEE->syncPermissions($permissionsDptos);
-        $roleDES->syncPermissions($permissionsDptos);
     }
 }

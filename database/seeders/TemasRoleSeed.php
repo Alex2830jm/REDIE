@@ -26,9 +26,9 @@ class TemasRoleSeed extends Seeder
         $temasDEE = $allTemas
             ->filter(function ($tema) {
                 return $tema->id === 13 ||
-                    $tema->principal->principal->id === 14 &&
+                    $tema->padre->padre->id === 14 &&
                     $tema->id  != 25 ||
-                    $tema->principal->principal->id === 32 ||
+                    $tema->padre->padre->id === 32 ||
                     $tema->id === 39;
             });
         Role::findOrFail(3)->temas()->sync($temasDEE->pluck('id'));
@@ -36,9 +36,9 @@ class TemasRoleSeed extends Seeder
         //DES - Departamento de Estadística Social
         $temasDES = $allTemas
             ->filter(function ($tema) {
-                return $tema->principal->principal->id === 2 ||
+                return $tema->padre->padre->id === 2 ||
                 $tema->id === 25 ||
-                $tema->principal->principal->id === 37 &&
+                $tema->padre->padre->id === 37 &&
                 $tema->id != 39;
             });
         Role::findOrFail(4)->temas()->sync($temasDES->pluck('id'));

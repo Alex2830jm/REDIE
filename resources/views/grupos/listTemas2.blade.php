@@ -1,9 +1,10 @@
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-    @foreach ($sectorTemas->secundario as $tema)
-        <label for="tema_{{ $tema->id }}"
-            class="cursor-pointer items-center justify-center text-center px-4 py-2 text-gray-500 text-sm font-medium rounded-md border border-{{ $sectorTemas->principal->colorGrupo }}-200 bg-white transition ease-in-out delay-75 hover:border hover:border-{{ $sectorTemas->principal->colorGrupo }}-200 has-[:checked]:ring-2 has-[:checked]:ring-{{ $sectorTemas->principal->colorGrupo }}-500 has-[:checked]:text-{{ $sectorTemas->principal->colorGrupo }}-400">
+    @foreach ($sectorTemas->temas as $tema)
+        <label for="tema_{{ $tema->id }}_{{$sector}}.{{ $loop->iteration }}"
+            class="cursor-pointer items-center justify-center text-center px-4 py-2 text-gray-500 text-sm font-medium rounded-md border border-{{ $sectorTemas->padre->colorGrupo }}-200 bg-white transition ease-in-out delay-75 hover:border hover:border-{{ $sectorTemas->padre->colorGrupo }}-200 has-[:checked]:ring-2 has-[:checked]:ring-{{ $sectorTemas->padre->colorGrupo }}-500 has-[:checked]:text-{{ $sectorTemas->padre->colorGrupo }}-400">
             {{ $tema->nombreGrupo }}
-            <input type="radio" name="tema_id" id="tema_{{ $tema->id }}" value="{{ $tema->id }}" class="sr-only" @click="searchContent($event)">
+            <input type="radio" name="tema_id" id="tema_{{ $tema->id }}_{{$sector}}.{{ $loop->iteration }}" value="{{ $tema->id }}" class="sr-only"
+                @click="searchContent($event)">
         </label>
     @endforeach
 </div>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CuadroEstadisticoController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
@@ -24,12 +25,12 @@ use Illuminate\Support\Facades\Route;
 })->middleware(['auth'])->name('home'); */
 
 Route::middleware(['custom.headers'])->group(function () {
-    
     Route::get('/', [DashboardController::class, 'grupos' ])->middleware(['auth'])->name('home');
     Route::get('/sectores-grupo', [DashboardController::class, 'sectores'])->name('sectorsByGroup');
     Route::get('/temas-sector', [DashboardController::class, 'temas'])->name('temasBySector');
-    Route::get('/cuadro-estadistico', [DashboardController::class, 'cuadroEstadistico'])->name('cuadrosEstadisticosByTema');
+    Route::get('/cuadro-estadistico', [CuadroEstadisticoController::class, 'listCE'])->name('cuadrosEstadisticosByTema');
     Route::get('/archivos-ce', [DashboardController::class, 'archivosCE'])->name('archivosByCuadrosEstadisticos');
+    Route::post('/store-ce', [CuadroEstadisticoController::class, 'store'])->name('saveCE');
 
     Route::prefix('index')->name('index.')->group( function ()  {
         Route::get('/', [DashboardController::class, 'grupos1' ])->middleware(['auth'])->name('home');
@@ -55,6 +56,7 @@ Route::middleware(['custom.headers'])->group(function () {
             Route::get('/{id}/edit', [RoleController::class, 'edit'])->name('edit');
             Route::put('/{id}/updated', [RoleController::class, 'update'])->name('update');
             Route::get('/{id}/delete', [RoleController::class, 'destroy'])->name('destroy');
+            Route::get('/{id}/temas', [RoleController::class, 'temasByRole'])->name('temas');
         });
     
         Route::name('usuarios.')->prefix('usuarios')->group(function() {

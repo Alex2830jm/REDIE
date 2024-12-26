@@ -17,6 +17,11 @@ class RoleController extends Controller
             ->with(['roles' => $roles]);
     }
 
+    public function temasByRole(string $id) {
+        $rol = Role::find($id);
+        return response()->json($rol);
+    }
+
     public function create() {
         $permissions = Permission::all();
         $temas = Grupo::where('grupo_nivel', '4')->get();

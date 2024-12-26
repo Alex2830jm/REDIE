@@ -17,21 +17,27 @@ class DashboardController extends Controller
     }
 
     public function sectores(Request $request) {
+        $grupo = $request->get('grupo');
         $grupoSectores = Grupo::find($request->get('id'));
         return view('grupos/listSectores2')->with([
-            'grupoSectores' => $grupoSectores
+            'grupoSectores' => $grupoSectores,
+            'grupo' => $grupo
         ]);
     }
 
     public function temas(Request $request) {
+        $sector = $request->get('sector');
         $sectorTemas = Grupo::find($request->get('id'));
         return view('grupos/listTemas2')->with([
-            'sectorTemas' => $sectorTemas
+            'sectorTemas' => $sectorTemas,
+            'sector' => $sector
         ]);
     }
 
     public function cuadroEstadistico(Request $request) {
-        $tema = Grupo::where('id', '=', $request->get('id'));
+        $numeroCuadro = $request->get('tema');
+        dd($numeroCuadro);
+        $tema = Grupo::findOrFail($request->get('id'));
         return view('grupos/listCuadrosEstadisticos2')->with([
             'tema' => $tema
         ]);

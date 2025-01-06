@@ -40,7 +40,8 @@
                                 <div class="flex flex-wrap -mx-3 mb-6">
                                     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                                         <label for="numero_ce">Numero del cuadro estadístico:</label>
-                                        <input type="text" id="numero_ce" value=" {{ $numeroCE }} " name="numero_ce" readonly
+                                        <input type="text" id="numero_ce" value=" {{ $numeroCE }} "
+                                            name="numero_ce" readonly
                                             class="w-full px-4 py-3 text-sm text-gray-700 bg-gray-100 border border-gray-300 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
                                     </div>
                                     <div class="w-full md:w-1/2 px-3">
@@ -96,8 +97,8 @@
     </div>
 
     <div class="overflow-x-auto shadow-md sm:rounded-lg">
-        <table class="w-full text-sm text-left rtl:text-right text-gray-500">
-            <thead class="text-xs text-gray-200 uppercase bg-cherry-800">
+        <table class="w-full text-sm text-left text-gray-500">
+            <thead class="text-sm text-gray-200 uppercase bg-cherry-800">
                 <tr>
                     <th scope="col" colspan="6" class="text-center py-2">
                         Tema: {{ $tema->nombreGrupo }}
@@ -116,7 +117,6 @@
             <tbody class="divide-y divide-gray-100 border-t border-gray-100">
                 @foreach ($cuadros_estadisticos as $ce)
                     <tr class="hover:bg-gray-50">
-                        {{-- <td class="px-6 py-4"> {{ $tema->principal->id }}.{{ $tema->id }}.{{ $ce->id }} </td> --}}
                         <td class="px-6 py-6 font-normal text-gray-700"> {{ $ce->numeroCE }} </td>
                         <td class="px-6 py-4 font-normal text-gray-900">
                             {{ $ce->nombreCuadroEstadistico }}
@@ -135,72 +135,32 @@
                         </td>
                         <td class="px-6 py-4">
                             <div class="group relative">
-                                <button x-on:click.prevent="$dispatch('open-modal', 'archivosCE')">
-                                    <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                        class="w-6 hover:scale-125 duration-200 hover:stroke-blue-500">
+                                <button id="ce_{{ $ce->id }}" @click="searchContent($event)"
+                                    class="text-gray-500 px-4 py-2 rounded-lg focus:outline-none focus:ring">
+                                    <svg x-bind:class="openHistorialArchivos === {{ $ce->id }} ? 'rotate-180' : ''"
+                                        class="w-5 h-5 transform transition-transform duration-300" fill="none"
+                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 0 0-1.883 2.542l.857 6a2.25 2.25 0 0 0 2.227 1.932H19.05a2.25 2.25 0 0 0 2.227-1.932l.857-6a2.25 2.25 0 0 0-1.883-2.542m-16.5 0V6A2.25 2.25 0 0 1 6 3.75h3.879a1.5 1.5 0 0 1 1.06.44l2.122 2.12a1.5 1.5 0 0 0 1.06.44H18A2.25 2.25 0 0 1 20.25 9v.776" />
+                                            d="m19.5 8.25-7.5 7.5-7.5-7.5" />
                                     </svg>
                                 </button>
                             </div>
                         </td>
                     </tr>
+                    <tr id="{{ $ce->id }}" x-show="openHistorialArchivos === '{{ $ce->id }}'"
+                        x-transition:enter="transition ease-out duration-300"
+                        x-transition:enter-start="opacity-0 transform -translate-y-4"
+                        x-transition:enter-end="opacity-100 transform translate-y-0"
+                        x-transition:leave="transition ease-in duration-200"
+                        x-transition:leave-start="opacity-100 transform translate-y-0"
+                        x-transition:leave-end="opacity-0 transform -translate-y-4">
+                        <td colspan="6" class="p-4 bg-gray-50">
+                            <div id="archivosCE_{{ $ce->id }}" class="flex justify-center items-center"></div>
+                        </td>
+                    </tr>
                 @endforeach
             </tbody>
         </table>
-        <x-modal name="archivosCE" focusable>
-            <div class="bg-white w-full px-4 pb-5 pt-5 sm:p-6 sm:pb-4">
-                <div class="sm:flex sm:items-center">
-                    <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                        <h3 class="text-base font-semibold text-gray-900">
-                            Historial de archivos
-                        </h3>
-                        <div class="mt-2">
-                            <div class="grid grid-cols-3 gap-2 sm:gap-4">
-                                <div>
-                                    Año
-                                </div>
-                                <div>
-                                    Ver
-                                </div>
-                                <div>
-                                    Descargar
-                                </div>
-
-                                <div>
-                                    2023
-                                </div>
-                                <div>
-                                    <span
-                                        class="whitespace-nowrap rounded-full border border-sky-500 px-2.5 py-0.5 text-sm text-sky-700">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke-width="1.5" stroke="currentColor" class="w-3 h-3">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                        </svg>
-                                    </span>
-                                </div>
-                                <div>
-                                    <span
-                                        class="whitespace-nowrap rounded-full border border-green-500 px-2.5 py-0.5 text-sm text-green-700">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke-width="1.5" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-                                        </svg>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                <button type="button" x-on:click="$dispatch('close')"
-                    class="mt-3 inline-flex w-full justify-center rounded-m bg-red-500 px-3 py-2 text-sm font-semibold text-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-red-600 sm:mt-0 sm:w-auto">Cerrar</button>
-            </div>
-        </x-modal>
     </div>
+
 </section>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CuadroEstadistico;
 use App\Models\Grupo;
 use Illuminate\Http\Request;
 
@@ -43,8 +44,11 @@ class DashboardController extends Controller
         ]);
     }
 
-    public function archivosCE() {
-        return view("grupos/archivosCuadroEstadistico");
+    public function archivosCE(Request $request) {
+        $cuadroEstadistico = CuadroEstadistico::findOrFail($request->get('id'));
+        return view("grupos/archivosCuadroEstadistico")->with([
+            'cuadroEstadistico' => $cuadroEstadistico
+        ]);
     }
 
     //Diseño2

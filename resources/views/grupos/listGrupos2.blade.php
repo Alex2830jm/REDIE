@@ -5,12 +5,13 @@
     openTemas: false,
     openCuadroEstadistico: false,
     openArchivos: false,
+    openHistorialArchivos: null,
     async searchContent(event) {
         var button = event.currentTarget;
         var valor_id = button.getAttribute('id');
-        //console.log(valor_id)
+        console.log(valor_id)
         var [type, id, order] = valor_id.split('_');
-        console.log(order)
+        
         switch (type) {
             case 'grupo':
                 this.openSectores = false,
@@ -37,12 +38,14 @@
                 }, 300);
             break;
             case 'ce': 
-                this.openArchivos = false;
+                this.openHistorialArchivos = this.openHistorialArchivos === id ? null : id;
+                //this.openArchivos = false;
                 setTimeout(async () => {
-                    $('#historialArchivos').load(`{{ route('archivosByCuadrosEstadisticos') }}`, () => {
+                    $('#archivosCE_'+id).load(`{{ route('archivosByCuadrosEstadisticos') }}?id=${id}`, () => {
                         this.openArchivos = true;
                     });
                 }, 300);
+            break;
         }
     },
 

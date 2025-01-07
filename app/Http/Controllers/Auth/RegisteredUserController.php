@@ -54,16 +54,19 @@ class RegisteredUserController extends Controller
             'activo'            => TRUE,
         ]);
 
+        $user->assignRole($request->get('role_id'));
+
         //event(new Registered($user));
 
         //Auth::login($user);
 
         //return redirect(RouteServiceProvider::HOME);
-        $flasher
-            ->options([
-                'position' => 'top-center'
-            ])
-            ->addSuccess('El usuaurio se ha registrado con exito', 'Registrado');
+
+        notyf()
+            ->position('x', 'center')
+            ->position('y', 'top')
+            ->addSuccess('Usuario Registrado Correctamente !!');
+        
         return redirect()->route('usuarios.index');
     }
 }

@@ -9,7 +9,7 @@
     async searchContent(event) {
         var button = event.currentTarget;
         var valor_id = button.getAttribute('id');
-        console.log(valor_id)
+        //console.log(valor_id)
         var [type, id, order] = valor_id.split('_');
         
         switch (type) {

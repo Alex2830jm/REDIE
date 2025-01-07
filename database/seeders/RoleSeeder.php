@@ -28,7 +28,7 @@ class RoleSeeder extends Seeder
 
         /* 3 */ $roleDEE = Role::create([
             'name' => 'DEE',
-            'description' => 'Departamento de Estadíscitca Económica '
+            'description' => 'Departamento de Estadística Económica '
         ]);
 
         /* 4 */ $roleDES = Role::create([

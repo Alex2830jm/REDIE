@@ -1,21 +1,14 @@
 <h3 class="mb-5 text-lg font-medium text-gray-900">Sectores de: <span
-        class="text-{{ $grupoSectores->colorGrupo }}-400">{{ $grupoSectores->nombreGrupo }}</span></h3>
-
-<div class="sm:hidden">
-    <select name="sector_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-        @foreach ($grupoSectores->sectores as $sector)
-            <option value="{{$sector->id}}">{{ $sector->nombreGrupo }}</option>
-        @endforeach
-    </select>
-</div>
+        class="text-{{ $grupo->colorGrupo }}-400">{{ $grupo->nombreGrupo }}</span></h3>
+</div> --}}
 <div class="border-b border-b-gray-200">
-    <ul class="hidden -mb-px sm:flex items-center gap-4 text-sm font-medium">
-        @foreach ($grupoSectores->sectores as $sector)
+    <ul class="hidden -mb-px sm:flex items-center gap-4 text-sm font-medium">i
+        @foreach ($sectores as $sector)
             <li class="flex-1">
-                <label for="sector_{{ $sector->id }}_{{$grupo}}.{{ $loop->iteration }}"
-                    class="curelative flex items-center justify-center gap-2 px-1 py-3 text-gray-500 cursor-pointer hover:text-{{ $grupoSectores->colorGrupo }}-400 has-[:checked]:border-b-2 has-[:checked]:border-{{ $grupoSectores->colorGrupo }}-500 has-[:checked]:text-{{ $grupoSectores->colorGrupo }}-400">
+                <label for="sector_{{ $sector->id }}_{{$numeroGrupo}}.{{ $loop->iteration }}"
+                    class="curelative flex items-center justify-center gap-2 px-1 py-3 text-gray-500 cursor-pointer hover:text-{{ $grupo->colorGrupo }}-400 has-[:checked]:border-b-2 has-[:checked]:border-{{ $grupo->colorGrupo }}-500 has-[:checked]:text-{{ $grupo->colorGrupo }}-400">
                     {{ $sector->nombreGrupo }}
-                    <input type="radio" name="sector_id" id="sector_{{ $sector->id }}_{{$grupo}}.{{ $loop->iteration }}" value="{{ $sector->id }}"
+                    <input type="radio" name="sector_id" id="sector_{{ $sector->id }}_{{$numeroGrupo}}.{{ $loop->iteration }}" value="{{ $sector->id }}"
                         class="sr-only" @click="searchContent($event)" />
                 </label>
             </li>

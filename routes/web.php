@@ -25,55 +25,56 @@ use Illuminate\Support\Facades\Route;
 })->middleware(['auth'])->name('home'); */
 
 Route::middleware(['custom.headers'])->group(function () {
-    Route::get('/', [DashboardController::class, 'grupos' ])->middleware(['auth'])->name('home');
-    Route::get('/sectores-grupo', [DashboardController::class, 'sectores'])->name('sectorsByGroup');
-    Route::get('/temas-sector', [DashboardController::class, 'temas'])->name('temasBySector');
-    Route::get('/cuadro-estadistico', [CuadroEstadisticoController::class, 'listCE'])->name('cuadrosEstadisticosByTema');
-    Route::post('/store-ce', [CuadroEstadisticoController::class, 'store'])->name('saveCE');
-    Route::get('/archivos-ce', [DashboardController::class, 'archivosCE'])->name('archivosByCuadrosEstadisticos');
-
-    /* Route::prefix('index')->name('index.')->group( function ()  {
-        Route::get('/', [DashboardController::class, 'grupos1' ])->middleware(['auth'])->name('home');
-        Route::get('/sectores-grupo', [DashboardController::class, 'sectores1'])->name('sectorsByGroup');
-        Route::get('/temas-sector', [DashboardController::class, 'temas1'])->name('temasBySector');
-        Route::get('/cuadro-estadistico', [DashboardController::class, 'cuadroEstadistico'])->name('cuadrosEstadisticosByTema');
-        Route::get('/archivos-ce', [DashboardController::class, 'archivosCE1'])->name('archivosByCuadrosEstadisticos');
-    }); */
-    
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->middleware(['auth'])->name('dashboard');
     
     Route::middleware('auth')->group(function () {
         Route::view('prueba', 'pruebas');
-
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    
-        Route::name('roles.')->prefix('roles')->group(function() {
-            Route::get('/', [RoleController::class, 'index'])->name('index');
-            Route::get('/create', [RoleController::class, 'create'])->name('create');
-            Route::post('/store', [RoleController::class, 'store'])->name('store');
-            Route::get('/{id}/edit', [RoleController::class, 'edit'])->name('edit');
-            Route::put('/{id}/updated', [RoleController::class, 'update'])->name('update');
-            Route::get('/{id}/delete', [RoleController::class, 'destroy'])->name('destroy');
-            Route::get('/{id}/temas', [RoleController::class, 'temasByRole'])->name('temas');
+
+        Route::controller(CuadroEstadisticoController::class)->group(function() {
+            Route::get('/', 'listGrupos' )->middleware(['auth'])->name('home');
+            Route::get('/sectores-grupo', 'listSectores')->name('sectorsByGroup');
+            Route::get('/temas-sector', 'listTemas')->name('temasBySector');
+            Route::get('/cuadro-estadistico', 'listCE')->name('cuadrosEstadisticosByTema');
+            Route::post('/store-ce', 'storeCE')->name('saveCE');
+            Route::get('/archivos-ce', 'listArchivosCE')->name('archivosByCuadrosEstadisticos');
         });
     
-        Route::name('usuarios.')->prefix('usuarios')->group(function() {
-            Route::get('/', [UserController::class, 'index'])->name('index');
-            Route::get('/registrar', [ UserController::class, 'create'])->name('create');
-            Route::post('/registrar', [ UserController::class, 'store'])->name('store');
-            Route::get('/{id}/editar', [UserController::class, 'edit'])->name('edit');
-            Route::put('/{id}/update',[UserController::class, 'update'])->name('update');
-            Route::get('/{id}/eliminar', [UserController::class, 'destroy'])->name('destroy');
+        Route::controller(RoleController::class)->name('roles.')->prefix('roles')->group(function() {
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/store', 'store')->name('store');
+            Route::get('/{id}/edit', 'edit')->name('edit');
+            Route::put('/{id}/updated', 'update')->name('update');
+            Route::get('/{id}/delete', 'destroy')->name('destroy');
+            Route::get('/{id}/temas', 'temasByRole')->name('temas');
+        });
+    
+        Route::controller(UserController::class)->name('usuarios.')->prefix('usuarios')->group(function() {
+            Route::get('/', 'index')->name('index');
+            Route::get('/registrar', 'create')->name('create');
+            Route::post('/registrar', 'store')->name('store');
+            Route::get('/{id}/editar', 'edit')->name('edit');
+            Route::put('/{id}/update', 'update')->name('update');
+            Route::get('/{id}/eliminar', 'destroy')->name('destroy');
         });
     
         Route::get('sectores', function () { return view('grupos/sectores'); })->name('sectores.index');
     
     });
 });
+
+/* Route::prefix('index')->name('index.')->group( function ()  {
+        Route::get('/', [DashboardController::class, 'grupos1' ])->middleware(['auth'])->name('home');
+        Route::get('/sectores-grupo', [DashboardController::class, 'sectores1'])->name('sectorsByGroup');
+        Route::get('/temas-sector', [DashboardController::class, 'temas1'])->name('temasBySector');
+        Route::get('/cuadro-estadistico', [DashboardController::class, 'cuadroEstadistico'])->name('cuadrosEstadisticosByTema');
+        Route::get('/archivos-ce', [DashboardController::class, 'archivosCE1'])->name('archivosByCuadrosEstadisticos');
+    }); */
 
 
 Route::get('/pruebas', [DashboardController::class, 'pruebas']);

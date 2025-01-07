@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Spatie\Permission\Models\Role;
 
 class Grupo extends Model
 {
@@ -25,6 +27,14 @@ class Grupo extends Model
 
     public function temas() {
         return $this->hijos()->where('grupo_nivel', '=', '4');
+    }
+
+    public function rolesSector(): BelongsToMany {
+        return $this->belongsToMany(Role::class, 'role_has_sector', 'grupo_id', 'role_id');
+    }
+
+    public function rolesTema(): BelongsToMany {
+        return $this->belongsToMany(Role::class, 'role_has_tema', 'grupo_id', 'role_id');
     }
 
     public function temasBySector() {

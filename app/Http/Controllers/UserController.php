@@ -26,7 +26,7 @@ class UserController extends Controller
     }
 
     public function store(UserFormRequest $request) {
-        //dd($request);
+        dd($request);
 
         $user = User::create([
             'name'              => $request->get('name'),
@@ -36,6 +36,8 @@ class UserController extends Controller
             'password'          => Hash::make($request->get('password')),
             'activo'            => TRUE,
         ]);
+
+        $user->assignRole();
 
         return redirect()->route('usuarios.index');
     }

@@ -56,8 +56,8 @@
             </li>
         </ul>
     </div>
-</div>
-<x-modal name="verArchivo" focusable>
+</div> 
+<x-modal name="verArchivo" maxWidth="7xl" focusable>
     <div class="bg-white px-4 pb-5 pt-5 sm:p-6 sm:pb-4">
         <div class="sm:items-center">
             <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">

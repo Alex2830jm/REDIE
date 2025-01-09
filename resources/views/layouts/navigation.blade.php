@@ -1,22 +1,22 @@
-<nav x-data="{ open: false }" class="bg-cherry-800 shadow">
+<nav x-data="{ openMenu: false }" class="bg-cherry-800 shadow">
     <div class="md:container md:mx-auto md:flex justify-between">
         <div class="flex h-16 items-center justify-between px-4">
             <!-- Logo -->
             <div class="flex items-center text-white">
-                <a href="#" class=" font-monserrat text-xl font-lg hover:text-brown-300">
+                <a href="#" class="text-xl font-lg hover:text-brown-300">
                     Dirección de Estadística
                 </a>
             </div>
         
             <!-- Menu en dispositivo movil  -->
             <div class="flex md:hidden">
-                <button x-cloak @click="open = !open" class="text-white hover:text-brown-300 focus:outline-none">
-                    <svg x-show="!open" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none"
+                <button x-cloak @click="openMenu = !openMenu" class="text-white hover:text-brown-300 focus:outline-none">
+                    <svg x-show="!openMenu" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none"
                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4 8h16M4 16h16" />
                     </svg>
         
-                    <svg x-show="open" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none"
+                    <svg x-show="openMenu" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none"
                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                     </svg>
@@ -26,7 +26,7 @@
         
 
         <!-- Menu Responsivo-->
-        <div x-cloak :class="[open ? 'translate-x-0 opacity-100 ' : 'opacity-0 -translate-x-full']"
+        <div x-cloak :class="[openMenu ? 'translate-x-0 opacity-100 ' : 'opacity-0 -translate-x-full']"
             class="absolute inset-x-0 z-20 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-cherry-800 border border-gold-400 sm:border-0 md:mt-0 md:p-0 md:top-0 md:relative md:bg-transparent md:w-auto md:opacity-100 md:translate-x-0 md:flex md:items-center">
             <div class="flex flex-col md:flex-row md:mx-6">
                 <x-nav-link :href="route('home')" :active="request()->routeIs('roles.*')">
@@ -39,7 +39,7 @@
                         <span class="block w-full pl-3 mr-3">Inicio</span>
                     </div>
                 </x-nav-link>
-                <x-nav-link :href="route('home')" :active="request()->routeIs('roles.*')">
+                <x-nav-link :href="route('directorio.index')" :active="request()->routeIs('directorio')">
                     <div class="relative flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="size-6">

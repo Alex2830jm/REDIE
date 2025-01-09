@@ -62,6 +62,11 @@ Route::middleware(['custom.headers'])->group(function () {
             Route::put('/{id}/update', 'update')->name('update');
             Route::get('/{id}/eliminar', 'destroy')->name('destroy');
         });
+
+        Route::prefix('directorio')->name('directorio.')->group(function () {
+            Route::view('/', 'directorio/unidades')->name('index');
+            Route::view('/dependencia', 'directorio/index')->name('unidad');
+        });
     
         Route::get('sectores', function () { return view('grupos/sectores'); })->name('sectores.index');
     

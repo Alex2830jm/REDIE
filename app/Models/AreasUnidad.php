@@ -21,4 +21,8 @@ class AreasUnidad extends Model
     public function personas() {
         return $this->hasMany(PersonaUnidad::class, 'area_id');
     }
+
+    public function cuadros_estadisticos() {
+        return $this->hasMany(CuadroEstadistico::class, 'dependencia_id');
+    }
 }

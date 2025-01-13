@@ -43,4 +43,14 @@ class DirectorioController extends Controller
             'mensaje' => 'Hola'
         ]);
     }
+
+
+    public function dependeciaAreas(Request $request) {
+        $areas = AreasUnidad::where('unidad_id', $request->get('unidad_id'))->get();
+        foreach($areas as $area) {
+            $areasArray[$area->id] = $area->nombreArea;
+        }
+
+        return response()->json($areasArray);
+    }
 }

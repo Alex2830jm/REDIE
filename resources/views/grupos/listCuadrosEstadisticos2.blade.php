@@ -27,7 +27,7 @@
             </button>
         </div>
 
-        <x-modal name="formCE" focusable>
+        <x-modal name="formCE" maxWidth="3xl" focusable>
             <div class="bg-white px-4 pb-5 pt-5 sm:p-6 sm:pb-4">
                 <div class="sm:flex sm:items-center">
                     <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
@@ -39,16 +39,36 @@
                                 @csrf
                                 <div class="flex flex-wrap -mx-3 mb-6">
                                     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                        <label for="numero_ce">Numero del cuadro estadístico:</label>
+                                        <label for="numero_ce">Número del cuadro estadístico</label>
                                         <input type="text" id="numero_ce" value=" {{ $numeroCE }} "
                                             name="numero_ce" readonly
                                             class="w-full px-4 py-3 text-sm text-gray-700 bg-gray-100 border border-gray-300 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
                                     </div>
                                     <div class="w-full md:w-1/2 px-3">
-                                        <label for="tema_id">Asignado al Tema:</label>
+                                        <label for="tema_id">Asignado al tema</label>
                                         <input type="text" id="tema_id" value="{{ $tema->nombreGrupo }}" readonly
                                             class="w-full px-4 py-3 text-sm text-gray-700 bg-gray-100 border border-gray-300 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
                                         <input type="hidden" name="tema_id" value="{{ $tema->id }}">
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-wrap -mx-3 mb-6">
+                                    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                                        <label for="dependencia">Selecciona la dependencia informativa</label>
+                                        <select name="dependencia" id="dependencia" @change="searchContent(event)"
+                                            class="block w-full px-4 py-3 text-sm text-gray-700 bg-gray-50 border border-gray-200 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
+                                            <option value="">-- Selección --</option>
+                                            @foreach ($dependencias as $dependencia)
+                                                <option value="{{$dependencia->id}}"> {{ $dependencia->nombreUnidad }} </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                                        <label for="areas">Selecciona el área informativa</label>
+                                        <select name="area_id" id="areas"
+                                            class="block w-full px-4 py-3 text-sm text-gray-700 bg-gray-50 border border-gray-200 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
+                                            <option value="">-- Debes de seleccionar una dependencia --</option>
+                                        </select>
                                     </div>
                                 </div>
 
@@ -96,7 +116,7 @@
         </x-modal>
     </div>
 
-    <div class="overflow-x-auto shadow-md sm:rounded-lg">
+    <div class="overflow-auto rounded-lg shadow">
         <table class="w-full text-sm text-left text-gray-500">
             <thead class="text-sm text-gray-200 uppercase bg-cherry-800">
                 <tr>
@@ -106,34 +126,34 @@
                     </th>
                 </tr>
                 <tr>
-                    <th scope="col" class="px-6 py-6">#</th>
-                    <th scope="col" class="px-6 py-6">Nombre</th>
-                    <th scope="col" class="px-6 py-6">Grado</th>
-                    <th scope="col" class="px-6 py-6">Frecuencia</th>
-                    <th scope="col" class="px-6 py-6">Fuente</th>
-                    <th scope="col" class="px-6 py-6">Acciones</th>
+                    <th scope="col" class="w-20 p-3 text-sm font-semibold tracking-wide">#</th>
+                    <th scope="col" class="p-3 text-sm font-semibold tracking-wide">Nombre</th>
+                    <th scope="col" class="w-24 p-3 text-sm font-semibold tracking-wide">Grado</th>
+                    <th scope="col" class="w-24 p-3 text-sm font-semibold tracking-wide">Frecuencia</th>
+                    <th scope="col" class="p-3 text-sm font-semibold tracking-wide">Fuente</th>
+                    <th scope="col" class="w-32 p-3 text-sm font-semibold tracking-wide">Acciones</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-gray-100 border-t border-gray-100">
                 @foreach ($cuadros_estadisticos as $ce)
                     <tr class="hover:bg-gray-50">
-                        <td class="px-6 py-6 font-normal text-gray-700"> {{ $ce->numeroCE }} </td>
-                        <td class="px-6 py-4 font-normal text-gray-900">
+                        <td class="p-3 text-sm text-gray-500"> {{ $ce->numeroCE }} </td>
+                        <td class="p-3 text-sm text-gray-800 font-semibold whitespace-nowrap">
                             {{ $ce->nombreCuadroEstadistico }}
                         </td>
-                        <td class="px-6 py-4"> {{ $ce->gradoDesagregacion }} </td>
-                        <td class="px-6 py-4"> {{ $ce->frecuenciaAct }} </td>
-                        <td class="flex gap-3 px-6 py-4 font-normal text-gray-900">
+                        <td class="p-3 text-sm text-gray-500"> {{ $ce->gradoDesagregacion }} </td>
+                        <td class="p-3 text-sm text-gray-500"> {{ $ce->frecuenciaAct }} </td>
+                        <td class="p-3 text-sm text-gray-500 whitespace-nowrap">
                             <div class="text-sm">
-                                <div class="font-medium text-gray-700">
-                                    Secretaría de Justicia y Derechos Humanos. Dirección General del Registro Civil.
+                                <div class=" text-gray-800 font-semibold">
+                                    {{ $ce->dependencia->nombreArea}}
                                 </div>
-                                <div class="text-gray-400">
-                                    Secretaría de Justicia y Derechos Humanos
+                                <div class="text-gray-500">
+                                    {{ $ce->dependencia->unidad->nombreUnidad }}
                                 </div>
                             </div>
                         </td>
-                        <td class="px-6 py-4">
+                        <td class="p-3 text-sm text-gray-500">
                             <div class="group relative">
                                 <button id="ce_{{ $ce->id }}" @click="searchContent($event)"
                                     class="text-gray-500 px-4 py-2 rounded-lg focus:outline-none focus:ring">

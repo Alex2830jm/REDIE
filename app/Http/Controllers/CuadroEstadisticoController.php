@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CuadroEstadistico;
 use App\Models\Grupo;
+use App\Models\UnidadInformativa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 class CuadroEstadisticoController extends Controller {
@@ -57,17 +58,19 @@ class CuadroEstadisticoController extends Controller {
         //dd($numeroCuadro);
         $tema = Grupo::findOrFail($temaId);
         $ces = CuadroEstadistico::where('tema_id', $temaId)->get();
+        $dependencias = UnidadInformativa::all();
         return view('grupos/listCuadrosEstadisticos2')->with([
             'tema' => $tema,
             'cuadros_estadisticos' => $ces,
-            'numeroCE' => $numeroCuadro
+            'numeroCE' => $numeroCuadro,
+            'dependencias' => $dependencias
         ]);
     }
 
     public function listArchivosCE(Request $request) {
         $cuadroEstadistico = CuadroEstadistico::findOrFail($request->get('id'));
         return view("grupos/archivosCuadroEstadistico")->with([
-            'cuadroEstadistico' => $cuadroEstadistico
+            'cuadroEstadistico' => $cuadroEstadistico,
         ]);
     }
 
@@ -75,6 +78,7 @@ class CuadroEstadisticoController extends Controller {
         //dd($request);
         $ce = CuadroEstadistico::create([
             "numeroCE" => $request->get('numero_ce'),
+            "dependencia_id" => $request->get('area_id'),
             "tema_id" => $request->get('tema_id'),
             "nombreCuadroEstadistico" => $request->get('nombreCuadroEstadistico'),
             "gradoDesagregacion" => $request->get('gradoDesagregacion'),

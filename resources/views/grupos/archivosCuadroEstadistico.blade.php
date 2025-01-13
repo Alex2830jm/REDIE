@@ -1,9 +1,11 @@
 <div class="w-full max-w-lg p-4 border border-gray-200 rounded-lg shadow sm:p-8 mt-3 mb-3">
     <div class="flex items-center justify-between mb-4">
         <h5 class="text-base font-bold leading-none text-gray-900">Historial de Archivos del Cuadro Estadistico</h5>
-        <a href="#" class="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">
-            Agregar
-        </a>
+        <button x-on:click.prevent="$dispatch('open-modal', 'agregarArchivo')"
+            class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg sm:w-auto gap-x-2 hover:bg-blue-600">
+
+            <span>Agregar Cuadro</span>
+        </button>
     </div>
     <div class="flow-root">
         <ul role="list" class="divide-y divide-gray-200">
@@ -56,7 +58,23 @@
             </li>
         </ul>
     </div>
-</div> 
+</div>
+<x-modal name="agregarArchivo" maxWidth="2xl" focusable>
+    <div class="bg-white px-4 pb-5 pt-5">
+        <div class="sm:items-center">
+            <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                <h3 class="text-base font-semibold text-gray-900">
+                    Subir Archivos del Cuadro Estadístico
+                </h3>
+                <div class="mt-2">
+                    <form action="" method="POST">
+                        
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</x-modal>
 <x-modal name="verArchivo" maxWidth="7xl" focusable>
     <div class="bg-white px-4 pb-5 pt-5 sm:p-6 sm:pb-4">
         <div class="sm:items-center">

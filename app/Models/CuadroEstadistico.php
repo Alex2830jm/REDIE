@@ -12,13 +12,18 @@ class CuadroEstadistico extends Model
     protected $table = "cuadro_estadisticos";
     protected $fillable = [
         "tema_id",
+        "dependencia_id",
         "numeroCE",
         "nombreCuadroEstadistico",
         "gradoDesagregacion",
         "frecuenciaAct",
     ];
 
-    protected function temas() {
+    public function temas() {
         return $this->belongsTo(Grupo::class, 'tema_id');
+    }
+
+    public function dependencia() {
+        return $this->belongsTo(AreasUnidad::class, 'dependencia_id');
     }
 }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CuadroEstadisticoController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DirectorioController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -44,7 +45,7 @@ Route::middleware(['custom.headers'])->group(function () {
             Route::get('/archivos-ce', 'listArchivosCE')->name('archivosByCuadrosEstadisticos');
         });
     
-        Route::controller(RoleController::class)->name('roles.')->prefix('roles')->group(function() {
+        Route::prefix('roles')->controller(RoleController::class)->name('roles.')->group(function() {
             Route::get('/', 'index')->name('index');
             Route::get('/create', 'create')->name('create');
             Route::post('/store', 'store')->name('store');
@@ -54,7 +55,7 @@ Route::middleware(['custom.headers'])->group(function () {
             Route::get('/{id}/temas', 'temasByRole')->name('temas');
         });
     
-        Route::controller(UserController::class)->name('usuarios.')->prefix('usuarios')->group(function() {
+        Route::prefix('usuarios')->controller(UserController::class)->name('usuarios.')->group(function() {
             Route::get('/', 'index')->name('index');
             Route::get('/registrar', 'create')->name('create');
             Route::post('/registrar', 'store')->name('store');
@@ -63,9 +64,11 @@ Route::middleware(['custom.headers'])->group(function () {
             Route::get('/{id}/eliminar', 'destroy')->name('destroy');
         });
 
-        Route::prefix('directorio')->name('directorio.')->group(function () {
-            Route::view('/', 'directorio/unidades')->name('index');
-            Route::view('/dependencia', 'directorio/index')->name('unidad');
+        Route::prefix('directorio')->controller(DirectorioController::class)->name('directorio.')->group(function () {
+            Route::get('/', 'listUnidades')->name('index');
+            Route::get('dependencia/', 'areasUnidad')->name('dependencia');
+            Route::get('personas', 'listPersonasAreas')->name('personas');
+            Route::get('persona/informacion')->name('persona');
         });
     
         Route::get('sectores', function () { return view('grupos/sectores'); })->name('sectores.index');

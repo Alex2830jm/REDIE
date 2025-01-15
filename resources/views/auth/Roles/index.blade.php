@@ -1,138 +1,150 @@
 <x-dashboard-layout>
-    <div class="my-6 text-2xl font-semibold text-gray-700">
-        Roles de Usuarios
-    </div>
+    <h1 class="px-4 py-2 text-2xl font-semibold text-gray-700">
+        Roles de Accesso
+    </h1>
 
-    <div class="px-4 py-6 mb-8 bg-white rounded-lg shadow-md space-y-6">
-        <div class="container mx-auto">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div class="flex gap-x-3">
-                    <h2 class="text-lg font-medium text-gray-800">Listado de Roles</h2>
-                </div>
-
-                <div class="flex">
-                    <a href="{{ route('roles.create') }}"
-                        class="flex items-center px-5 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg gap-x-2 hover:bg-blue-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="w-5 h-5">
-                            <path fill="#ffffff"
-                                d="M512 80c8.8 0 16 7.2 16 16l0 320c0 8.8-7.2 16-16 16L64 432c-8.8 0-16-7.2-16-16L48 96c0-8.8 7.2-16 16-16l448 0zM64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l448 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32zM208 256a64 64 0 1 0 0-128 64 64 0 1 0 0 128zm-32 32c-44.2 0-80 35.8-80 80c0 8.8 7.2 16 16 16l192 0c8.8 0 16-7.2 16-16c0-44.2-35.8-80-80-80l-64 0zM376 144c-13.3 0-24 10.7-24 24s10.7 24 24 24l80 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-80 0zm0 96c-13.3 0-24 10.7-24 24s10.7 24 24 24l80 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-80 0z" />
+    <div class="px-4 py-6 mb-8 bg-white rounded-lg shadow-md space-y-6" x-data="{
+        async role(event) {
+            roleId = $(event.target).attr('id');
+            $dispatch('open-modal', 'roleDelete');
+            $('#roleId').val(roleId);
+        }
+    }">
+        <div class="container px-4 mx-auto">
+            <div class="sm:flex sm:items-center sm:justify-between py-3">
+                <div class="flex items-center mt-4 gap-x-3">
+                    <span class="absolute">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="w-5 h-5 mx-3 text-gray-400 dark:text-gray-600">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
                         </svg>
-                        Agregar Rol
+                    </span>
+
+                    <input type="text" placeholder="Search"
+                        class="block w-full py-1.5 pr-5 text-gray-700 bg-white border border-gray-200 rounded-lg md:w-80 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40">
+                </div>
+                <div class="flex items-center mt-4 gap-x-3">
+                    <a href="{{ route('roles.create') }}"
+                        class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg sm:w-auto gap-x-2 hover:bg-blue-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                        </svg>
+                        <span>Agregar Rol</span>
                     </a>
                 </div>
             </div>
 
-            <div class="flex flex-col mt-6">
-                <div class="-mx-4 -my overflow-x-auto sm:-mx-6 lg:-mx-8">
-                    <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-                        <div class="overflow-hidden border border-gray-200 md:rounded-lg">
-                            <table class="min-w-full divide-y divide-gray-200">
-                                <thead class="bg-gray-50">
-                                    <tr>
-                                        <th scope="col"
-                                            class="py-3.5 px-4 text-sm font-normal text-left rtl:text-rigth text-gray-500">
-                                            Rol </th>
-                                        <th scope="col"
-                                            class="py-3.5 px-4 text-sm font-normal text-left rtl:text-rigth text-gray-500">
-                                            Total de Temas </th>
-                                        <th scope="col"
-                                            class="py-3.5 px-4 text-sm font-normal text-left rtl:text-rigth text-gray-500">
-                                            Total de Permisos </th>
-                                        <th scope="col" class="relative py-3.5 px-4">
-                                            <span class="sr-only">Acciones</span>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody class="bg-white divide-y divide-gray-200">
-                                    @foreach ($roles as $role)
-                                        <tr>
-                                            <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                                                <div class="inline-flex items-center gap-x-3">
-                                                    <div>
-                                                        <h2 class="font-medium text-gray-800">{{ $role->name }}</h2>
-                                                        <p class="text-sm font-normal text-gray-600">
-                                                            {{ $role->description }}</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="px-4 text-sm font-medium text-gray-700">
-                                                <div class="inline-flex items-center gap-x-3">
-                                                    <div class="px-3 justify-start rounded-lg border border-emerald-500"> {{ $role->temas->count()}} </div>
-                                                    <button
-                                                        class="px-2 justify-end rounded-xl border border-blue-500 hover:bg-sky-600 hover:text-white"
-                                                        x-on:click.prevent="$dispatch('open-modal', 'group-role-temas')"
-                                                    >
-                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                            class="w-5 h-5">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                                        </svg>
-                                                    </button>
-                                                    
-                                                </div>
-                                            </td>
-                                            <td class="px-4 py-4 text-sm whitespace-nowrap">
-                                                <div class="flex items-center gap-x-3">
-                                                    <h2>{{ $role->permissions->count() }}</h2>
-                                                    <button
-                                                        class="px-2 rounded-lg border border-blue-500 hover:bg-sky-600 hover:text-white"
-                                                        x-on:click.prevent="$dispatch('open-modal', 'group-role-permissions')"
-                                                    >
-                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                            class="w-5 h-5">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                                        </svg>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                            <td class="px-4 py-4 text-sm whitespace-nowrap">
-                                                <div class="flex items-center gap-x-6">
-                                                    <a href="{{ route('roles.destroy', $role->id) }}"
-                                                        class="text-gray-500 transition-color duration-200 hover:text-red-500 focus:outline-none">
-                                                        <div
-                                                            class="inline-flex items-center px-3 py-1 rounded-full gap-x-2">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                viewBox="0 0 24 24" stroke-width="1.5"
-                                                                stroke="currentColor" class="size-6">
-                                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                                    d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m6 4.125 2.25 2.25m0 0 2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
-                                                            </svg>
-                                                            Eliminar
-                                                        </div>
-                                                    </a>
-                                                    <a href="{{ route('roles.edit', $role->id) }}"
-                                                        class="text-gray-500 transition-color duration-200 hover:text-amber-500 focus:outline-none">
-                                                        <div
-                                                            class="inline-flex items-center px-3 py-1 rounded-full gap-x-2">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                viewBox="0 0 24 24" stroke-width="1.5"
-                                                                stroke="currentColor" class="size-6">
-                                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                                    d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-                                                            </svg>
-                                                            Editar
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+            <div class="overflow-auto rounded-lg shadow">
+                <table class="w-full text-sm  text-gray-500">
+                    <thead class="text-sm text-gray-200 uppercase bg-cherry-800">
+                        <tr>
+                            <th scope="col" class="p-3 text-sm font-semibold tracking-wide">Rol</th>
+                            <th scope="col" class="p-3 text-sm font-semibold tracking-wide">Total de temas</th>
+                            <th scope="col" class="p-3 text-sm font-semibold tracking-wide">Total de Permisos</th>
+                            <th scope="col" class="p-3 text-sm font-semibold tracking-wide" colspan="2">Acciones
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        @foreach ($roles as $role)
+                            <tr class="hover:bg-gray-100">
+                                <td class="p-3 text-sm">
+                                    <span class="text-gray-800 font-semibold">
+                                        {{ $role->name }}
+                                    </span>
+                                    <p class="text-gray-500">
+                                        {{ $role->description }}
+                                    </p>
+                                </td>
+                                <td class="p-3 text-sm">
+                                    <div class="cursor-pointer inline-flex items-center px-3 py-1 rounded-full gap-x-2 bg-sky-100/60 border-2 border-sky-200/50"
+                                        x-on:click.prevent="$dispatch('open-modal', 'group-role-temas')">
+                                        <h2 class="text-sm font-normal text-sky-500">
+                                            {{ $role->temas->count() }}
+                                        </h2>
+                                    </div>
+                                </td>
+                                <td class="p-3 text-sm self-center">
+                                    <div
+                                        class="cursor-pointer inline-flex items-center px-3 py-1 rounded-full gap-x-2 bg-sky-100/60 border border-sky-200/50">
+                                        <h2 class="text-sm font-normal text-sky-500">
+                                            {{ $role->permissions->count() }}
+                                        </h2>
+                                    </div>
+                                </td>
+                                <td class="p-3 text-sm">
+                                    <a href="{{ route('roles.edit', $role->id) }}"
+                                        class="text-gray-500 transition-color duration-200 hover:text-amber-500 focus:outline-none">
+                                        <div class="inline-flex items-center px-3 py-1 rounded-full gap-x-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="1.5" stroke="currentColor" class="size-6">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                            </svg>
+                                            Editar
+                                        </div>
+                                    </a>
+                                </td>
+                                <td class="p-3 text-sm">
+                                    <button @click="role(event)"
+                                        class="text-gray-500 transition-color duration-200 hover:text-red-500 focus:outline-none">
+                                        <div id="{{ $role->id }}"
+                                            class="inline-flex items-center px-3 py-1 rounded-full gap-x-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="1.5" stroke="currentColor" class="size-6">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M6 18 18 6M6 6l12 12" />
+                                            </svg>
+                                            Eliminar
+                                        </div>
+                                        </a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
-    
+
+    <x-modal name="roleDelete" maxWidth="sm" focusable>
+        <div class="relative bg-white rounded-lg shadow">
+            <button type="button" x-on:click="$dispatch('close')"
+                class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center">
+                <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                </svg>
+                <span class="sr-only">Close modal</span>
+            </button>
+            <div class="p-4 md:p-5 text-center">
+                <svg class="mx-auto mb-4 text-gray-400 w-12 h-12" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                    fill="none" viewBox="0 0 20 20">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+                <h3 class="mb-5 text-lg font-normal text-gray-900">¿Estás seguro de eliminar a este usuario?</h3>
+                <form action="{{ route('roles.delete') }}" method="POST">
+                    @csrf
+                    <div class="flex justify-between">
+                        <input type="hidden" id="roleId" name="roleId" value="">
+                        <button x-on:click="$dispatch('close')"
+                            class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-gray-600 focus:z-10 focus:ring-4 focus:ring-gray-100">
+                            No, cancelar
+                        </button>
+                        <button type="submit"
+                            class="text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
+                            Si, eliminar
+                        </button>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </x-modal>
+
     <x-modal name="group-role-temas" focusable>
         <div class="bg-white px-4 pb-5 pt-5 sm:p-6 sm:pb-4">
             <div class="sm:flex sm:items-start">

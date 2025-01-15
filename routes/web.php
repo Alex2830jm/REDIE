@@ -51,7 +51,7 @@ Route::middleware(['custom.headers'])->group(function () {
         Route::post('/store', 'store')->name('store');
         Route::get('/{id}/edit', 'edit')->name('edit');
         Route::put('/{id}/updated', 'update')->name('update');
-        Route::get('/{id}/delete', 'destroy')->name('destroy');
+        Route::post('delete', 'destroy')->name('delete');
         Route::get('/{id}/temas', 'temasByRole')->name('temas');
     });
     
@@ -61,7 +61,7 @@ Route::middleware(['custom.headers'])->group(function () {
         Route::post('/registrar', 'store')->name('store');
         Route::get('/{id}/editar', 'edit')->name('edit');
         Route::put('/{id}/update', 'update')->name('update');
-        Route::get('/{id}/eliminar', 'destroy')->name('destroy');
+        Route::post('/eliminar', 'destroy')->name('delete');
     });
 
     Route::prefix('directorio')->controller(DirectorioController::class)->name('directorio.')->group(function () {
@@ -69,7 +69,7 @@ Route::middleware(['custom.headers'])->group(function () {
         Route::get('areas', 'dependeciaAreas')->name('areas');
         Route::get('dependencia/', 'areasUnidad')->name('dependencia');
         Route::get('personas', 'listPersonasAreas')->name('personas');
-        Route::get('persona/informacion')->name('persona');
+        Route::post('persona/informacion')->name('persona');
     });
 })->middleware(['auth']);
 

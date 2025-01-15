@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Grupo;
 use App\Models\Temas;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -73,8 +74,13 @@ class RoleController extends Controller
         return redirect()->route('roles.index');
     }
 
-    public function destroy(string $id) {
-        Role::destroy($id);
+    public function destroy(Request $request) {
+        //dd($request);
+        Role::destroy($request->get('roleId'));
+        notyf()
+            ->position('x', 'center')
+            ->position('y', 'top')
+            ->addSuccess('El rol se ha eliminado correctamente');
         return redirect()->route('roles.index');
     }
 }

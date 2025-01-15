@@ -21,16 +21,36 @@ class UserSeeder extends Seeder
             'activo'    => TRUE
         ]);
 
-        $usuario = User::create([
-            'name' => 'Alex Donaldo',
-            'primerApellido' => 'Martínez',
-            'segundoApellido' => 'Jiménez',
-            'username' => 'amartinezj',
+        $DE = User::create([
+            'name' => 'Ruben',
+            'primerApellido' => 'Gonzalez',
+            'segundoApellido' => 'Mireles',
+            'username' => 'rgonzalezm',
             'password' => Hash::make('password'),
             'activo' => TRUE
         ]);
 
-        $administrador->assignRole(['SA']);
-        $usuario->assignRole(['DE']);
+        $DES = User::create([
+            'name' => 'Salvador',
+            'primerApellido' => 'Perez',
+            'segundoApellido' => 'Casildo',
+            'username' => 'sperezc',
+            'password' => Hash::make('password'),
+            'activo' => TRUE
+        ]);
+
+        $DEE = User::create([
+            'name' => 'Alberto',
+            'primerApellido' => 'Mejia',
+            'segundoApellido' => 'Reyes',
+            'username' => 'amejiar',
+            'password' => Hash::make('password'),
+            'activo' => TRUE
+        ]);
+
+        $administrador->syncRoles(['SA']);
+        $DE->syncRoles(['DE']);
+        $DES->syncRoles(['DES']);
+        $DEE->syncRoles(['DEE']);
     }
 }

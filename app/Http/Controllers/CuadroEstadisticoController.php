@@ -29,8 +29,10 @@ class CuadroEstadisticoController extends Controller {
         $user = Auth::user();
         $rol = $user->roles->pluck('id');
 
-        $sectores = Grupo::where('grupo_padre', '=', $request->get('grupo_id'))->whereHas('rolesSector', function ($query) use ($rol) {
-            $query->where('id', $rol);
+        $sectores = Grupo::where('grupo_padre', '=', $request->get('grupo_id'))->whereHas('temas', function ($query) use ($rol) {
+            $query->whereHas('rolesTema', function ($subquery) use ($rol) {
+                $subquery->where('id', $rol);
+            });
         })->get();
 
         return view('grupos/listSectores2')->with([

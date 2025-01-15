@@ -52,7 +52,7 @@ Route::middleware(['custom.headers'])->group(function () {
         Route::get('/{id}/edit', 'edit')->name('edit');
         Route::put('/{id}/updated', 'update')->name('update');
         Route::post('delete', 'destroy')->name('delete');
-        Route::get('/{id}/temas', 'temasByRole')->name('temas');
+        Route::get('/temas', 'temasByRole')->name('temas');
     });
     
     Route::prefix('usuarios')->controller(UserController::class)->name('usuarios.')->group(function() {

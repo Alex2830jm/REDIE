@@ -18,19 +18,30 @@ class RoleController extends Controller
             ->with(['roles' => $roles]);
     }
 
-    public function temasByRole(string $id) {
-        $rol = Role::find($id);
-        return response()->json($rol);
+    public function temasByRole(Request $request) {
+        $temas = Grupo::whereHas('rolesTema', function ($query) use ($request) {
+            $query->where('id', $request->get('role_id'));
+        })->get();
+
+        foreach($temas as $tema) {
+            $temasArray[$tema->id] = [
+                'nombre' => $tema->nombreGrupo,
+                'sector' => $tema->padre->nombreGrupo,
+                'grupo' => $tema->padre->padre->nombreGrupo,
+            ];
+        }
+        
+        return response()->json($temasArray);
     }
 
     public function create() {
         $permissions = Permission::all();
-        $temas = Grupo::where('grupo_nivel', '4')->get();
-
+        $grupos = Grupo::where('grupo_nivel', '2')->get();
+        
         return view('auth/roles/create')
             ->with([
                 'permissions' => $permissions,
-                'temas' => $temas
+                'grupos' => $grupos
             ]);
     }
 

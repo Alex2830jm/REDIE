@@ -5,17 +5,28 @@
 
     <div class="px-4 py-6 mb-8 bg-white rounded-lg shadow-md space-y-6" x-data="{
         async role(event) {
-            roleId = $(event.target).attr('id');
-            $dispatch('open-modal', 'roleDelete');
-            $('#roleId').val(roleId);
-        }
+                var roleId = $(event.target).attr('id');
+                $dispatch('open-modal', 'roleDelete');
+                $('#roleId').val(roleId);
+            },
+    
+            async roleTemas(event) {
+                var roleId = $(event.target).attr('id');
+                $dispatch('open-modal', 'group-role-temas');
+                $('#contentTemas').empty();
+                $.get(`{{ route('roles.temas') }}?role_id=${roleId}`, (temas) => {
+                    $.each(temas, (index, value) => {
+                        $('#contentTemas').append('<tr class=hover:bg-gray-100><td class=p-3 text-gray-500>'+value.nombre+'</td><td class=p-3 text-gray-500>'+value.sector+'</td><td class=p-3 text-gray-500>'+value.grupo+'</td></tr>');
+                    });
+                });
+            }
     }">
         <div class="container px-4 mx-auto">
             <div class="sm:flex sm:items-center sm:justify-between py-3">
                 <div class="flex items-center mt-4 gap-x-3">
                     <span class="absolute">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="w-5 h-5 mx-3 text-gray-400 dark:text-gray-600">
+                            stroke="currentColor" class="w-5 h-5 mx-3 text-gray-400">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
                         </svg>
@@ -59,9 +70,10 @@
                                     </p>
                                 </td>
                                 <td class="p-3 text-sm">
-                                    <div class="cursor-pointer inline-flex items-center px-3 py-1 rounded-full gap-x-2 bg-sky-100/60 border-2 border-sky-200/50"
-                                        x-on:click.prevent="$dispatch('open-modal', 'group-role-temas')">
-                                        <h2 class="text-sm font-normal text-sky-500">
+                                    <div id="{{ $role->id }}"
+                                        class="cursor-pointer inline-flex items-center px-3 py-1 rounded-full gap-x-2 bg-sky-100/60 border-2 border-sky-200/50"
+                                        @click="roleTemas(event)">
+                                        <h2 class="text-sm font-normal text-sky-500" id="{{ $role->id }}">
                                             {{ $role->temas->count() }}
                                         </h2>
                                     </div>
@@ -130,7 +142,7 @@
                     @csrf
                     <div class="flex justify-between">
                         <input type="hidden" id="roleId" name="roleId" value="">
-                        <button x-on:click="$dispatch('close')"
+                        <button type="button" x-on:click="$dispatch('close')"
                             class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-gray-600 focus:z-10 focus:ring-4 focus:ring-gray-100">
                             No, cancelar
                         </button>
@@ -145,23 +157,33 @@
         </div>
     </x-modal>
 
-    <x-modal name="group-role-temas" focusable>
-        <div class="bg-white px-4 pb-5 pt-5 sm:p-6 sm:pb-4">
-            <div class="sm:flex sm:items-start">
-                <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                    <h3 class="text-base font-semibold text-gray-900" id="role_temas">Temas
-                    </h3>
-                    <div class="mt-2">
-                        <p class="text-sm text-gray-500">
-                            Rol Seleccionado:
-                        </p>
-                    </div>
+    <x-modal name="group-role-temas">
+        <div class="bg-white w-full px-4 pb-5 pt-5 sm:p-6 sm:pb-4">
+            <div class="flex items-center justify-between">
+                <h3 class="text-base font-semibold text-gray-900">
+                    Temas asignados al rol
+                </h3>
+                <svg x-on:click="$dispatch('close')" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                    class="h-6 w-6 cursor-pointer hover:text-red-500">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                </svg>
+            </div>
+            <div class="w-full max-w-full p-4 border border-gray-200 rounded-lg shadow sm:p-8 mt-3 mb-3">
+                <div class="flow-root">
+                    <table class="w-full text-sm text-gray-500 items-center text-center">
+                        <thead class="bg-cherry-800 text-gray-200 uppercase">
+                            <tr>
+                                <th scope="col" class="p-3 font-semibold tracking-wide">Tema</th>
+                                <th scope="col" class="p-3 font-semibold tracking-wide">Sector</th>
+                                <th scope="col" class="p-3 font-semibold tracking-wide">Grupo</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-400" id="contentTemas">
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </div>
-        <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-            <button type="button" x-on:click="$dispatch('close')"
-                class="mt-3 inline-flex w-full justify-center rounded-m bg-red-500 px-3 py-2 text-sm font-semibold text-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-red-600 sm:mt-0 sm:w-auto">Cerrar</button>
         </div>
     </x-modal>
 
@@ -169,19 +191,19 @@
         <div class="bg-white px-4 pb-5 pt-5 sm:p-6 sm:pb-4">
             <div class="sm:flex sm:items-start">
                 <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                    <h3 class="text-base font-semibold text-gray-900" id="role_temas">Permisos
+                    <h3 class="text-base font-semibold text-gray-900" id="">Permisos
                     </h3>
                     <div class="mt-2">
                         <p class="text-sm text-gray-500">
                             Permisos autorizados:
                         </p>
+
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-            <button type="button" x-on:click="$dispatch('close')"
-                class="mt-3 inline-flex w-full justify-center rounded-m bg-red-500 px-3 py-2 text-sm font-semibold text-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-red-600 sm:mt-0 sm:w-auto">Cerrar</button>
-        </div>
+            <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                <button type="button" x-on:click="$dispatch('close')"
+                    class="mt-3 inline-flex w-full justify-center rounded-m bg-red-500 px-3 py-2 text-sm font-semibold text-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-red-600 sm:mt-0 sm:w-auto">Cerrar</button>
+            </div>
     </x-modal>
 </x-dashboard-layout>

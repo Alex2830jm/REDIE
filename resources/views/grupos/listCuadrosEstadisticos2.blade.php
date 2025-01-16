@@ -1,5 +1,5 @@
 <section class="cointainer mx-auto">
-    <div class="sm:flex sm:items-center sm:justify-between py-3" x-data="{ modalNewCE: false }">
+    <div class="sm:flex sm:items-center sm:justify-between py-3" x-data="{}">
         <div class="flex items-center mt-4 gap-x-3">
             <span class="absolute">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -15,7 +15,6 @@
 
 
         <div class="flex items-center mt-4 gap-x-3">
-            {{-- <button @click="modalNewCE = true" --}}
             <button x-on:click.prevent="$dispatch('open-modal', 'formCE')"
                 class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg sm:w-auto gap-x-2 hover:bg-blue-600">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -25,6 +24,124 @@
                 </svg>
                 <span>Agregar Cuadro</span>
             </button>
+
+            <x-modal name="formCE" maxWidth="3xl" focusable>
+                <div class="bg-white px-4 pb-5 pt-5 sm:p-6 sm:pb-4">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-base font-semibold text-gray-900">
+                            Registrar nuevo cuadro estadístico para el tema:
+                        </h3>
+                        <svg x-on:click="$dispatch('close')" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                            class="h-6 w-6 cursor-pointer hover:text-red-500">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                        </svg>
+                    </div>
+                    <div class="sm:flex sm:items-center">
+                        <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                            <div class="mt-2">
+                                <form action="{{ route('saveCE') }}" @submit.prevent="if(validateFormCE()) $el.submit()"
+                                    method="POST">
+                                    @csrf
+                                    <div class="flex flex-wrap -mx-3 mb-6">
+                                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                                            <label for="numero_ce">Número del cuadro estadístico</label>
+                                            <input type="text" id="numero_ce" value=" {{ $numeroCE }} "
+                                                name="numero_ce" readonly
+                                                class="w-full px-4 py-3 text-sm text-gray-700 bg-gray-100 border border-gray-300 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
+                                        </div>
+                                        <div class="w-full md:w-1/2 px-3">
+                                            <label for="tema_id">Asignado al tema: {{ $ce->nombreGrupo }} </label>
+                                            <input type="text" id="tema_id" value="{{ $ce->nombreGrupo }}" readonly
+                                                class="w-full px-4 py-3 text-sm text-gray-700 bg-gray-100 border border-gray-300 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
+                                            <input type="hidden" name="tema_id" value="{{ $ce->id }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="flex flex-wrap -mx-3 mb-6">
+                                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                                            <label for="dependencia">Selecciona la dependencia informativa</label>
+                                            <select name="dependencia" id="dependencia" @change="searchContent(event)"
+                                                class="block w-full px-4 py-3 text-sm text-gray-700 bg-gray-50 border border-gray-200 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
+                                                <option value="">-- Selección --</option>
+                                                @foreach ($dependencias as $dependencia)
+                                                    <option value="{{ $dependencia->id }}">
+                                                        {{ $dependencia->nombreUnidad }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                                            <label for="areas">Selecciona el área informativa</label>
+                                            <select name="area_id" id="areas" x-model="selectDependencia"
+                                                @change="validateSelectDependencia = true"
+                                                class="block w-full px-4 py-3 text-sm text-gray-700 bg-gray-50 border border-gray-200 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
+                                                <option value="">-- Debes de seleccionar una dependencia --
+                                                </option>
+                                            </select>
+                                            <p x-show="!validateSelectDependencia" class="text-red-500 font-semibold">
+                                                Debes de seleccionar una dependencia de información</p>
+                                        </div>
+                                    </div>
+
+                                    <label for="nombreCuadroEstadistico" class="text-sm text-gray-700">
+                                        Nombre del Cuadro Estadístico
+                                    </label>
+                                    <input type="text" name="nombreCuadroEstadistico" x-model="nombreCE"
+                                        @input="validateNombreCE = true" id="nombreCuadroEstadistico"
+                                        class="w-full px-4 py-3 text-sm text-gray-700 bg-gray-50 border border-gray-200 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
+                                    <p x-show="!validateNombreCE" class="text-red-500 font-semibold">Debes de colocar un
+                                        nombre al cuadro estadístico</p>
+
+                                    <label for="gradoDesagregacion" class="text-sm text-gray-700">
+                                        Grado de desagregación
+                                    </label>
+                                    {{-- <input type="text" name="gradoDesagregacion" id="gradoDesagregacion"
+                                        class="w-full px-4 py-3 text-sm text-gray-700 bg-gray-50 border border-gray-200 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"> --}}
+                                    <select name="gradoDesagregacion" x-model="selectGD" id="gradoDesagregacion"
+                                        @change="validateSelectGD = true"
+                                        class="block w-full px-4 py-3 text-sm text-gray-700 bg-gray-50 border border-gray-200 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
+                                        <option value="Municipal"> Municipal </option>
+                                        <option value="Estatal"> Estatal </option>
+                                        <option value="Federal"> Federal </option>
+                                    </select>
+                                    <p x-show="!validateSelectGD" class="text-red-500 font-semibold">Debes de
+                                        seleccionar el grado de desagregación</p>
+
+                                    <label for="frecuenciaAct" class="text-sm text-gray-700">
+                                        Frecuencia de actualización
+                                    </label>
+                                    <select name="frecuenciaAct" id="frecuenciaAct" x-model="selectFA"
+                                        @change="validateSelectFA = true"
+                                        class="block w-full px-4 py-3 text-sm text-gray-700 bg-gray-50 border border-gray-200 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
+                                        <option value="Diaria">Diaria</option>
+                                        <option value="Semanal">Semanal</option>
+                                        <option value="Mensual">Mensual</option>
+                                        <option value="Bimestral">Bimestral</option>
+                                        <option value="Cuatrimestral">Cuatrimestral</option>
+                                        <option value="Semestral">Semestral</option>
+                                        <option value="Anual">Anual</option>
+                                    </select>
+                                    <p x-show="!validateSelectFA" class="text-red-500 font-semibold">Debes de
+                                        seleccionar la frecuencia de actualización</p>
+
+                                    <div class="mt-4 sm:flex sm:items-center sm:-mx-2">
+                                        <button type="button" x-on:click="$dispatch('close')"
+                                            class="w-full px-4 py-2 text-sm font-medium tracking-wide text-gray-700 capitalize transition-colors duration-300 transform border border-gray-200 rounded-md sm:w-1/2 sm:mx-2 hover:bg-gray-100 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-40">
+                                            Cancel
+                                        </button>
+
+                                        <button type="submit"
+                                            class="w-full px-4 py-2 mt-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-md sm:mt-0 sm:w-1/2 sm:mx-2 hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
+                                            Registrar C.E
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </x-modal>
         </div>
     </div>
 
@@ -95,101 +212,7 @@
         </table>
     </div>
 
-    <x-modal name="formCE" maxWidth="3xl" focusable>
-        <div class="bg-white px-4 pb-5 pt-5 sm:p-6 sm:pb-4">
-            <div class="flex items-center justify-between">
-                <h3 class="text-base font-semibold text-gray-900">
-                    Registrar nuevo cuadro estadístico
-                </h3>
-                <svg x-on:click="$dispatch('close')" xmlns="http://www.w3.org/2000/svg" fill="none"
-                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                    class="h-6 w-6 cursor-pointer hover:text-red-500">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-                </svg>
-            </div>
-            <div class="sm:flex sm:items-center">
-                <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                    <div class="mt-2">
-                        <form action="{{ route('saveCE') }}" method="POST">
-                            @csrf
-                            <div class="flex flex-wrap -mx-3 mb-6">
-                                <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                    <label for="numero_ce">Número del cuadro estadístico</label>
-                                    <input type="text" id="numero_ce" value=" {{ $numeroCE }} "
-                                        name="numero_ce" readonly
-                                        class="w-full px-4 py-3 text-sm text-gray-700 bg-gray-100 border border-gray-300 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
-                                </div>
-                                <div class="w-full md:w-1/2 px-3">
-                                    <label for="tema_id">Asignado al tema</label>
-                                    <input type="text" id="tema_id" value="{{ $ce->nombreGrupo }}" readonly
-                                        class="w-full px-4 py-3 text-sm text-gray-700 bg-gray-100 border border-gray-300 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
-                                    <input type="hidden" name="tema_id" value="{{ $ce->id }}">
-                                </div>
-                            </div>
 
-                            <div class="flex flex-wrap -mx-3 mb-6">
-                                <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                    <label for="dependencia">Selecciona la dependencia informativa</label>
-                                    <select name="dependencia" id="dependencia" @change="searchContent(event)"
-                                        class="block w-full px-4 py-3 text-sm text-gray-700 bg-gray-50 border border-gray-200 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
-                                        <option value="">-- Selección --</option>
-                                        @foreach ($dependencias as $dependencia)
-                                            <option value="{{ $dependencia->id }}"> {{ $dependencia->nombreUnidad }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                    <label for="areas">Selecciona el área informativa</label>
-                                    <select name="area_id" id="areas"
-                                        class="block w-full px-4 py-3 text-sm text-gray-700 bg-gray-50 border border-gray-200 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
-                                        <option value="">-- Debes de seleccionar una dependencia --</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <label for="nombreCuadroEstadistico" class="text-sm text-gray-700">
-                                Nombre del Cuadro Estadístico
-                            </label>
-                            <input type="text" name="nombreCuadroEstadistico" id="nombreCuadroEstadistico"
-                                class="w-full px-4 py-3 text-sm text-gray-700 bg-gray-50 border border-gray-200 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
-
-                            <label for="gradoDesagregacion" class="text-sm text-gray-700">
-                                Grado de desagregación
-                            </label>
-                            <input type="text" name="gradoDesagregacion" id="gradoDesagregacion"
-                                class="w-full px-4 py-3 text-sm text-gray-700 bg-gray-50 border border-gray-200 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
-
-                            <label for="frecuenciaAct" class="text-sm text-gray-700">
-                                Frecuencia de actualización
-                            </label>
-                            <select name="frecuenciaAct" id="frecuenciaAct"
-                                class="block w-full px-4 py-3 text-sm text-gray-700 bg-gray-50 border border-gray-200 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
-                                <option value="Diaria">Diaria</option>
-                                <option value="Semanal">Semanal</option>
-                                <option value="Mensual">Mensual</option>
-                                <option value="Bimestral">Bimestral</option>
-                                <option value="Cuatrimestral">Cuatrimestral</option>
-                                <option value="Semestral">Semestral</option>
-                                <option value="Anual">Anual</option>
-                            </select>
-                            <div class="mt-4 sm:flex sm:items-center sm:-mx-2">
-                                <button type="button" x-on:click="$dispatch('close')"
-                                    class="w-full px-4 py-2 text-sm font-medium tracking-wide text-gray-700 capitalize transition-colors duration-300 transform border border-gray-200 rounded-md sm:w-1/2 sm:mx-2 hover:bg-gray-100 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-40">
-                                    Cancel
-                                </button>
-
-                                <button type="submit"
-                                    class="w-full px-4 py-2 mt-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-md sm:mt-0 sm:w-1/2 sm:mx-2 hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
-                                    Registrar C.E
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </x-modal>
 
     <x-modal name="historialArchivos" maxWidth="full" focusable>
         <div class="bg-white w-full px-4 pb-5 pt-5 sm:p-6 sm:pb-4">
@@ -265,7 +288,6 @@
             </div>
         </div>
     </x-modal>
-
     <x-modal name="agregarArchivo" maxWidth="2xl" focusable>
         <div class="bg-white w-full px-4 pb-5 pt-5 sm:p-6 sm:pb-4">
             <div class="flex items-center justify-between">
@@ -351,9 +373,9 @@
                         frameborder="0" width="100%" height="500"></iframe> --}}
 
                         {{-- Microsoft - El archivo tiene que estar en el servidor --}}
-                        <iframe
+                        {{-- <iframe
                             src="https://view.officeapps.live.com/op/embed.aspx?src=https://redieigecem.edomex.gob.mx/assets/archivos/HV-211.xlsx"
-                            width="100%" height="650px" frameborder="0"></iframe>
+                            width="100%" height="650px" frameborder="0"></iframe> --}}
                     </div>
                 </div>
             </div>

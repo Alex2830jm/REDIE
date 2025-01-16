@@ -1,11 +1,39 @@
 @props(['grupos' => []])
 
 <div x-data="{
+    //Transiciones
+    selectDependencia: '',
+    nombreCE: '',
+    selectGD: null,
+    selectFA: null,
+    validateSelectDependencia: true,
+    validateNombreCE: true, 
+    validateSelectGD: true,
+    validateSelectFA: true,
+
     openSectores: true,
     openTemas: false,
     openCuadroEstadistico: false,
     openArchivos: false,
-    openHistorialArchivos: null,    
+    openHistorialArchivos: null,
+
+    validateFormCE() {
+        this.validateNombreCE = this.nombreCE !== '';
+        this.validateSelectDependencia = this.selectDependencia !== '';
+        //this.validateSelectGD = this.selectGD !== null;
+        //this.validateSelectFA = this.selectFA !== null;
+        return this.validateSelectDependencia && this.validateNombreCE && this.validateSelectGD && this.validateSelectFA;
+    },
+    
+    init() {
+        var numberGrupo = 1;
+        var grupoInitial = 2;
+        setTimeout(() => {
+            $('#sectorGroup').load(`{{ route('sectorsByGroup') }}?grupo_id=${grupoInitial}&grupo=${numberGrupo}`, () => {
+                this.openSectores = true;
+            });
+        }, 300);
+    },
     async searchContent(event) {
         var idButton = $(event.target).attr('id');
         var [type, number] = idButton.split('_'); 
@@ -63,16 +91,6 @@
                 break;
         }
     },
-
-    init() {
-        var numberGrupo = 1;
-        var grupoInitial = 2;
-        setTimeout(() => {
-            $('#sectorGroup').load(`{{ route('sectorsByGroup') }}?grupo_id=${grupoInitial}&grupo=${numberGrupo}`, () => {
-                this.openSectores = true;
-            });
-        }, 300);
-    }
 }">
     <div class="px-4 md:flex py-3">
         <ul class="space-y space-y-6 font-medium text-gray-500 md:me-4 mb-4 md:mb-0">

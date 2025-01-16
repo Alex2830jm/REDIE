@@ -56,8 +56,8 @@ class CuadroEstadisticoController extends Controller {
     }
 
     public function listCE(Request $request) {
-        $numeroCuadro = $request->get('tema').'.'. (CuadroEstadistico::where('tema_id', $request->get('tema_id'))->count() + 1);
-        $ces = Grupo::findOrFail($request->get('tema_id'));
+        $numeroCuadro = $request->get('tema').'.'.(CuadroEstadistico::where('tema_id', $request->get('tema_id'))->count() + 1);
+        $ces = Grupo::find($request->get('tema_id'));
         $dependencias = UnidadInformativa::all();
         return view('grupos/listCuadrosEstadisticos2')->with([
             'ce' => $ces,

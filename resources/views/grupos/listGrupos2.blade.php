@@ -1,7 +1,7 @@
 @props(['grupos' => []])
 
 <div x-data="{
-    //Transiciones
+    //Validaciones
     selectDependencia: '',
     nombreCE: '',
     selectGD: null,
@@ -11,11 +11,13 @@
     validateSelectGD: true,
     validateSelectFA: true,
 
+    //Transiciones
     openSectores: true,
     openTemas: false,
     openCuadroEstadistico: false,
     openArchivos: false,
     openHistorialArchivos: null,
+    openDrawer: false,
 
     validateFormCE() {
         this.validateNombreCE = this.nombreCE !== '';
@@ -34,11 +36,14 @@
             });
         }, 300);
     },
+
+    
     async searchContent(event) {
-        var idButton = $(event.target).attr('id');
-        var [type, number] = idButton.split('_'); 
-        var valor = $(event.target).val();
-        //console.log(idButton)
+        //console.log(event.currentTarget);
+        var idButton = $(event.currentTarget).attr('id');
+        var [type, number] = idButton.split('_');
+        var valor = $(event.currentTarget).val();
+        //console.log(idButton);
 
         switch (type) {
             case 'grupo':
@@ -68,13 +73,8 @@
                 }, 300);
                 break;
 
-            case 'ce':
-                this.openHistorialArchivos = this.openHistorialArchivos === id ? null : id;
-                setTimeout(() => {
-                    $('#archivosCE_' + id).load(`{{ route('archivosByCuadrosEstadisticos') }}?ce_id=${valor}`, () => {
-                        this.openArchivos = true;
-                    });
-                }, 300);
+            case 'ce':                
+                $dispatch('open-modal', 'historialArchivos');
                 break;
 
             case 'dependencia':

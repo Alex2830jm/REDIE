@@ -16,7 +16,7 @@
                 $('#contentTemas').empty();
                 $.get(`{{ route('roles.temas') }}?role_id=${roleId}`, (temas) => {
                     $.each(temas, (index, value) => {
-                        $('#contentTemas').append('<tr class=hover:bg-gray-100><td class=p-3 text-gray-500>'+value.nombre+'</td><td class=p-3 text-gray-500>'+value.sector+'</td><td class=p-3 text-gray-500>'+value.grupo+'</td></tr>');
+                        $('#contentTemas').append('<tr class=hover:bg-gray-100><td class=p-3 text-gray-500>' + value.nombre + '</td><td class=p-3 text-gray-500>' + value.sector + '</td><td class=p-3 text-gray-500>' + value.grupo + '</td></tr>');
                     });
                 });
             }
@@ -112,6 +112,7 @@
                                             Eliminar
                                         </div>
                                         </a>
+                                    </button>
                                 </td>
                             </tr>
                         @endforeach

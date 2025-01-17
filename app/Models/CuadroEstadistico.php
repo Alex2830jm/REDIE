@@ -19,7 +19,7 @@ class CuadroEstadistico extends Model
         "frecuenciaAct",
     ];
 
-    public function temas() {
+    public function tema() {
         return $this->belongsTo(Grupo::class, 'tema_id');
     }
 

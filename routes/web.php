@@ -43,6 +43,7 @@ Route::middleware(['custom.headers'])->group(function () {
         Route::get('/cuadro-estadistico', 'listCE')->name('cuadrosEstadisticosByTema');
         Route::post('/store-ce', 'storeCE')->name('saveCE');
         Route::get('/archivos-ce', 'listArchivosCE')->name('archivosByCuadrosEstadisticos');
+        Route::post('/guardar-archivo', 'saveArchives')->name('guardarArchivos');
     });
     
     Route::prefix('roles')->controller(RoleController::class)->name('roles.')->group(function() {

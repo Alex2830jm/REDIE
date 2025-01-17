@@ -51,10 +51,11 @@
                                                 class="w-full px-4 py-3 text-sm text-gray-700 bg-gray-100 border border-gray-300 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
                                         </div>
                                         <div class="w-full md:w-1/2 px-3">
-                                            <label for="tema_id">Asignado al tema: {{ $ce->nombreGrupo }} </label>
-                                            <input type="text" id="tema_id" value="{{ $ce->nombreGrupo }}" readonly
+                                            <label for="tema_id">Asignado al tema:</label>
+                                            <input type="text" id="tema_id" value="{{ $tema->nombreGrupo }}"
+                                                readonly
                                                 class="w-full px-4 py-3 text-sm text-gray-700 bg-gray-100 border border-gray-300 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
-                                            <input type="hidden" name="tema_id" value="{{ $ce->id }}">
+                                            <input type="hidden" name="tema_id" value="{{ $tema->id }}">
                                         </div>
                                     </div>
 
@@ -145,75 +146,194 @@
         </div>
     </div>
 
-    <div class="overflow-auto rounded-lg shadow">
-        <table class="w-full text-sm text-left text-gray-500">
-            <thead class="text-sm text-gray-200 uppercase bg-cherry-800">
-                <tr>
-                    <th scope="col" colspan="6" class="text-center py-2">
-                        Tema: {{ $ce->nombreGrupo }}
-                        <hr class=" border border-gold-400">
-                    </th>
-                </tr>
-                <tr>
-                    <th scope="col" class="w-20 p-3 text-sm font-semibold tracking-wide">#</th>
-                    <th scope="col" class="p-3 text-sm font-semibold tracking-wide">Nombre</th>
-                    <th scope="col" class="w-24 p-3 text-sm font-semibold tracking-wide">Grado</th>
-                    <th scope="col" class="w-24 p-3 text-sm font-semibold tracking-wide">Frecuencia</th>
-                    <th scope="col" class="p-3 text-sm font-semibold tracking-wide">Fuente</th>
-                    <th scope="col" class="w-32 p-3 text-sm font-semibold tracking-wide">Acciones</th>
-                </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-100 border-t border-gray-100">
-                @foreach ($ce->cuadros_estadisticos as $ce)
-                    <tr class="hover:bg-gray-50">
-                        <td class="p-3 text-sm text-gray-500"> {{ $ce->numeroCE }} </td>
-                        <td class="p-3 text-sm text-gray-800 font-semibold">
-                            {{ $ce->nombreCuadroEstadistico }}
-                        </td>
-                        <td class="p-3 text-sm text-gray-500"> {{ $ce->gradoDesagregacion }} </td>
-                        <td class="p-3 text-sm text-gray-500"> {{ $ce->frecuenciaAct }} </td>
-                        <td class="p-3 text-sm text-gray-500">
-                            <div class="text-sm">
-                                <div class=" text-gray-800 font-semibold">
-                                    {{ $ce->dependencia->nombreArea }}
+    <div class="relative w-full h-95">
+        <div class="overflow-auto rounded-lg shadow">
+            <table class="w-full text-sm text-left text-gray-500">
+                <thead class="text-sm text-gray-200 uppercase bg-cherry-800">
+                    <tr>
+                        <th scope="col" colspan="6" class="text-center py-2">
+                            Tema: {{ $tema->nombreGrupo }}
+                            <hr class=" border border-gold-400">
+                        </th>
+                    </tr>
+                    <tr>
+                        <th scope="col" class="w-20 p-3 text-sm font-semibold tracking-wide">#</th>
+                        <th scope="col" class="p-3 text-sm font-semibold tracking-wide">Nombre</th>
+                        <th scope="col" class="w-24 p-3 text-sm font-semibold tracking-wide">Grado</th>
+                        <th scope="col" class="w-24 p-3 text-sm font-semibold tracking-wide">Frecuencia</th>
+                        <th scope="col" class="p-3 text-sm font-semibold tracking-wide">Fuente</th>
+                        <th scope="col" class="w-32 p-3 text-sm font-semibold tracking-wide">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100 border-t border-gray-100">
+                    @foreach ($tema->cuadros_estadisticos as $ce)
+                        <tr class="hover:bg-gray-50">
+                            <td class="p-3 text-sm text-gray-500"> {{ $ce->numeroCE }} </td>
+                            <td class="p-3 text-sm text-gray-800 font-semibold">
+                                {{ $ce->nombreCuadroEstadistico }}
+                            </td>
+                            <td class="p-3 text-sm text-gray-500"> {{ $ce->gradoDesagregacion }} </td>
+                            <td class="p-3 text-sm text-gray-500"> {{ $ce->frecuenciaAct }} </td>
+                            <td class="p-3 text-sm text-gray-500">
+                                <div class="text-sm">
+                                    <div class=" text-gray-800 font-semibold">
+                                        {{ $ce->dependencia->nombreArea }}
+                                    </div>
+                                    <div class="text-gray-500">
+                                        {{ $ce->dependencia->unidad->nombreUnidad }}
+                                    </div>
                                 </div>
-                                <div class="text-gray-500">
-                                    {{ $ce->dependencia->unidad->nombreUnidad }}
-                                </div>
-                            </div>
-                        </td>
-                        <td class="p-3 text-sm text-gray-500">
-                            <div class="group relative">
-                                <button id="ce_{{ $ce->id }}"
-                                    x-on:click.prevent="$dispatch('open-modal', 'historialArchivos')"
-                                    class="text-gray-500 px-4 py-2 rounded-lg focus:outline-none focus:ring">
-                                    <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                        stroke="currentColor"class="w-5 h-5 transform transition-transform duration-300">
+                            </td>
+                            <td class="p-3 text-sm text-gray-500">
+                                {{-- <button id="ce_{{ $ce->id }}"
+                                    value="{{ $ce->id }}" @click="searchContent(event)"
+                                    class="text-gray-500 transition-color duration-200 hover:text-{{$ce->tema->padre->padre->colorGrupo}}-400 focus:outline-none">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
+                                    </svg>
+                                </button> --}}
+
+                                <button id="ce_{{ $ce->id }}" value="{{ $ce->id }}"
+                                    @click="openDrawer = true"
+                                    class="text-gray-500 transition-color duration-200 hover:text-{{ $ce->tema->padre->padre->colorGrupo }}-400 focus:outline-none">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="size-6">
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                             d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
                                     </svg>
                                 </button>
-                            </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+
+        <div x-show="openDrawer" x-transition:enter="transition-transform transform ease-out duration-300"
+            x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0"
+            x-transition:leave="transition-transform transform ease-in duration-300"
+            x-transition:leave-start="translate-x-0" x-transition:leave-end="-translate-x-full"
+            class="absolute top-0 left-0 h-full w-96 bg-gray-100 p-4 shadow-lg border border-cherry-800 overflow-y-auto"
+            x-cloak tabindex="-1">
+
+            <h5 id="drawer-label" class="inline-flex items-center mb-4 text-base font-semibold text-gray-500">
+                Historial de archivos
+            </h5>
+
+            <button @click="openDrawer = false"
+                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 right-2.5 flex items-center justify-center">
+                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                </svg>
+                <span class="sr-only">Cerrar</span>
+            </button>
+
+            <table class="w-full text-sm text-gray-500 items-center text-center">
+                <thead>
+                    <th scope="col" colspan="3">
+                        <button x-on:click.prevent="$dispatch('open-modal', 'agregarArchivo')"
+                            class="rounded-lg relative w-full h-10 cursor-pointer flex items-center border border-green-500 bg-green-500 group hover:bg-green-500 active:bg-green-500 active:border-green-500">
+                            <span
+                                class="text-gray-200 font-semibold ml-8 transform group-hover:translate-x-20 hover:text-transparent transition-all duration-300">Agregar
+                                Archivo</span>
+                            <span
+                                class="absolute right-0 h-full w-6 rounded-lg bg-green-500 flex items-center justify-center transform group-hover:translate-x-0 group-hover:w-full transition-all duration-300">
+                                <svg class="svg w-8 text-white"fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                                </svg>
+                            </span>
+                        </button>
+
+                    </th>
+                </thead>
+                <tbody class="divide-y divide-gray-400">
+                    <tr class="hover:bg-gray-100">
+                        <td class="p-2 text-gray-500">
+                            <button
+                                class="cursor-pointer bg-white relative inline-flex items-center justify-center gap-2 text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-[#F5F5F5] hover:text-[#60A5FA] h-9 rounded-md px-3">
+                                <svg class="lucide lucide-newspaper text-blue-400 w-6 h-6" fill="none"
+                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25M9 16.5v.75m3-3v3M15 12v5.25m-4.5-15H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                                </svg>
+                                2023
+                            </button>
+                        </td>
+
+                        <td class="p-2 text-gray-500">
+                            <button
+                                class="cursor-pointer bg-white relative inline-flex items-center justify-center gap-2 text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-[#F5F5F5] hover:text-[#FACC14] h-9 rounded-md px-3">
+                                <svg class="lucide lucide-newspaper text-sky-400 w-6 h-6" fill="none"
+                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                </svg>
+                                Ver
+                            </button>
+                        </td>
+
+                        <td class="p-2 text-gray-500">
+                            <button
+                                class="cursor-pointer bg-white relative inline-flex items-center justify-center gap-2 text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-[#F5F5F5] hover:text-[#FB923C] h-9 rounded-md px-3">
+                                <svg class="lucide lucide-newspaper text-green-400 w-6 h-6" fill="none"
+                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M12 9.75v6.75m0 0-3-3m3 3 3-3m-8.25 6a4.5 4.5 0 0 1-1.41-8.775 5.25 5.25 0 0 1 10.233-2.33 3 3 0 0 1 3.758 3.848A3.752 3.752 0 0 1 18 19.5H6.75Z" />
+                                </svg>
+                                Descargar
+                            </button>
                         </td>
                     </tr>
-                    <tr id="{{ $ce->id }}" x-show="openHistorialArchivos === '{{ $ce->id }}'"
-                        x-transition:enter="transition ease-out duration-300"
-                        x-transition:enter-start="opacity-0 transform -translate-y-4"
-                        x-transition:enter-end="opacity-100 transform translate-y-0"
-                        x-transition:leave="transition ease-in duration-200"
-                        x-transition:leave-start="opacity-100 transform translate-y-0"
-                        x-transition:leave-end="opacity-0 transform -translate-y-4">
-                        <td colspan="6" class="p-4 bg-gray-50">
-                            <div id="archivosCE_{{ $ce->id }}" class="flex justify-center items-center"></div>
+                    <tr class="hover:bg-gray-100">
+                        <td class="p-2 text-gray-500">
+                            <button
+                                class="cursor-pointer bg-white relative inline-flex items-center justify-center gap-2 text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-[#F5F5F5] hover:text-[#60A5FA] h-9 rounded-md px-3">
+                                <svg class="lucide lucide-newspaper text-blue-400 w-6 h-6" fill="none"
+                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25M9 16.5v.75m3-3v3M15 12v5.25m-4.5-15H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                                </svg>
+                                2023
+                            </button>
+                        </td>
+
+                        <td class="p-2 text-gray-500">
+                            <button
+                                class="cursor-pointer bg-white relative inline-flex items-center justify-center gap-2 text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-[#F5F5F5] hover:text-[#FACC14] h-9 rounded-md px-3">
+                                <svg class="lucide lucide-newspaper text-sky-400 w-6 h-6" fill="none"
+                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                </svg>
+                                Ver
+                            </button>
+                        </td>
+
+                        <td class="p-2 text-gray-500">
+                            <button
+                                class="cursor-pointer bg-white relative inline-flex items-center justify-center gap-2 text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-[#F5F5F5] hover:text-[#FB923C] h-9 rounded-md px-3">
+                                <svg class="lucide lucide-newspaper text-green-400 w-6 h-6" fill="none"
+                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M12 9.75v6.75m0 0-3-3m3 3 3-3m-8.25 6a4.5 4.5 0 0 1-1.41-8.775 5.25 5.25 0 0 1 10.233-2.33 3 3 0 0 1 3.758 3.848A3.752 3.752 0 0 1 18 19.5H6.75Z" />
+                                </svg>
+                                Descargar
+                            </button>
                         </td>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>
-
-
-
+    {{-- 
     <x-modal name="historialArchivos" maxWidth="full" focusable>
         <div class="bg-white w-full px-4 pb-5 pt-5 sm:p-6 sm:pb-4">
             <div class="flex items-center justify-between">
@@ -287,78 +407,42 @@
                 </div>
             </div>
         </div>
-    </x-modal>
+    </x-modal> --}}
     <x-modal name="agregarArchivo" maxWidth="2xl" focusable>
-        <div class="bg-white w-full px-4 pb-5 pt-5 sm:p-6 sm:pb-4">
-            <div class="flex items-center justify-between">
-                <h3 class="text-base font-semibold text-gray-900">
-                    Agregar archivo al cuadro estadístico
-                </h3>
-                <svg x-on:click="$dispatch('close')" xmlns="http://www.w3.org/2000/svg" fill="none"
-                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                    class="h-6 w-6 cursor-pointer hover:text-red-500">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-                </svg>
+        <div class="bg-white shadow px-4 pb-5 pt-5 sm:p-6 sm:pb-4">
+            <div class="heading text-center font-bold text-2xl m-3 text-gray-800">Agregar Archivo al Historial
             </div>
-            <div class="sm:items-center">
-                <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                    <div class="mt-2">
-                        <form action="" method="POST" enctype="multipart/form-data">
-                            @csrf
-                            <div class="flex flex-wrap -mx-3 mb-6">
-                                <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                    <label for="yearPost">Año del Archivo</label>
-                                    <select name="yearPost" id="yearPost"
-                                        class="block w-full px-4 py-3 text-sm text-gray-700 bg-gray-50 border border-gray-200 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
-                                        <?php
-                                        $year = date('Y');
-                                        for($i = $year; $i >= 2010; $i--) {
-                                            ?>
-                                        <option value="{{ $i }}">{{ $i }}</option>
-                                        <?php
-                                        }
-                                    ?>
-                                    </select>
-                                </div>
-                                <div class="w-full md:w-1/2 px-3">
-                                    <label for="dependencia">Dependencía Informativa</label>
-                                    <select name="dependencia" id="dependencia"
-                                        class="block w-full px-4 py-3 text-sm text-gray-700 bg-gray-50 border border-gray-200 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
-                                        <option value="Diaria">Diaria</option>
-                                        <option value="Semanal">Semanal</option>
-                                        <option value="Mensual">Mensual</option>
-                                        <option value="Bimestral">Bimestral</option>
-                                        <option value="Cuatrimestral">Cuatrimestral</option>
-                                        <option value="Semestral">Semestral</option>
-                                        <option value="Anual">Anual</option>
-                                    </select>
-                                </div>
-                            </div>
+            <div
+                class="editor mx-auto w-10/12 flex flex-col text-gray-800 border border-gray-300 p-4 shadow-lg max-w-2xl">
+                <form action="{{ route('guardarArchivos') }}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <label for="yearPost">Año del Archivo</label>
+                    <select name="yearPost" id="yearPost"
+                        class="block w-full px-4 py-3 text-sm text-gray-700 bg-gray-100 border border-gray-300 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
+                        <?php
+                        $year = date('Y');
+                        for($i = $year; $i >= 2023; $i--) { ?>
+                        <option value="{{ $i }}">{{ $i }}</option>
+                        <?php } ?>
+                    </select>
 
-                            <div class="flex items-center justify-center w-full">
-                                <label for="dropzone-file"
-                                    class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
-                                    <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                                        <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                                            <path stroke="currentColor" stroke-linecap="round"
-                                                stroke-linejoin="round" stroke-width="2"
-                                                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
-                                        </svg>
-                                        <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span
-                                                class="font-semibold">Haz click</span> para agreagar el archivo</p>
-                                        <p class="text-xs text-gray-500 dark:text-gray-400">XLSX, XLS o CVS</p>
-                                    </div>
-                                    <input id="dropzone-file" type="file" class="hidden" />
-                                </label>
-                            </div>
+                    <label for="nombreArchivo">Año del Archivo</label>
+                    <input type="text" name="nombreArchivo" id="nombreArchivo" value="1.1.1.1 - 2023"
+                        class="w-full px-4 py-3 text-sm text-gray-700 bg-gray-100 border border-gray-300 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
 
-                        </form>
+                    <x-input-upload />
+                    <!-- Buttons -->
+                    <div class="buttons flex justify-end mt-5">
+                        <button type="submit"
+                            class="btn border border-green-500 rounded-lg p-1 px-4 font-semibold cursor-pointer text-gray-200 ml-2 bg-green-500">
+                            Agregar Archivo</button>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </x-modal>
+
+
     <x-modal name="verArchivo" maxWidth="7xl" focusable>
         <div class="bg-white px-4 pb-5 pt-5 sm:p-6 sm:pb-4">
             <div class="sm:items-center">

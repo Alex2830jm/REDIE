@@ -43,7 +43,9 @@ Route::middleware(['custom.headers'])->group(function () {
         Route::get('/cuadro-estadistico', 'listCE')->name('cuadrosEstadisticosByTema');
         Route::post('/store-ce', 'storeCE')->name('saveCE');
         Route::get('/archivos-ce', 'listArchivosCE')->name('archivosByCuadrosEstadisticos');
+        Route::get('/info-ce', 'infoCE')->name('infoCE');
         Route::post('/guardar-archivo', 'saveArchives')->name('guardarArchivos');
+        Route::get('/descargar-archivo', 'downloadFileCE')->name('descargarArchivo');
     });
     
     Route::prefix('roles')->controller(RoleController::class)->name('roles.')->group(function() {

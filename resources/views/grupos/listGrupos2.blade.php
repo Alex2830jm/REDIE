@@ -1,4 +1,4 @@
-@props(['grupos' => []])
+    @props(['grupos' => []])
 
 <div x-data="{
     //Validaciones
@@ -7,7 +7,7 @@
     selectGD: null,
     selectFA: null,
     validateSelectDependencia: true,
-    validateNombreCE: true, 
+    validateNombreCE: true,
     validateSelectGD: true,
     validateSelectFA: true,
 
@@ -26,7 +26,7 @@
         //this.validateSelectFA = this.selectFA !== null;
         return this.validateSelectDependencia && this.validateNombreCE && this.validateSelectGD && this.validateSelectFA;
     },
-    
+
     init() {
         var numberGrupo = 1;
         var grupoInitial = 2;
@@ -37,7 +37,7 @@
         }, 300);
     },
 
-    
+
     async searchContent(event) {
         //console.log(event.currentTarget);
         var idButton = $(event.currentTarget).attr('id');
@@ -73,10 +73,62 @@
                 }, 300);
                 break;
 
-            case 'ce':                
-                $dispatch('open-modal', 'historialArchivos');
+            case 'ce':
+                //console.log('ce'+valor)
+                this.openDrawer = false;
+                $('#filesCE').empty();
+                $.get(`{{ route('archivosByCuadrosEstadisticos') }}?ce_id=${valor}`, (ce) => {
+                    $('#archivo').val(ce.id);
+                    console.log(ce.archivos)
+                    ce.archivos.forEach((archivo) => {
+                        $('#filesCE').append(`
+                            <tr class='hover:bg-gray-100'>
+                                <td class='p-2 text-gray-500'>
+                                    <button id='archivoView_${archivo.id}' value='${archivo.nombreArchivo}' @click='searchContent($event)'
+                                        class='cursor-pointer bg-white relative inline-flex items-center justify-center gap-2 text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-[#F5F5F5] hover:text-blue-400 h-9 rounded-md px-3'>
+                                            <svg class='lucide lucide-newspaper text-blue-400 w-6 h-6' fill='none' viewBox='0 0 24 24' stroke-width='1.5'
+                                                stroke='currentColor'>
+                                                <path stroke-linecap='round' stroke-linejoin='round'
+                                                    d='M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25M9 16.5v.75m3-3v3M15 12v5.25m-4.5-15H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z' />
+                                            </svg>
+                                        ${archivo.yearPost}
+                                    </button>
+                                </td>
+                                <td class='p-2 text-gray-500'>
+                                    <a href='{{route("descargarArchivo")}}?archivo_id=${archivo.id}'
+                                        class='cursor-pointer bg-white relative inline-flex items-center justify-center gap-2 text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-[#F5F5F5] hover:text-green-400 h-9 rounded-md px-3'>
+                                        <svg class='lucide lucide-newspaper text-green-400 w-6 h-6' fill='none' viewBox='0 0 24 24' stroke-width='1.5'
+                                            stroke='currentColor'>
+                                            <path stroke-linecap='round' stroke-linejoin='round'
+                                                d='M12 9.75v6.75m0 0-3-3m3 3 3-3m-8.25 6a4.5 4.5 0 0 1-1.41-8.775 5.25 5.25 0 0 1 10.233-2.33 3 3 0 0 1 3.758 3.848A3.752 3.752 0 0 1 18 19.5H6.75Z' />
+                                        </svg>
+                                        Descargar
+                                    </a>
+                                </td> 
+                            </tr>
+                        `);
+                    });
+                    this.openDrawer = true;
+                });
                 break;
 
+            case 'archivo':
+                //console.log(type);
+                $.get(`{{ route('infoCE') }}?ce_id=${valor}`, (ce) => {
+                    $('#ce_id').val(ce.id);
+                    $('#ce').val(ce.numeroCE);
+                    $('#nombreArchivo').val(ce.nombreCuadroEstadistico);
+                });
+                $dispatch('open-modal', 'agregarArchivo');
+                break;
+
+            case 'archivoView':
+                $('#viewFile').empty();
+                $dispatch('open-modal', 'verArchivo');
+                $('#viewFile').append(`<iframe src='https://view.officeapps.live.com/op/embed.aspx?src=https://redieigecem.edomex.gob.mx/assets/archivos/HV-211.xlsx' width='100%' height='650px' frameborder='0'></iframe>`)
+                //$('#viewFile').append(`<iframe src='http://onedrive.live.com/embed?src=https://redieigecem.edomex.gob.mx/assets/archivos/HV-211.xlsx' style='width:100%; height:600px;' frameborder='0'> </iframe>`)
+                console.log(valor);
+                break;    
             case 'dependencia':
                 $.get(`{{ route('directorio.areas') }}?unidad_id=${valor}`, (areas) => {
                     $('#areas').empty();

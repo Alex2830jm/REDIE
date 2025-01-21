@@ -11,4 +11,8 @@ class CEArchivos extends Model
 
     protected $table = "ce_archivos";
     protected $guarded = [];
+
+    public function ce(){
+        return $this->belongsTo(CuadroEstadistico::class, 'ce_id');
+    }
 }

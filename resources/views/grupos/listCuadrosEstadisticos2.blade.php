@@ -185,16 +185,10 @@
                                 </div>
                             </td>
                             <td class="p-3 text-sm text-gray-500">
-                                {{-- <button id="ce_{{ $ce->id }}"
-                                    value="{{ $ce->id }}" @click="searchContent(event)"
-                                    class="text-gray-500 transition-color duration-200 hover:text-{{$ce->tema->padre->padre->colorGrupo}}-400 focus:outline-none">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
-                                    </svg>
-                                </button> --}}
+
 
                                 <button id="ce_{{ $ce->id }}" value="{{ $ce->id }}"
-                                    @click="openDrawer = true"
+                                    @click="searchContent($event)"
                                     class="text-gray-500 transition-color duration-200 hover:text-{{ $ce->tema->padre->padre->colorGrupo }}-400 focus:outline-none">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -232,182 +226,34 @@
 
             <table class="w-full text-sm text-gray-500 items-center text-center">
                 <thead>
-                    <th scope="col" colspan="3">
-                        <button x-on:click.prevent="$dispatch('open-modal', 'agregarArchivo')"
-                            class="rounded-lg relative w-full h-10 cursor-pointer flex items-center border border-green-500 bg-green-500 group hover:bg-green-500 active:bg-green-500 active:border-green-500">
-                            <span
-                                class="text-gray-200 font-semibold ml-8 transform group-hover:translate-x-20 hover:text-transparent transition-all duration-300">Agregar
-                                Archivo</span>
-                            <span
-                                class="absolute right-0 h-full w-6 rounded-lg bg-green-500 flex items-center justify-center transform group-hover:translate-x-0 group-hover:w-full transition-all duration-300">
-                                <svg class="svg w-8 text-white"fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                    stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-                                </svg>
-                            </span>
-                        </button>
-
-                    </th>
+                    <tr>
+                        <th id="ceInfo"></th>
+                    </tr>
+                    <tr>
+                        <th scope="col" colspan="2">
+                            <button id="archivo" @click="searchContent($event)" {{-- x-on:click.prevent="$dispatch('open-modal', 'agregarArchivo')" --}}
+                                class="rounded-lg relative w-full h-10 cursor-pointer flex items-center border border-green-500 bg-green-500 group hover:bg-green-500 active:bg-green-500 active:border-green-500">
+                                <span
+                                    class="text-gray-200 font-semibold ml-8 transform group-hover:translate-x-20 hover:text-transparent transition-all duration-300">Agregar
+                                    Archivo</span>
+                                <span
+                                    class="absolute right-0 h-full w-6 rounded-lg bg-green-500 flex items-center justify-center transform group-hover:translate-x-0 group-hover:w-full transition-all duration-300">
+                                    <svg class="svg w-8 text-white"fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                        stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                                    </svg>
+                                </span>
+                            </button>
+                        </th>
+                    <tr></tr>
                 </thead>
-                <tbody class="divide-y divide-gray-400">
-                    <tr class="hover:bg-gray-100">
-                        <td class="p-2 text-gray-500">
-                            <button
-                                class="cursor-pointer bg-white relative inline-flex items-center justify-center gap-2 text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-[#F5F5F5] hover:text-[#60A5FA] h-9 rounded-md px-3">
-                                <svg class="lucide lucide-newspaper text-blue-400 w-6 h-6" fill="none"
-                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25M9 16.5v.75m3-3v3M15 12v5.25m-4.5-15H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-                                </svg>
-                                2023
-                            </button>
-                        </td>
-
-                        <td class="p-2 text-gray-500">
-                            <button
-                                class="cursor-pointer bg-white relative inline-flex items-center justify-center gap-2 text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-[#F5F5F5] hover:text-[#FACC14] h-9 rounded-md px-3">
-                                <svg class="lucide lucide-newspaper text-sky-400 w-6 h-6" fill="none"
-                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                </svg>
-                                Ver
-                            </button>
-                        </td>
-
-                        <td class="p-2 text-gray-500">
-                            <button
-                                class="cursor-pointer bg-white relative inline-flex items-center justify-center gap-2 text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-[#F5F5F5] hover:text-[#FB923C] h-9 rounded-md px-3">
-                                <svg class="lucide lucide-newspaper text-green-400 w-6 h-6" fill="none"
-                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M12 9.75v6.75m0 0-3-3m3 3 3-3m-8.25 6a4.5 4.5 0 0 1-1.41-8.775 5.25 5.25 0 0 1 10.233-2.33 3 3 0 0 1 3.758 3.848A3.752 3.752 0 0 1 18 19.5H6.75Z" />
-                                </svg>
-                                Descargar
-                            </button>
-                        </td>
-                    </tr>
-                    <tr class="hover:bg-gray-100">
-                        <td class="p-2 text-gray-500">
-                            <button
-                                class="cursor-pointer bg-white relative inline-flex items-center justify-center gap-2 text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-[#F5F5F5] hover:text-[#60A5FA] h-9 rounded-md px-3">
-                                <svg class="lucide lucide-newspaper text-blue-400 w-6 h-6" fill="none"
-                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25M9 16.5v.75m3-3v3M15 12v5.25m-4.5-15H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-                                </svg>
-                                2023
-                            </button>
-                        </td>
-
-                        <td class="p-2 text-gray-500">
-                            <button
-                                class="cursor-pointer bg-white relative inline-flex items-center justify-center gap-2 text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-[#F5F5F5] hover:text-[#FACC14] h-9 rounded-md px-3">
-                                <svg class="lucide lucide-newspaper text-sky-400 w-6 h-6" fill="none"
-                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                </svg>
-                                Ver
-                            </button>
-                        </td>
-
-                        <td class="p-2 text-gray-500">
-                            <button
-                                class="cursor-pointer bg-white relative inline-flex items-center justify-center gap-2 text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-[#F5F5F5] hover:text-[#FB923C] h-9 rounded-md px-3">
-                                <svg class="lucide lucide-newspaper text-green-400 w-6 h-6" fill="none"
-                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M12 9.75v6.75m0 0-3-3m3 3 3-3m-8.25 6a4.5 4.5 0 0 1-1.41-8.775 5.25 5.25 0 0 1 10.233-2.33 3 3 0 0 1 3.758 3.848A3.752 3.752 0 0 1 18 19.5H6.75Z" />
-                                </svg>
-                                Descargar
-                            </button>
-                        </td>
-                    </tr>
+                <tbody class="divide-y divide-gray-400" id="filesCE">
                 </tbody>
             </table>
         </div>
     </div>
-    {{-- 
-    <x-modal name="historialArchivos" maxWidth="full" focusable>
-        <div class="bg-white w-full px-4 pb-5 pt-5 sm:p-6 sm:pb-4">
-            <div class="flex items-center justify-between">
-                <h3 class="text-base font-semibold text-gray-900">
-                    Archivos del Cuadro Estadístico
-                </h3>
-                <svg x-on:click="$dispatch('close')" xmlns="http://www.w3.org/2000/svg" fill="none"
-                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                    class="h-6 w-6 cursor-pointer hover:text-red-500">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-                </svg>
-            </div>
-            <div class="w-full max-w-full p-4 border border-gray-200 rounded-lg shadow sm:p-8 mt-3 mb-3">
-                <div class="flex items-center justify-between mb-4">
-                    <h5 class="text-base font-bold leading-none text-gray-900">Historial de Archivos del Cuadro
-                        Estadistico
-                    </h5>
-                    <a x-on:click.prevent="$dispatch('open-modal', 'agregarArchivo')"
-                        class="flex cursor-pointer items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-blue-500 transition-colors duration-200 hover:underline rounded-lg sm:w-auto gap-x-2">
-                        <span>Agregar Cuadro</span>
-                    </a>
-                </div>
-                <div class="flow-root">
-                    <table class="w-full text-sm text-gray-500 items-center text-center">
-                        <thead class="bg-cherry-800 text-gray-200 uppercase">
-                            <tr>
-                                <th scope="col" class="p-3 font-semibold tracking-wide">Año del rchivo</th>
-                                <th scope="col" class="p-3 font-semibold tracking-wide">Ver archivo</th>
-                                <th scope="col" class="p-3 font-semibold tracking-wide">Descargar archivo</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-400">
-                            <tr class="hover:bg-gray-100">
-                                <td class="p-3 text-gray-500">
-                                    <button
-                                        class="flex items-center px-2 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-sky-600 border border-transparent rounded-full active:bg-sky-600 hover:bg-sky-700"
-                                        aria-label="Year">
-                                        2023
-                                    </button>
-                                </td>
 
-                                <td class="p-3 text-gray-500">
-                                    <button
-                                        class="flex items-center px-2 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-sky-600 border border-transparent rounded-full active:bg-sky-600 hover:bg-sky-700"
-                                        aria-label="View">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                        </svg>
-
-                                    </button>
-                                </td>
-
-                                <td class="p-3 text-gray-500">
-                                    <button
-                                        class="flex items-center px-2 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-full active:bg-green-600 hover:bg-green-700"
-                                        aria-label="Download">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M12 9.75v6.75m0 0-3-3m3 3 3-3m-8.25 6a4.5 4.5 0 0 1-1.41-8.775 5.25 5.25 0 0 1 10.233-2.33 3 3 0 0 1 3.758 3.848A3.752 3.752 0 0 1 18 19.5H6.75Z" />
-                                        </svg>
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </x-modal> --}}
     <x-modal name="agregarArchivo" maxWidth="2xl" focusable>
         <div class="bg-white shadow px-4 pb-5 pt-5 sm:p-6 sm:pb-4">
             <div class="heading text-center font-bold text-2xl m-3 text-gray-800">Agregar Archivo al Historial
@@ -416,19 +262,36 @@
                 class="editor mx-auto w-10/12 flex flex-col text-gray-800 border border-gray-300 p-4 shadow-lg max-w-2xl">
                 <form action="{{ route('guardarArchivos') }}" method="post" enctype="multipart/form-data">
                     @csrf
-                    <label for="yearPost">Año del Archivo</label>
-                    <select name="yearPost" id="yearPost"
-                        class="block w-full px-4 py-3 text-sm text-gray-700 bg-gray-100 border border-gray-300 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
-                        <?php
-                        $year = date('Y');
-                        for($i = $year; $i >= 2023; $i--) { ?>
-                        <option value="{{ $i }}">{{ $i }}</option>
-                        <?php } ?>
-                    </select>
+                    <input type="hidden" name="ce_id" id="ce_id" value="" />
 
-                    <label for="nombreArchivo">Año del Archivo</label>
-                    <input type="text" name="nombreArchivo" id="nombreArchivo" value="1.1.1.1 - 2023"
-                        class="w-full px-4 py-3 text-sm text-gray-700 bg-gray-100 border border-gray-300 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
+                    <label for="nombreArchivo">Nombre del Cuadro Estadístico</label>
+                    <input type="text" name="nombreArchivo" id="nombreArchivo" value=""
+                        class="w-full px-4 py-3 text-sm text-gray-700 bg-gray-100 border border-gray-300 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
+                        readonly>
+
+                    <div class="flex flex-wrap -mx-3 mb-6">
+                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                            <label for="ce">Número de Cuadro Estadístico:</label>
+                            <input type="text" name="ce" id="ce" value=""
+                                class="w-full px-4 py-3 text-sm text-gray-700 bg-gray-100 border border-gray-300 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
+                                readonly>
+                        </div>
+                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                            <label for="yearPost">Año del Archivo</label>
+                            <input type="text" name="yearPost" id="yearPost" value="2023"
+                                class="w-full px-4 py-3 text-sm text-gray-700 bg-gray-100 border border-gray-300 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
+                                readonly>
+                            {{-- <select name="yearPost" id="yearPost"
+                                class="block w-full px-4 py-3 text-sm text-gray-700 bg-gray-100 border border-gray-300 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
+                                @php
+                                    $year = date('Y');
+                                    for ($i = $year; $i >= 2023; $i--) {
+                                        echo '<option value=' . i . '>' . $i . '</option>';
+                                    }
+                                @endphp
+                            </select> --}}
+                        </div>
+                    </div>
 
                     <x-input-upload />
                     <!-- Buttons -->
@@ -450,16 +313,7 @@
                     <h3 class="text-base font-semibold text-gray-900">
                         Archivo Año 2023
                     </h3>
-                    <div class="mt-2">
-                        {{-- Google - Se sube a drive y se comparte a la web --}}
-                        {{-- <iframe
-                        src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQopmbcwRTzAUUDh8K0SeuO9iAm7YMHHUWXLW4uisc4wFGFYJ-wc3uZXjU-MbQR9w/pubhtml?widget=true&amp;headers=false"
-                        frameborder="0" width="100%" height="500"></iframe> --}}
-
-                        {{-- Microsoft - El archivo tiene que estar en el servidor --}}
-                        {{-- <iframe
-                            src="https://view.officeapps.live.com/op/embed.aspx?src=https://redieigecem.edomex.gob.mx/assets/archivos/HV-211.xlsx"
-                            width="100%" height="650px" frameborder="0"></iframe> --}}
+                    <div class="mt-2" id="viewFile">
                     </div>
                 </div>
             </div>

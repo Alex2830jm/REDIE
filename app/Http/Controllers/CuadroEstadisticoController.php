@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CEArchivos;
 use App\Models\CuadroEstadistico;
 use App\Models\Grupo;
 use App\Models\UnidadInformativa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+
 class CuadroEstadisticoController extends Controller {
 
     public function listGrupos() {
@@ -69,9 +72,13 @@ class CuadroEstadisticoController extends Controller {
 
     public function listArchivosCE(Request $request) {
         $cuadroEstadistico = CuadroEstadistico::findOrFail($request->get('ce_id'));
-        return view("grupos/archivosCuadroEstadistico")->with([
-            'cuadroEstadistico' => $cuadroEstadistico,
-        ]);
+        $cuadroEstadistico->archivos;
+        return response()->json($cuadroEstadistico);
+    }
+
+    public function infoCE(Request $request) {
+        $cuadroEstadistico = CuadroEstadistico::findOrFail($request->get('ce_id'));
+        return response()->json($cuadroEstadistico);
     }
 
     public function storeCE(Request $request){
@@ -92,8 +99,36 @@ class CuadroEstadisticoController extends Controller {
         return redirect()->route('home');
     }
 
+
     
     public function saveArchives(Request $request) {
-        dd($request);
+        //dd($request);
+
+        if($request->hasfile('fileCE')) {
+            $archivo = $request->file('fileCE');
+            $nameFile = $request->get('ce') . '_' . $request->get('yearPost') . '.' . $archivo->getClientOriginalExtension();
+            $upload = $archivo->storeAS('assets/archivos', $nameFile);
+        }
+
+        $archivoCE = CEArchivos::create([
+            'ce_id' => $request->get('ce_id'),
+            'yearPost' => $request->get('yearPost'),
+            'nombreArchivo' => $nameFile,
+            'urlFile' => Storage::url($upload)
+        ]);
+        
+        notyf()
+            ->position('x', 'center')
+            ->position('y', 'top')
+            ->addSuccess('Archivo guardado correctamente :)');
+        return redirect()->route('home');
+    }
+
+
+    public function downloadFileCE(Request $request) {
+        $file = CEArchivos::find($request->get('archivo_id'));
+        //dd($file);
+        //return Storage::download('assets/archivos/'.$file->nombreArchivo);
+        return Storage::download('assets/archivos/'.$file->nombreArchivo);
     }
 }

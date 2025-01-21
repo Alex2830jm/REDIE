@@ -51,7 +51,7 @@
                 {{-- <input hidden type="file" multiple name="fileCE"
                     @change="documents = Array.from($event.target.files).map(file => ({url: URL.createObjectURL(file), name: file.name, preview: ['jpg', 'jpeg', 'png', 'gif', 'xlsx', 'xls', 'csv'].includes(file.name.split('.').pop().toLowerCase()), size: file.size > 1024 ? file.size > 1048576 ? Math.round(file.size / 1048576) + 'mb' : Math.round(file.size / 1024) + 'kb' : file.size + 'b'}))"
                     x-ref="fileInput"> --}}
-                <input hidden type="file" multiple
+                <input hidden type="file" name="fileCE" multiple
                     @change="filesUpload($event)" x-ref="fileInput">
             </div>
         </div>

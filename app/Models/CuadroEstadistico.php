@@ -26,4 +26,8 @@ class CuadroEstadistico extends Model
     public function dependencia() {
         return $this->belongsTo(AreasUnidad::class, 'dependencia_id');
     }
+
+    public function archivos() {
+        return $this->hasMany(CEArchivos:: class, 'ce_id');
+    }
 }

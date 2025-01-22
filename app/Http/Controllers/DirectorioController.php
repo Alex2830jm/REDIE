@@ -3,29 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Models\AreasUnidad;
+use App\Models\Dependencia;
 use App\Models\PersonaUnidad;
 use App\Models\UnidadInformativa;
 use Illuminate\Http\Request;
 
 class DirectorioController extends Controller
 {
-    public function listUnidades() {
-        $unidades = UnidadInformativa::all();
-        return view('directorio/index')->with([
-            'unidades' => $unidades
+
+
+    public function listDependencias(Request $request) {
+        $dependencias = Dependencia::where('tipo_dependencia', '=', $request->get('type'))->get();
+        return view('directorio/dependencias')->with([
+            'dependencias' => $dependencias
         ]);
     }
 
-    public function areasUnidad(Request $request) {
-        $unidad = UnidadInformativa::find($request->get('unidad_id'));
-        $areas = AreasUnidad::where('unidad_id', $request->get('unidad_id'))->with(['personas'])->get();
-        /* return response()->json([
-            'unidad' => $unidad,
-            'areas' => $areas
-        ]); */
+    public function listUnidades(Request $request) {
+        $dependencia = Dependencia::find($request->get('dependencia_id'));
+        
+        //$dependencia->unidades->personaUnidad;
+        //$unidades = UnidadInformativa::where('dependencia_id', $request->get('dependencia_id'))->with(['personasUnidad'])->get();
+        //return response()->json($dependencia);
         return view('directorio/unidades')->with([
-            'unidad' => $unidad,
-            'areas' => $areas
+            'dependencia' => $dependencia,
         ]);
     }
 

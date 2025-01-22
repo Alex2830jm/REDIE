@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('ce_id');
             $table->string('nombreArchivo');
             $table->year('yearPost');
-            $table->stat('urlFile');
+            $table->string('urlFile');
 
             $table->foreign('ce_id')
                 ->references('id')

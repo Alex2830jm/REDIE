@@ -1,5 +1,7 @@
 @props(['numberSteps', 'collection' => []])
 
+{{ $collection}}
+
 <div x-data="{
     open: null,
     openInfoPersona: null,
@@ -53,7 +55,7 @@
                         'text-blue-500': currentStep === step,
                         'text-gray-700': currentStep > step,
                     }">
-                    <h3 class="font-medium leading-tight" x-text="collection[step - 1].nombreArea"></h3>
+                    <h3 class="font-medium leading-tight" x-text="collection[step - 1].nombreUnidad"></h3>
                 </span>
             </li>
         </template>
@@ -65,7 +67,7 @@
             <template x-if="currentStep === step">
                 <div class="p-4 bg-gray-50 border border-dashed border-gray-200 rounded-xl" :id="'list_' + step">
                     <div class="overflow-x-auto">
-                        <template x-for="persona in collection[step - 1].personas" :key="persona.id">
+                        <template x-for="persona in collection[step - 1].personasUnidad" :key="persona.id">
                             <div class="flow-root rounded-lg border border-gray-400 py-3 shadow-sm mb-5">
                                 <dl class="-my-3 divide-y divide-gray-300 text-sm">
                                     <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
@@ -118,35 +120,6 @@
                                     </div>
                                 </dl>
                             </div>
-                            {{-- <div class="flow-root rounded-lg border border-gray-100 py-3 shadow-sm">
-                                <dl class="-my-3 divide-y divide-gray-100 text-sm">
-                                    <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-                                        <dt class="font-medium text-gray-900">Nombre de la persona servidora pìblica
-                                        </dt>
-                                        <dd class="text-gray-700 sm:col-span-2" x-text="persona.nombrePersona"></dd>
-                                    </div>
-
-                                    <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-                                        <dt class="font-medium text-gray-900">Profesión</dt>
-                                        <dd class="text-gray-700 sm:col-span-2" x-text="persona.profesion"></dd>
-                                    </div>
-
-                                    <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-                                        <dt class="font-medium text-gray-900">Cargo en dependencia</dt>
-                                        <dd class="text-gray-700 sm:col-span-2" x-text="persona.cargo"></dd>
-                                    </div>
-
-                                    <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-                                        <dt class="font-medium text-gray-900">Correo Electronico</dt>
-                                        <dd class="text-gray-700 sm:col-span-2" x-text="persona.correo"></dd>
-                                    </div>
-
-                                    <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
-                                        <dt class="font-medium text-gray-900">Teléfono</dt>
-                                        <dd class="text-gray-700 sm:col-span-2" x-text="persona.telefono"></dd>
-                                    </div>
-                                </dl>
-                            </div> --}}
                         </template>
                     </div>
                 </div>

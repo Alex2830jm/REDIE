@@ -68,8 +68,9 @@ Route::middleware(['custom.headers'])->group(function () {
     });
 
     Route::prefix('directorio')->controller(DirectorioController::class)->name('directorio.')->group(function () {
-        Route::get('/', 'listUnidades')->name('index');
-        Route::get('areas', 'dependeciaAreas')->name('areas');
+        Route::view('/', 'directorio/index')->name('index');
+        Route::get('/dependencias', 'listDependencias')->name('dependencias');
+        Route::get('unidades', 'listUnidades')->name('unidades');
         Route::get('dependencia/', 'areasUnidad')->name('dependencia');
         Route::get('personas', 'listPersonasAreas')->name('personas');
         Route::post('persona/informacion')->name('persona');

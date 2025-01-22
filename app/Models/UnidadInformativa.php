@@ -9,9 +9,16 @@ class UnidadInformativa extends Model
 {
     use HasFactory;
     protected $table = "unidades_informativas";
-    protected $guarded = [];
+    protected $fillable = [
+        "dependencia_id",
+        "direccion"
+    ];
 
-    public function areas() {
-        return $this->hasMany(AreasUnidad::class, 'unidad_id');
+    public function dependencia() {
+        return $this->belongsTo(Dependencia::class, 'dependencia_id');
+    }
+
+    public function personasUnidad() {
+        return $this->hasMany(PersonaUnidad::class, 'unidad_id');
     }
 }

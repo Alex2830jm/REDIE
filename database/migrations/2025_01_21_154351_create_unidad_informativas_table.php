@@ -11,14 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('personas_unidad', function (Blueprint $table) {
+        Schema::create('unidades_informativas', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('area_id');
-            $table->string('nombrePersona');
-            $table->string('profesion');
-            $table->string('cargo');
-            $table->string('telefono');
-            $table->string('correo')->nullable();
+            $table->unsignedBigInteger('dependencia_id');
+            $table->string('nombreUnidad');
+            $table->text('direccion')->nullable();
+
+            $table->foreign('dependencia_id')
+                ->references('id')
+                ->on('dependencias');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('persona_unidads');
+        Schema::dropIfExists('unidad_informativas');
     }
 };

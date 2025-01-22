@@ -8,16 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class PersonaUnidad extends Model
 {
     use HasFactory;
-    protected $table = "personas_unidad";
+    protected $table = "personas_dependencia";
     protected $fillable = [
-        "area_id",
         "nombrePersona",
         "profesion",
         "cargo",
     ];
 
 
-    public function area() {
-        return $this->belongsTo(AreasUnidad::class, 'area_id');
+    public function unidad() {
+        return $this->belongsTo(UnidadInformativa::class, 'unidad_id');
+    }
+
+    public function dependencia() {
+        return $this->belongsTo(Dependencia::class, 'dependencia_id');
     }
 }

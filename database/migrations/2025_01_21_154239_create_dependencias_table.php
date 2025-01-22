@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('unidades_informativas', function (Blueprint $table) {
+        Schema::create('dependencias', function (Blueprint $table) {
             $table->id();
-            $table->string('nombreUnidad');
-            $table->text('direccion');
+            $table->string('tipo_dependencia')->comment('Estatal o Federal')->nullable();
+            $table->string('nombreDependencia');
+            $table->text('direccion')->nullable();
             $table->timestamps();
         });
     }
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('unidad_informativas');
+        Schema::dropIfExists('dependencias');
     }
 };

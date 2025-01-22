@@ -129,14 +129,14 @@
                 //$('#viewFile').append(`<iframe src='http://onedrive.live.com/embed?src=https://redieigecem.edomex.gob.mx/assets/archivos/HV-211.xlsx' style='width:100%; height:600px;' frameborder='0'> </iframe>`)
                 console.log(valor);
                 break;    
-            case 'dependencia':
+            {{-- case 'dependencia':
                 $.get(`{{ route('directorio.areas') }}?unidad_id=${valor}`, (areas) => {
                     $('#areas').empty();
                     $.each(areas, (index, value) => {
                         $('#areas').append('<option value=' + index + '>' + value + '</option>');
                     });
                 });
-                break;
+                break; --}}
 
             default:
                 console.warn('Tipo no reconocido:', type);

@@ -8,6 +8,8 @@ use App\Models\PersonaUnidad;
 use App\Models\UnidadInformativa;
 use Illuminate\Http\Request;
 
+use function PHPSTORM_META\map;
+
 class DirectorioController extends Controller
 {
 
@@ -46,67 +48,45 @@ class DirectorioController extends Controller
 
     public function store(Request $request) {
         //dd($request);
-
         $dependencia = Dependencia::create([
-            'tipo_dependencia' => $request->get('tipo'),
+            'tipo' => $request->get('tipo_dependencia'),
             'nombreDependencia' => $request->get('nombreDependencia'),
             'domicilioDependencia' => $request->get('domicilioDependencia'),
         ]);
 
-        if($request->get('tipo') === 'Federal') {
-            $index = $request->get('index');
-            foreach($index as $i) {
-                $persona = PersonaUnidad::create([
+        $unidades = $request->get('indexUnidad');
+        $indexUnidad = $request->get('indexUnidad');
+        $indexPersona = $request->get('index');
+
+        if(!empty($unidades) > 0) {
+            foreach($indexUnidad as $i => $iu) {
+                UnidadInformativa::create([
                     'dependencia_id' => $dependencia->id,
-                    'nombrePersona' => $request->get('nombrePersonaDependencia')[$i],
-                    'profesion' => $request->get('profesionDependencia')[$i],
-                    'cargo' => $request->get('cargoAreaDependencia')[$i],
-                    'telefono' => $request->get('telefonoDependencia')[$i],
-                    'correo' => $request->get('correoDependencia')[$i],
+                    'nombreUnidad' => $request->get('unidadInformativa')[$i],
+                    'direccion' => $request->get('domicilioUnidad')[$i],
                 ]);
             }
-        } else if($request->get('tipo') === "Estatal") {
-            $indexDep = $request->get('indexDep');
-            foreach($indexDep as $i) {
-                $personaDep = PersonaUnidad::create([
-                    'dependencia_id' => $dependencia->id,
-                    'nombrePersona' => $request->get('nombrePersona')[$i],
-                    'profesion' => $request->get('profesion')[$i],
-                    'area' => $request->get('area')[$i],
-                    'cargo' => $request->get('cargoArea')[$i],
-                    'telefono' => $request->get('telefono')[$i],
-                    'correo' => $request->get('correo')[$i],
-                ]);
-            }
+        }
 
-
-            $indexUnidad = $request->get('indexUnidad');
-            $indexPersonas = $request->get('indexPer');
-            foreach($indexUnidad as $index => $i) {
-                $unidad = UnidadInformativa::create([
-                    'dependencia_id' => $dependencia->id,
-                    'nombreUnidad' => $request->get('unidadInformativa')[$index],
-                    'direccion' => $request->get('domicilioUnidad')[$index],
-                ]);
-
-                foreach($indexPersonas as $j) {
-                    $persona = PersonaUnidad::create([
-                        'unidad_id' => $unidad->id,
-                        'nombrePersona' => $request->get('nombrePersonaUnidad')[$j],
-                        'profesion' => $request->get('profesionUnidad')[$j],
-                        'area' => $request->get('areaUnidad')[$j],
-                        'cargo' => $request->get('cargoAreaUnidad')[$j],
-                        'telefono' => $request->get('telefonoUnidad')[$j],
-                        'correo' => $request->get('correoUnidad')[$j],
-                    ]);
-                }
-            }
+        foreach($indexPersona as $j => $ip) {
+            $tipoInformacion = $request->get('tipoPersona')[$j] === 'dependencia' 
+                ? ['dependencia_id' => $dependencia->id] 
+                : ['unidad_id' => $dependencia->unidades->pluck('id')[$indexPersona[$j]]];
+            
+            PersonaUnidad::create($tipoInformacion + [
+                "nombrePersona" => $request->get('nombrePersona')[$j],
+                "profesion" => $request->get('profesionPersona')[$j],
+                "area" => $request->get('areaInformantePersona')[$j],
+                "cargo" => $request->get('cargoAreaPersona')[$j],
+                "telefono" => $request->get('telefonoContactoPersona')[$j],
+                "correo" => $request->get('correoContactoPersona')[$j],
+            ]);
         }
 
         notyf()
             ->position('x', 'center')
             ->position('y', 'top')
-            ->addSuccess('Los datos se han registrado exitosamente');
+            ->addSuccess('Dependencia agregada al directorio correctamente');
 
         return redirect()->route('directorio.index');
     }

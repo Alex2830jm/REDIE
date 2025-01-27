@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
             SectorRoleSeed::class,
             TemasRoleSeed::class,
             UserSeeder::class,
-            DependeciaSeed::class,
+            //DependeciaSeed::class,
             //UnidadInformativaSeeder::class,
         ]);
     }

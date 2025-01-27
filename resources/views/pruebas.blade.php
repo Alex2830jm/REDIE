@@ -12,6 +12,7 @@
                         Dependencia</label>
                     <input id="nombreDependencia" type="text" name="nombreDependencia"
                         class="block w-full px-4 py-3 text-gray-700 bg-gray-100 border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring">
+                    <span class="text-red-800 text-base font-medium rounded-sm" id="errorNombreDep"> </span>
                 </div>
 
                 <div class="mt-2">
@@ -25,18 +26,19 @@
                         Dependencia</label>
                     <div class=" grid grid-cols-2 gap-4">
                         <div class="flex items-center bg-gray-100  ps-4 border border-gray-200 rounded-lg">
-                            <input type="radio" name="tipo" value="Estatal" id="tipo_Estatal"
+                            <input type="radio" name="tipo_dependencia" value="Estatal" id="tipo_Estatal"
                                 class="w-4 h-4 text-blue-600 bg-gwhite border-gray-400 focus:ring-blue-500 focus:ring-2">
                             <label for="tipo_Estatal"
                                 class="w-full py-4 ms-2 text-sm font-medium text-gray-900">Estatal</label>
                         </div>
                         <div class="flex items-center bg-gray-100 ps-4 border border-gray-200 rounded-lg">
-                            <input type="radio" name="tipo" value="Federal" id="tipo_Federal"
+                            <input type="radio" name="tipo_dependencia" value="Federal" id="tipo_Federal"
                                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
                             <label for="tipo_Federal"
                                 class="w-full py-4 ms-2 text-sm font-medium text-gray-900">Federal</label>
                         </div>
                     </div>
+                    <span class="text-red-800 text-base font-medium rounded-sm" id="errorTipoDependencia"> </span>
                 </div>
             </section>
 
@@ -94,7 +96,7 @@
     <script>
         $(document).ready(function() {
             var contUnidad = 0;
-            var json = [];
+            var unidades = [];
             var formularioDependencia = "";
             var formularioUnidad = "";
 
@@ -104,23 +106,58 @@
                 bodyTag: "section",
                 transitionEffect: "slide",
                 autoFocus: true,
-                onStepChanged: function(event, currentIndex, newIndex) {
-                    if (currentIndex === 1 && $("input[type='radio']:checked").val() === "Federal") {
-                        form.steps("next");
-                    }
-
-                    if (currentIndex === 2) {
-                        personasInformantesDependencia();
-                        personasInformantesUnidad();
-                    }
-
-                    if (currentIndex === 3 && $("input[type='radio']:checked").val() === "Federal") {
-                        $("#formulario_dependencias").submit();
-                    }
-
+                labels: {
+                    previous: "Anterior",
+                    next: "Siguiente",
+                    finish: 'Guardar Datos',
+                    current: ''
+                },
+                onStepChanging: function(event, currentIndex, newIndex) {
+                    //return true;
+                    return form.valid();
                 },
                 onFinished: function(event, currentIndex) {
                     $("#formulario_dependencias").submit();
+                }
+            });
+
+            form.validate({
+                rules: {
+                    nombreDependencia: {
+                        required: true,
+                    },
+                    tipo_dependencia: {
+                        required: true,
+                    },
+                    domicilioDependencia: {
+                        required: true,
+                    }
+                },
+
+                messages: {
+                    nombreDependencia: {
+                        required: "El <span class='font-bold'>nombre</span> de la dependencia es necesario"
+                    },
+
+                    tipo_dependencia: {
+                        required: "Debes de seleccionar el tipo de dependencía"
+                    },
+
+                    domicilioDependencia: {
+                        required: "El <span class='font-bold'>domicilio</span> de la dependencia es necesario"
+                    }
+                },
+
+                errorPlacement: function(error, element) {
+                    if (element.attr("name") === "tipo_dependencia") {
+                        error.appendTo("#errorTipoDependencia");
+                    } else {
+                        error.insertAfter(element);
+                    }
+
+                    if (element.attr("name") === "noombreDependencia") {
+                        error.appendTo("#errorNombreDep");
+                    }
                 }
             });
 
@@ -135,161 +172,96 @@
                 if (domicilioUnidad === "") var domicilio = domicilioDependencia;
                 else var domicilio = domicilioUnidad;
                 if (nombreUnidad != "") {
-                    var unidades = "<tr class='hover:bg-gray-100'>" +
-                        "<td class='p-3 text-gray-500'><input type='hidden' name='indexUnidad[]' value='"+ contUnidad +"'>" + nombreUnidad +  "<input type='hidden' name='unidadInformativa[]' value='" + nombreUnidad + "'></td>" +
-                        "<td class='p-3 text-gray-500'>" + domicilio + "<input type='hidden' name='domicilioUnidad[]' value='" + domicilio + "'></td>" +
+                    var listUnidades = "<tr class='hover:bg-gray-100'>" +
+                        "<td class='p-3 text-gray-500'><input type='hidden' name='indexUnidad[]' value='" +
+                        contUnidad + "'>" + nombreUnidad +
+                        "<input type='hidden' name='unidadInformativa[]' value='" + nombreUnidad + "'></td>" +
+                        "<td class='p-3 text-gray-500'>" + domicilio +
+                        "<input type='hidden' name='domicilioUnidad[]' value='" + domicilio + "'></td>" +
                         "</tr>";
-                    json.push(nombreUnidad);
+                    unidades.push(nombreUnidad);
                     contUnidad++;
                     $("#nombreUnidad").val("");
-                    $("#unidadesList").append(unidades);
+                    $("#unidadesList").append(listUnidades);
                 } else {
                     console.log("no se registraron todos los datos")
                 }
             }
 
-            function personasInformantesDependencia() {
-                $("#personasInformantesDependencia").empty();
+            function formularioPersonas(area, index, tipoFormulario, unidad) {
+                return `
+                    <div class="mb-5 p-5 rounded-lg border-2 border-cherry-800">
+                        <div class="font-bold text-lg text-gray-700">${area} - ${unidad}</div>
 
-                var nombreUnidad = $("#nombreUnidad").val();
-                var domicilioUnidad = $("#domicilioUnidad").val();
-                var domicilioDependencia = $("#domicilioDependencia").val();
-                var areasDependenciaEstatal = [
-                    "Titular de Dependencia",
-                    "Titular de la Unidad de Información, Planeación, Programación y Evaluacion o equivalente",
-                    "Enlace responsable de la entrega de la Información",
-                ];
+                        <input type="hidden" name="index[]" value="${index}">
+                        <input type="hidden" name="tipoPersona[]" value="${tipoFormulario}">
 
-                var areasUnidadOFederal = [
-                    "Titular de Dependencia",
-                    "Titular de la Unidad Generadora de la Información"
-                ]
+                        <div class="mt-2">
+                            <label class="block uppercase tracking-wide text-sm font-semibold">Nombre Completo del Titular:</label>
+                            <input type="text" name="nombrePersona[]" class="w-full border rounded-lg border-gray-400 p-3 bg-gray-100">
+                        </div>
+                        <div class="mt-2">
+                            <label class="block uppercase tracking-wide text-sm font-semibold">Profesion del Titular:</label>
+                            <input type="text" name="profesionPersona[]"
+                                class="w-full border rounded-lg border-gray-400 p-3 bg-gray-100">
+                        </div>
 
-                if ($("input[type='radio']:checked").val() === "Federal") {
-                    areasUnidadOFederal.forEach(function(area, index) {
-                        formularioDependencia =
-                            "<div class='mb-5 p-5 rounded-lg border-2 border-cherry-800'>" +
-                            "<div class='font-bold text-lg text-gray-700'>" + area + "</div>" +
-                            "<input type='hidden' name='index[]' value='" + index + "'>" +
-                            "<div class='mt-2'>" +
-                            "<label class='block uppercase tracking-wide text-charcoal-darker text-xs font-bold'>Nombre Completo del Titular</label>" +
-                            "<input class='w-full border rounded-lg border-gray-400 p-3 bg-gray-100' type='text' name='nombrePersonaDependencia[]'>" +
-                            "</div>" +
-                            "<div class='mt-2'>" +
-                            "<label class='block uppercase tracking-wide text-charcoal-darker text-xs font-bold'>Profesión del Titular</label>" +
-                            "<input class='w-full border rounded-lg border-gray-400 p-3 bg-gray-100' type='text' name='profesionDependencia[]' placeholder='Ingenier@ en ...'>" +
-                            "</div>" +
-                            "<div class='mt-2 grid grid-cols-2 gap-4'>" +
-                            "<div>" +
-                            "<label class='block uppercase tracking-wide text-charcoal-darker text-xs font-bold'>Área Informante</label>" +
-                            "<input class='w-full border rounded-lg border-gray-400 p-3 bg-gray-100' type='text' name='areaUnidad[]' value='" + area + "' readonly>" +
-                            "</div>" +
-                            "<div>" +
-                            "<label class='block uppercase tracking-wide text-charcoal-darker text-xs font-bold'>Cargo en el área</label>" +
-                            "<input class='w-full border rounded-lg border-gray-400 p-3 bg-gray-100' type='text' name='cargoAreaDependencia[]' placeholder='Jefe del área...'>" +
-                            "</div>" +
-                            "</div>" +
-                            "<div class='mt-2 grid grid-cols-2 gap-4'>" +
-                            "<div>" +
-                            "<label class='block uppercase tracking-wide text-charcoal-darker text-xs font-bold'>Número de Telefono de Contacto</label>" +
-                            "<input class='w-full border rounded-lg border-gray-400 p-3 bg-gray-100' type='text' name='telefonoDependencia[]' placeholder='123 456 ext. 78'>" +
-                            "</div>" +
-                            "<div>" +
-                            "<label class='block uppercase tracking-wide text-charcoal-darker text-xs font-bold'>Correo Electronico de Contacto</label>" +
-                            "<input class='w-full border rounded-lg border-gray-400 p-3 bg-gray-100' type='email' name='correoDependencia[]' placeholder='example@mail.com'>" +
-                            "</div>" +
-                            "</div>" +
-                            "</div>";
-                        $("#personasInformantesDependencia").append(formularioDependencia);
-                    });
-                } else {
-                    areasDependenciaEstatal.forEach(function(area, index) {
-                        formularioDependencia =
-                            "<div class='mb-5 p-5 rounded-lg border-2 border-cherry-800'>" +
-                            "<input type='hidden' name='indexDep[]' value='" + index + "'>" + 
-                            "<div class='font-bold text-lg text-gray-700'>" + area + "</div>" +
-                            "<div class='mt-2'>" +
-                            "<label class='block uppercase tracking-wide text-charcoal-darker text-xs font-bold'>Nombre Completo del Titular</label>" +
-                            "<input class='w-full border rounded-lg border-gray-400 p-3 bg-gray-100' type='text' name='nombrePersona[]'>" +
-                            "</div>" +
-                            "<div class='mt-2'>" +
-                            "<label class='block uppercase tracking-wide text-charcoal-darker text-xs font-bold'>Profesión del Titular</label>" +
-                            "<input class='w-full border rounded-lg border-gray-400 p-3 bg-gray-100' type='text' name='profesion[]' placeholder='Ingenier@ en ...'>" +
-                            "</div>" +
-                            "<div class='mt-2 grid grid-cols-2 gap-4'>" +
-                            "<div>" +
-                            "<label class='block uppercase tracking-wide text-charcoal-darker text-xs font-bold'>Área Informante</label>" +
-                            "<input class='w-full border rounded-lg border-gray-400 p-3 bg-gray-100' type='text' name='area[]' value='" + area + "'>" +
-                            "</div>" +
-                            "<div>" +
-                            "<label class='block uppercase tracking-wide text-charcoal-darker text-xs font-bold'>Cargo en el área</label>" +
-                            "<input class='w-full border rounded-lg border-gray-400 p-3 bg-gray-100' type='text' name='cargoArea[]' placeholder='Jefe del área...'>" +
-                            "</div>" +
-                            "</div>" +
-                            "<div class='mt-2 grid grid-cols-2 gap-4'>" +
-                            "<div>" +
-                            "<label class='block uppercase tracking-wide text-charcoal-darker text-xs font-bold'>Número de Telefono de Contacto</label>" +
-                            "<input class='w-full border rounded-lg border-gray-400 p-3 bg-gray-100' type='text' name='telefono[]' placeholder='123 456 ext. 78'>" +
-                            "</div>" +
-                            "<div>" +
-                            "<label class='block uppercase tracking-wide text-charcoal-darker text-xs font-bold'>Correo Electronico de Contacto</label>" +
-                            "<input class='w-full border rounded-lg border-gray-400 p-3 bg-gray-100' type='email' name='correo[]' placeholder='example@mail.com'>" +
-                            "</div>" +
-                            "</div>" +
-                            "</div>";
-                        $("#personasInformantesDependencia").append(formularioDependencia);
-                    });
-                }
+                        <div class="mt-2 grid md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block uppercase tracking-wide text-sm font-semibold">Área Informante:</label>
+                                <input type="text" name="areaInformantePersona[]"
+                                    class="w-full border rounded-lg border-gray-400 p-3 bg-gray-100" value="${area}" readonly>
+                            </div>
+                            <div>
+                                <label class="block uppercase tracking-wide text-sm font-semibold">Cargo en el Área:</label>
+                                <input type="text" name="cargoAreaPersona[]"
+                                    class="w-full border rounded-lg border-gray-400 p-3 bg-gray-100" value="">
+                            </div>
+                        </div>
+
+                        <div class="mt-2 grid md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block uppercase tracking-wide text-sm font-semibold">Número Telefónico de Contacto:</label>
+                                <input type="text" name="telefonoContactoPersona[]"
+                                    class="w-full border rounded-lg border-gray-400 p-3 bg-gray-100">
+                            </div>
+                            <div>
+                                <label class="block uppercase tracking-wide text-sm font-semibold">Correo Electrónico de Contacto:</label>
+                                <input type="text" name="correoContactoPersona[]"
+                                    class="w-full border rounded-lg border-gray-400 p-3 bg-gray-100">
+                            </div>
+                        </div>
+                    </div>
+                `;
             }
 
-            function personasInformantesUnidad() {
-                $("#personasInformantesUnidad").empty();
-                var areasUnidad = [
-                    "Titular",
-                    "Titular de la Unidad Generadora de la Información"
-                ]
-                console.log(json);
-
-                json.forEach(function(unidad, index) {
-                    areasUnidad.forEach(function(area, index) {
-                        formularioUnidad =
-                            "<div class='mb-5 p-5 rounded-lg border-2 border-cherry-800'>" +
-                            "<div class='font-bold text-lg text-gray-700'>" + area + " - " +
-                            unidad + "</div>" +
-                            "<input type='hidden' name='indexPer[]' value='" + index + "'>" + 
-                            "<div class='mt-2'>" +
-                            "<label class='block uppercase tracking-wide text-charcoal-darker text-xs font-bold'>Nombre Completo del Titular</label>" +
-                            "<input class='w-full border rounded-lg border-gray-400 p-3 bg-gray-100' type='text' name='nombrePersonaUnidad[]'>" +
-                            "</div>" +
-                            "<div class='mt-2'>" +
-                            "<label class='block uppercase tracking-wide text-charcoal-darker text-xs font-bold'>Profesión del Titular</label>" +
-                            "<input class='w-full border rounded-lg border-gray-400 p-3 bg-gray-100' type='text' name='profesionUnidad[]' placeholder='Ingenier@ en ...'>" +
-                            "</div>" +
-                            "<div class='mt-2 grid grid-cols-2 gap-4'>" +
-                            "<div>" +
-                            "<label class='block uppercase tracking-wide text-charcoal-darker text-xs font-bold'>Área Informante</label>" +
-                            "<input class='w-full border rounded-lg border-gray-400 p-3 bg-gray-100' type='text' name='areaUnidad[]' value='" + area + "' readonly>" +
-                            "</div>" +
-                            "<div>" +
-                            "<label class='block uppercase tracking-wide text-charcoal-darker text-xs font-bold'>Cargo en el área</label>" +
-                            "<input class='w-full border rounded-lg border-gray-400 p-3 bg-gray-100' type='text' name='cargoAreaUnidad[]' placeholder='Jefe del área...'>" +
-                            "</div>" +
-                            "</div>" +
-                            "<div class='mt-2 grid grid-cols-2 gap-4'>" +
-                            "<div>" +
-                            "<label class='block uppercase tracking-wide text-charcoal-darker text-xs font-bold'>Número de Telefono de Contacto</label>" +
-                            "<input class='w-full border rounded-lg border-gray-400 p-3 bg-gray-100' type='text' name='telefonoUnidad[]' placeholder='123 456 ext. 78'>" +
-                            "</div>" +
-                            "<div>" +
-                            "<label class='block uppercase tracking-wide text-charcoal-darker text-xs font-bold'>Correo Electronico de Contacto</label>" +
-                            "<input class='w-full border rounded-lg border-gray-400 p-3 bg-gray-100' type='email' name='correoUnidad[]' placeholder='example@mail.com'>" +
-                            "</div>" +
-                            "</div>" +
-                            "</div>";
-                        $("#personasInformantesUnidad").append(formularioUnidad);
-                    });
+            function personasByDependencia() {
+                const content = $("#personasInformantesDependencia").empty();
+                const tipo_dependencia = $("input[type='radio']:checked").val();
+                const dependencia = $("#nombreDependencia").val();
+                const tipoFormulario = "dependencia"
+                var areas = tipo_dependencia === "Federal" ?
+                    ["Titular de Dependencia", "Titular de la Unidad Generadora de la Información"] :
+                    [
+                        "Titular de Dependencia",
+                        "Titular de la Unidad de Información, Planeación, Programación y Evaluación o equivalente",
+                        "Enlace responsable de la entrega de la Información"
+                    ];
+                areas.forEach((area, index) => {
+                    content.append(formularioPersonas(area, index, tipoFormulario, dependencia));
                 })
             }
-        });
+
+            function personasByUnidad() {
+                const content = $("#personasInformantesUnidad").empty();
+                const areas = ["Titular de Dependencia", "Titular de la Unidad Generadora de la Información"];
+                
+                unidades.forEach((unidad, index) => {
+                    areas.forEach((area, i)  => {
+                        content.append(formularioPersonas(area, index, "unidad", unidad));
+                    })
+                })
+            }
+        })
     </script>
 </x-dashboard-layout>

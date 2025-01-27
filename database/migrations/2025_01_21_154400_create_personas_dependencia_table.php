@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('dependencia_id')->nullable();
             $table->unsignedBigInteger('unidad_id')->nullable();
             $table->string('nombrePersona');
+            $table->string('area');
             $table->string('profesion');
             $table->string('cargo');
             $table->string('telefono');

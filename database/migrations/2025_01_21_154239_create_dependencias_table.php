@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('tipo_dependencia')->comment('Estatal o Federal')->nullable();
             $table->string('nombreDependencia');
-            $table->text('direccion')->nullable();
+            $table->text('domicilioDependencia')->nullable();
             $table->timestamps();
         });
     }

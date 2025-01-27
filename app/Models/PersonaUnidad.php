@@ -10,9 +10,14 @@ class PersonaUnidad extends Model
     use HasFactory;
     protected $table = "personas_dependencia";
     protected $fillable = [
+        "dependencia_id",
+        "unidad_id",
         "nombrePersona",
         "profesion",
+        "area",
         "cargo",
+        "telefono",
+        "correo",
     ];
 
 

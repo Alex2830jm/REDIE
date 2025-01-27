@@ -70,10 +70,11 @@ Route::middleware(['custom.headers'])->group(function () {
     Route::prefix('directorio')->controller(DirectorioController::class)->name('directorio.')->group(function () {
         Route::view('/', 'directorio/index')->name('index');
         Route::get('/dependencias', 'listDependencias')->name('dependencias');
-        Route::get('unidades', 'listUnidades')->name('unidades');
-        Route::get('dependencia/', 'areasUnidad')->name('dependencia');
-        Route::get('personas', 'listPersonasAreas')->name('personas');
-        Route::post('persona/informacion')->name('persona');
+        Route::get('{id}/unidades', 'listUnidades')->name('unidades');
+        Route::get('/infoPersonas', 'infoPersonas')->name('infoPersonas');
+
+        Route::get('dependecia/nueva', 'create')->name('dependenciaNueva');
+        Route::post('dependencia/store', 'store')->name('dependenciaStore');
     });
 })->middleware(['auth']);
 

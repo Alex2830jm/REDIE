@@ -15,31 +15,56 @@ class DependeciaSeed extends Seeder
     public function run(): void {
         //Estatal
         $depEstatal1 = Dependencia::create([
-            'tipo_dependencia' => 'Estatal',
-            'nombreDependencia' => 'Consejeria  Juridica',
-            'direccion' => 'Sebastián Lerdo de Tejada No. 300, Colonia Centro, Toluca, Estado de México. CP 50000.'
+            ['tipo_dependencia' => 'Estatal',
+            'nombreDependencia' => 'Secretaría de Educación',
+            'direccion' => 'Sebastián Lerdo de Tejada No. 300, Colonia Centro, Toluca, Estado de México. CP 50000.'],
         ]);
 
         $depEstatal2 = Dependencia::create([
+            'tipo_dependencia' => 'Estatal',
+            'nombreDependencia' => 'Secretaría de Movilidad',
+            'direccion' => 'Lerdo Pte. No. 300, Colonia Centro, Toluca, Estado de México. CP 50000.'
+        ]);
+
+        $depEstatal3 = Dependencia::create([
+            'tipo_dependencia' => 'Estatal',
+            'nombreDependencia' => 'Secretaría de Salud',
+            'direccion' => 'Lerdo Pte. No. 300, Colonia Centro, Toluca, Estado de México. CP 50000.'
+        ]);
+
+        $depEstatal4 = Dependencia::create([
             'tipo_dependencia' => 'Estatal',
             'nombreDependencia' => 'Secretaria de Finanzas',
             'direccion' => 'Lerdo Pte. No. 300, Colonia Centro, Toluca, Estado de México. CP 50000.'
         ]);
 
-        $depFederal = Dependencia::create([
+        $depEstatal4 = Dependencia::create([
+            'tipo_dependencia' => 'Estatal',
+            'nombreDependencia' => 'Secretaría del Trabajo',
+            'direccion' => 'Lerdo Pte. No. 300, Colonia Centro, Toluca, Estado de México. CP 50000.'
+        ]);
+
+
+        $depFederal1 = Dependencia::create([
             'tipo_dependencia' => 'Federal',
-            'nombreDependencia' => 'CFE',
+            'nombreDependencia' => 'Fideicomiso Instituido en Relación con la Agricultura',
             'direccion' => 'Av. Independencia 1635, Reforma y FFCC Nacionales, 50070 Toluca de Lerdo, Méx'
         ]);
 
-        $unidadEstatal1 = UnidadInformativa::create([
-            'dependencia_id' => $depEstatal1->id,
-            'nombreUnidad' => 'Dirección General del Registro Civil.',
+        $depFederal1 = Dependencia::create([
+            'tipo_dependencia' => 'Federal',
+            'nombreDependencia' => 'Comisión Federal de Electricidad',
+            'direccion' => 'Av. Independencia 1635, Reforma y FFCC Nacionales, 50070 Toluca de Lerdo, Méx'
         ]);
-
-        $unidadEstatal2 = UnidadInformativa::create([
-            'dependencia_id' => $depEstatal2->id,
-            'nombreUnidad' => 'Dirección General de Recaudación',
+        $depFederal1 = Dependencia::create([
+            'tipo_dependencia' => 'Federal',
+            'nombreDependencia' => 'Banco de México',
+            'direccion' => 'Av. Independencia 1635, Reforma y FFCC Nacionales, 50070 Toluca de Lerdo, Méx'
+        ]);
+        $depFederal1 = Dependencia::create([
+            'tipo_dependencia' => 'Federal',
+            'nombreDependencia' => 'Instituto Federal de Telecomunicaciones',
+            'direccion' => 'Av. Independencia 1635, Reforma y FFCC Nacionales, 50070 Toluca de Lerdo, Méx'
         ]);
         
     }

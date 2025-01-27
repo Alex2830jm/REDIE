@@ -10,8 +10,9 @@ class Dependencia extends Model
     use HasFactory;
     protected $table = "dependencias";
     protected $fillable = [
+        "tipo_dependencia",
         "nombreDependencia",
-        "dirrecion",
+        "domicilioDependencia",
     ];
 
     public function unidades() {

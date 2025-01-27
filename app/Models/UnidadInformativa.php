@@ -11,6 +11,7 @@ class UnidadInformativa extends Model
     protected $table = "unidades_informativas";
     protected $fillable = [
         "dependencia_id",
+        "nombreUnidad",
         "direccion"
     ];
 

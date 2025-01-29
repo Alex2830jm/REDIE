@@ -22,4 +22,8 @@ class UnidadInformativa extends Model
     public function personasUnidad() {
         return $this->hasMany(PersonaUnidad::class, 'unidad_id');
     }
+
+    public function cuadrosEstadisticos() {
+        return $this->hasMany(CuadroEstadistico::class, 'unidad_id');
+    }
 }

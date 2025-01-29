@@ -112,6 +112,24 @@
                     finish: 'Guardar Datos',
                     current: ''
                 },
+                onStepChanged: function(event, currentIndex, newIndex) {
+                    if (currentIndex === 1 && $("input[type='radio']:checked").val() === "Federal") {
+                        form.steps("next");
+                    }
+
+                    if (currentIndex === 2) {
+                        personasByDependencia();
+                    }
+
+                    if (currentIndex === 3) {
+                        personasByUnidad();
+                    }
+
+                    if (currentIndex === 3 && $("input[type='radio']:checked").val() === "Federal") {
+                        $("#formulario_dependencias").submit();
+                    }
+
+                },
                 onStepChanging: function(event, currentIndex, newIndex) {
                     //return true;
                     return form.valid();
@@ -240,13 +258,13 @@
                 const tipo_dependencia = $("input[type='radio']:checked").val();
                 const dependencia = $("#nombreDependencia").val();
                 const tipoFormulario = "dependencia"
-                var areas = tipo_dependencia === "Federal" ?
-                    ["Titular de Dependencia", "Titular de la Unidad Generadora de la Información"] :
-                    [
-                        "Titular de Dependencia",
-                        "Titular de la Unidad de Información, Planeación, Programación y Evaluación o equivalente",
-                        "Enlace responsable de la entrega de la Información"
-                    ];
+                var areas = tipo_dependencia === "Federal" ? ["Titular de Dependencia",
+                    "Titular de la Unidad Generadora de la Información"
+                ] : [
+                    "Titular de Dependencia",
+                    "Titular de la Unidad de Información, Planeación, Programación y Evaluación o equivalente",
+                    "Enlace responsable de la entrega de la Información"
+                ];
                 areas.forEach((area, index) => {
                     content.append(formularioPersonas(area, index, tipoFormulario, dependencia));
                 })
@@ -255,9 +273,9 @@
             function personasByUnidad() {
                 const content = $("#personasInformantesUnidad").empty();
                 const areas = ["Titular de Dependencia", "Titular de la Unidad Generadora de la Información"];
-                
+
                 unidades.forEach((unidad, index) => {
-                    areas.forEach((area, i)  => {
+                    areas.forEach((area, i) => {
                         content.append(formularioPersonas(area, index, "unidad", unidad));
                     })
                 })

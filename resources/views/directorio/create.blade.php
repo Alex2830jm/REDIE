@@ -52,29 +52,36 @@
                 </div>
 
                 <div class="mt-2">
-                    <label class="text-gray-700 font-semibold" for="domicilioUnidad">Domicilio de la Dirección
+                    {{-- <label class="text-gray-700 font-semibold" for="domicilioUnidad">Domicilio de la Dirección
                         Informativa</label>
                     <input id="domicilioUnidad" type="text"
-                        class="block w-full px-4 py-3 text-gray-700 bg-gray-100 border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring">
+                        class="block w-full px-4 py-3 text-gray-700 bg-gray-100 border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring"> --}}
+                    <label for="domicilioUnidad"
+                        class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+                    <div class="relative">
+                        <input type="text" id="domicilioUnidad"
+                            class="block w-full px-4 py-3 text-gray-700 bg-gray-100 border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring" />
+                        <button type="button" id="addUnidad"
+                            class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-1">Agregar
+                            Dirección</button>
+                    </div>
                 </div>
-                <div class="mt-2 justify-end">
-                    <button type="button" class="px-3 py-2 rounded-lg bg-blue-500 text-white" id="addUnidad">Agregar a
-                        Dependencia</button>
-                </div>
-                <div class="mt-2 sm:flex sm:items-center">
-                    <div class="flow-root">
-                        <table class="max-w-full text-sm text-gray-500 items-center text-center">
-                            <thead class="bg-cherry-800 text-gray-200 uppercase">
-                                <tr>
-                                    <th scope="col" class="p-3 font-semibold tracking-wide">Nombre de la
-                                        dirección
-                                    </th>
-                                    <th scope="col" class="p-3 font-semibold tracking-wide">Domicilio</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-400" id="unidadesList">
-                            </tbody>
-                        </table>
+                <div class="flex flex-col mt-6">
+                    <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                        <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                            <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
+                                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                    <thead class="bg-cherry-800 text-gray-200 uppercase">
+                                        <th scope="col" class="p-3 font-semibold tracking-wide">Nombre de la
+                                            dirección
+                                        </th>
+                                        <th scope="col" class="p-3 font-semibold tracking-wide">Domicilio</th>
+                                    </thead>
+                                    <tbody class="divide-y divide-gray-400" id="unidadesList">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -111,6 +118,24 @@
                     next: "Siguiente",
                     finish: 'Guardar Datos',
                     current: ''
+                },
+                onStepChanged: function(event, currentIndex, newIndex) {
+                    if (currentIndex === 1 && $("input[type='radio']:checked").val() === "Federal") {
+                        form.steps("next");
+                    }
+
+                    if (currentIndex === 2) {
+                        personasByDependencia();
+                    }
+
+                    if (currentIndex === 3) {
+                        personasByUnidad();
+                    }
+
+                    if (currentIndex === 3 && $("input[type='radio']:checked").val() === "Federal") {
+                        $("#formulario_dependencias").submit();
+                    }
+
                 },
                 onStepChanging: function(event, currentIndex, newIndex) {
                     //return true;
@@ -240,13 +265,13 @@
                 const tipo_dependencia = $("input[type='radio']:checked").val();
                 const dependencia = $("#nombreDependencia").val();
                 const tipoFormulario = "dependencia"
-                var areas = tipo_dependencia === "Federal" ?
-                    ["Titular de Dependencia", "Titular de la Unidad Generadora de la Información"] :
-                    [
-                        "Titular de Dependencia",
-                        "Titular de la Unidad de Información, Planeación, Programación y Evaluación o equivalente",
-                        "Enlace responsable de la entrega de la Información"
-                    ];
+                var areas = tipo_dependencia === "Federal" ? ["Titular de Dependencia",
+                    "Titular de la Unidad Generadora de la Información"
+                ] : [
+                    "Titular de Dependencia",
+                    "Titular de la Unidad de Información, Planeación, Programación y Evaluación o equivalente",
+                    "Enlace responsable de la entrega de la Información"
+                ];
                 areas.forEach((area, index) => {
                     content.append(formularioPersonas(area, index, tipoFormulario, dependencia));
                 })
@@ -255,9 +280,9 @@
             function personasByUnidad() {
                 const content = $("#personasInformantesUnidad").empty();
                 const areas = ["Titular de Dependencia", "Titular de la Unidad Generadora de la Información"];
-                
+
                 unidades.forEach((unidad, index) => {
-                    areas.forEach((area, i)  => {
+                    areas.forEach((area, i) => {
                         content.append(formularioPersonas(area, index, "unidad", unidad));
                     })
                 })

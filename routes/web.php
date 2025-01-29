@@ -47,6 +47,7 @@ Route::middleware(['custom.headers'])->group(function () {
         Route::post('/guardar-archivo', 'saveArchives')->name('guardarArchivos');
         Route::get('/descargar-archivo', 'downloadFileCE')->name('descargarArchivo');
     });
+    Route::get('unidades', [DirectorioController::class, 'unidadesCE'])->name('unidadesCE');
     
     Route::prefix('roles')->controller(RoleController::class)->name('roles.')->group(function() {
         Route::get('/', 'index')->name('index');

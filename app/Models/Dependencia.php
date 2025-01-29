@@ -22,4 +22,8 @@ class Dependencia extends Model
     public function personas() {
         return $this->hasMany(PersonaUnidad::class, 'dependencia_id');
     }
+
+    public function cuadrosEstadisticos() {
+        return $this->hasMany(CuadroEstadistico::class, 'dependencia_id');
+    }
 }

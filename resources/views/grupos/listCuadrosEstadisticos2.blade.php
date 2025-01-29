@@ -40,8 +40,7 @@
                     <div class="sm:flex sm:items-center">
                         <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                             <div class="mt-2">
-                                <form action="{{ route('saveCE') }}" @submit.prevent="if(validateFormCE()) $el.submit()"
-                                    method="POST">
+                                <form action="{{ route('saveCE') }}" method="POST">
                                     @csrf
                                     <div class="flex flex-wrap -mx-3 mb-6">
                                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -66,22 +65,20 @@
                                                 class="block w-full px-4 py-3 text-sm text-gray-700 bg-gray-50 border border-gray-200 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
                                                 <option value="">-- Selección --</option>
                                                 @foreach ($dependencias as $dependencia)
-                                                    <option value="{{ $dependencia->id }}">
-                                                        {{ $dependencia->nombreUnidad }}
+                                                    <option value="{{  $dependencia->tipo_dependencia === 'Estatal' ? 'estatal_'.$dependencia->id : 'federal_'.$dependencia->id }}">
+                                                        {{ $dependencia->nombreDependencia }}
                                                     </option>
                                                 @endforeach
                                             </select>
                                         </div>
                                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                            <label for="areas">Selecciona el área informativa</label>
-                                            <select name="area_id" id="areas" x-model="selectDependencia"
+                                            <label for="unidades">Selecciona el área informativa</label>
+                                            <select name="unidad_id" id="unidades" x-model="selectDependencia"
                                                 @change="validateSelectDependencia = true"
                                                 class="block w-full px-4 py-3 text-sm text-gray-700 bg-gray-50 border border-gray-200 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
                                                 <option value="">-- Debes de seleccionar una dependencia --
                                                 </option>
                                             </select>
-                                            <p x-show="!validateSelectDependencia" class="text-red-500 font-semibold">
-                                                Debes de seleccionar una dependencia de información</p>
                                         </div>
                                     </div>
 
@@ -166,7 +163,7 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100 border-t border-gray-100">
-                    @foreach ($tema->cuadros_estadisticos as $ce)
+                    @foreach ($cuadrosEstadisticos as $ce)
                         <tr class="hover:bg-gray-50">
                             <td class="p-3 text-sm text-gray-500"> {{ $ce->numeroCE }} </td>
                             <td class="p-3 text-sm text-gray-800 font-semibold">
@@ -175,18 +172,24 @@
                             <td class="p-3 text-sm text-gray-500"> {{ $ce->gradoDesagregacion }} </td>
                             <td class="p-3 text-sm text-gray-500"> {{ $ce->frecuenciaAct }} </td>
                             <td class="p-3 text-sm text-gray-500">
+                                @if($ce->dependencia_id)
+                                    <div class="text-sm">
+                                        <div class=" text-gray-800 font-semibold">
+                                            {{ $ce->dependencia->nombreDependencia }}
+                                        </div>
+                                    </div>
+                                @else
                                 <div class="text-sm">
                                     <div class=" text-gray-800 font-semibold">
-                                        {{ $ce->dependencia->nombreArea }}
+                                        {{ $ce->unidad->nombreUnidad }}
                                     </div>
                                     <div class="text-gray-500">
-                                        {{ $ce->dependencia->unidad->nombreUnidad }}
+                                        {{ $ce->unidad->dependencia->nombreDependencia }}
                                     </div>
                                 </div>
+                                @endif
                             </td>
                             <td class="p-3 text-sm text-gray-500">
-
-
                                 <button id="ce_{{ $ce->id }}" value="{{ $ce->id }}"
                                     @click="searchContent($event)"
                                     class="text-gray-500 transition-color duration-200 hover:text-{{ $ce->tema->padre->padre->colorGrupo }}-400 focus:outline-none">

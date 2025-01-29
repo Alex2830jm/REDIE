@@ -42,6 +42,19 @@ class DirectorioController extends Controller
         ]);
     }
 
+    public function unidadesCE(Request $request) {
+        $dependencia_id = $request->get('dependencia_id');
+        $dependencia = Dependencia::find($dependencia_id);
+        foreach($dependencia->unidades as $key => $unidad) {
+            $unidadArray[$key] = [
+                'id' => $unidad->id,
+                'unidad' => $unidad->nombreUnidad
+            ];
+        }
+
+        return response()->json($unidadArray);
+    }
+
     public function create() {
         return view('directorio/create');
     }
@@ -49,7 +62,7 @@ class DirectorioController extends Controller
     public function store(Request $request) {
         //dd($request);
         $dependencia = Dependencia::create([
-            'tipo' => $request->get('tipo_dependencia'),
+            'tipo_dependencia' => $request->get('tipo_dependencia'),
             'nombreDependencia' => $request->get('nombreDependencia'),
             'domicilioDependencia' => $request->get('domicilioDependencia'),
         ]);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CEArchivos;
 use App\Models\CuadroEstadistico;
+use App\Models\Dependencia;
 use App\Models\Grupo;
 use App\Models\UnidadInformativa;
 use Illuminate\Http\Request;
@@ -61,11 +62,15 @@ class CuadroEstadisticoController extends Controller {
     public function listCE(Request $request) {
         $numeroCuadro = $request->get('tema').'.'.(CuadroEstadistico::where('tema_id', $request->get('tema_id'))->count() + 1);
         $tema = Grupo::find($request->get('tema_id'));
-        $dependencias = UnidadInformativa::all();
-        
+        $cuadrosEstadisticos = CuadroEstadistico::where('tema_id', '=', $request->get('tema_id'))->get();
+        $dependencias = Dependencia::orderBy('tipo_dependencia')->get();
+    
+     
+
         return view('grupos/listCuadrosEstadisticos2')->with([
             'tema' => $tema,
             'numeroCE' => $numeroCuadro,
+            'cuadrosEstadisticos' => $cuadrosEstadisticos,
             'dependencias' => $dependencias
         ]);
     }
@@ -83,9 +88,13 @@ class CuadroEstadisticoController extends Controller {
 
     public function storeCE(Request $request){
         //dd($request);
-        $ce = CuadroEstadistico::create([
+        $dependencia = explode("_", $request->get('dependencia'));
+        $origenCE = $dependencia[0] === "federal"
+            ? ['dependencia_id' => $dependencia[1]]
+            : ['unidad_id' => $request->get('unidad_id')];
+
+        $ce = CuadroEstadistico::create($origenCE + [
             "numeroCE" => $request->get('numero_ce'),
-            "dependencia_id" => $request->get('area_id'),
             "tema_id" => $request->get('tema_id'),
             "nombreCuadroEstadistico" => $request->get('nombreCuadroEstadistico'),
             "gradoDesagregacion" => $request->get('gradoDesagregacion'),

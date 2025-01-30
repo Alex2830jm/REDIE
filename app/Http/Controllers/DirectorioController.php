@@ -2,27 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AreasUnidad;
-use App\Models\Dependencia;
+use App\Models\DependenciaInformante;
 use App\Models\PersonaUnidad;
-use App\Models\UnidadInformativa;
 use Illuminate\Http\Request;
-
-use function PHPSTORM_META\map;
 
 class DirectorioController extends Controller
 {
 
 
     public function listDependencias(Request $request) {
-        $dependencias = Dependencia::where('tipo_dependencia', '=', $request->get('type'))->get();
+        $dependencias = DependenciaInformante::where('tipoDI', '=', $request->get('type'))->get();
         return view('directorio/dependencias')->with([
             'dependencias' => $dependencias
         ]);
     }
 
     public function listUnidades(string $id) {
-        $dependencia = Dependencia::find($id);
+        $dependencia = DependenciaInformante::find($id);
         return view('directorio/unidades')->with([
             'dependencia' => $dependencia,
         ]);
@@ -32,11 +28,7 @@ class DirectorioController extends Controller
         $tipo = $request->get('tipo');
         $id = $request->get('id');
         
-        if ($tipo == 'dependencia') {
-            $personas = PersonaUnidad::where('dependencia_id', $id)->get();
-        } else if ($tipo === 'unidad') {
-            $personas = PersonaUnidad::where('unidad_id', $id)->get();
-        }
+        $personas = PersonaUnidad::where('di_id', $id)->get();
         return view('directorio/infoPersonas')->with([
             'personas' => $personas
         ]);
@@ -44,11 +36,11 @@ class DirectorioController extends Controller
 
     public function unidadesCE(Request $request) {
         $dependencia_id = $request->get('dependencia_id');
-        $dependencia = Dependencia::find($dependencia_id);
+        $dependencia = DependenciaInformante::find($dependencia_id);
         foreach($dependencia->unidades as $key => $unidad) {
             $unidadArray[$key] = [
                 'id' => $unidad->id,
-                'unidad' => $unidad->nombreUnidad
+                'unidad' => $unidad->nombreDI
             ];
         }
 
@@ -61,10 +53,11 @@ class DirectorioController extends Controller
 
     public function store(Request $request) {
         //dd($request);
-        $dependencia = Dependencia::create([
-            'tipo_dependencia' => $request->get('tipo_dependencia'),
-            'nombreDependencia' => $request->get('nombreDependencia'),
-            'domicilioDependencia' => $request->get('domicilioDependencia'),
+        $dependencia = DependenciaInformante::create([
+            'tipoDI' => $request->get('tipo_dependencia'),
+            'nombreDI' => $request->get('nombreDependencia'),
+            'domicilioDI' => $request->get('domicilioDependencia'),
+            'nivelDI' => 1
         ]);
 
         $unidades = $request->get('indexUnidad');
@@ -73,10 +66,11 @@ class DirectorioController extends Controller
 
         if(!empty($unidades) > 0) {
             foreach($indexUnidad as $i => $iu) {
-                UnidadInformativa::create([
-                    'dependencia_id' => $dependencia->id,
-                    'nombreUnidad' => $request->get('unidadInformativa')[$i],
-                    'direccion' => $request->get('domicilioUnidad')[$i],
+                DependenciaInformante::create([
+                    'padreDI' => $dependencia->id,
+                    'nombreDI' => $request->get('unidadInformativa')[$i],
+                    'domicilioDI' => $request->get('domicilioUnidad')[$i],
+                    'nivelDI' => 2
                 ]);
             }
         }

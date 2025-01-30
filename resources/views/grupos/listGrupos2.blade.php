@@ -84,7 +84,7 @@
                         $('#filesCE').append(`
                             <tr class='hover:bg-gray-100'>
                                 <td class='p-2 text-gray-500'>
-                                    <button id='archivoView_${archivo.id}' value='${archivo.nombreArchivo}' @click='searchContent($event)'
+                                    <button id='archivoView_${archivo.id}' value='${archivo.urlFile}' @click='searchContent($event)'
                                         class='cursor-pointer bg-white relative inline-flex items-center justify-center gap-2 text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-[#F5F5F5] hover:text-blue-400 h-9 rounded-md px-3'>
                                             <svg class='lucide lucide-newspaper text-blue-400 w-6 h-6' fill='none' viewBox='0 0 24 24' stroke-width='1.5'
                                                 stroke='currentColor'>
@@ -123,10 +123,11 @@
                 break;
 
             case 'archivoView':
+                console.log(`valor`);
                 $('#viewFile').empty();
                 $dispatch('open-modal', 'verArchivo');
-                $('#viewFile').append(`<iframe src='https://view.officeapps.live.com/op/embed.aspx?src=https://redieigecem.edomex.gob.mx/assets/archivos/HV-211.xlsx' width='100%' height='650px' frameborder='0'></iframe>`)
-                //$('#viewFile').append(`<iframe src='http://onedrive.live.com/embed?src=https://redieigecem.edomex.gob.mx/assets/archivos/HV-211.xlsx' style='width:100%; height:600px;' frameborder='0'> </iframe>`)
+                //$('#viewFile').append(`<iframe src='https://view.officeapps.live.com/op/embed.aspx?src=https://redieigecem.edomex.gob.mx/assets/archivos/HV-211.xlsx' width='100%' height='650px' frameborder='0'></iframe>`)
+                $('#viewFile').append(`<iframe src=https://view.officeapps.live.com/op/embed.aspx?src=https://redieigecem.edomex.gob.mx/storage/public/archivos/1.1.1.2_2023.xlsx' width='100%' height='650px' frameborder='0'></iframe>`);
                 console.log(valor);
                 break;
 

@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('personas_dependencia', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('dependencia_id')->nullable();
-            $table->unsignedBigInteger('unidad_id')->nullable();
+            //$table->unsignedBigInteger('dependencia_id')->nullable();
+            //$table->unsignedBigInteger('unidad_id')->nullable();
+            $table->unsignedBigInteger('di_id');
             $table->string('nombrePersona');
             $table->string('area');
             $table->string('profesion');
@@ -23,13 +24,17 @@ return new class extends Migration
             $table->string('correo')->nullable();
             $table->string('direccion')->nullable();
 
-            $table->foreign('dependencia_id')
+            /* $table->foreign('dependencia_id')
                 ->references('id')
                 ->on('dependencias');
 
             $table->foreign('unidad_id')
                 ->references('id')
-                ->on('unidades_informativas');
+                ->on('unidades_informativas'); */
+            
+            $table->foreign('di_id')
+                ->references('id')
+                ->on('dependencias_informantes');
             $table->timestamps();
         });
     }

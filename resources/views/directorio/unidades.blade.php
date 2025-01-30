@@ -1,6 +1,6 @@
 <x-dashboard-layout>
     <div class="px-4 my-6 text-2xl font-semibold text-gray-700">
-        Direcctorio - {{ $dependencia->nombreDependencia }}
+        Direcctorio - {{ $dependencia->nombreDI }}
     </div>
     <div class="md:container md:mx-auto" x-data="{
         openUnidad: false,
@@ -25,7 +25,7 @@
                         @click="searchInfo($event)" />
                     <label
                         class="flex justify-center cursor-pointer rounded-full border border-gray-300 bg-white py-2 px-4 hover:bg-gray-50 focus:outline-none peer-checked:border-transparent peer-checked:ring-2 peer-checked:ring-cherry-800 transition-all duration-500 ease-in-out"
-                        for="dependencia_{{$dependencia->id}}">{{ $dependencia->nombreDependencia }}</label>
+                        for="dependencia_{{$dependencia->id}}">{{ $dependencia->nombreDI }}</label>
                 </li>
                 @foreach ($dependencia->unidades as $unidad)
                     <li class="">
@@ -33,7 +33,7 @@
                             id="unidad_{{ $unidad->id }}" @click="searchInfo($event)" />
                         <label
                             class="flex justify-center cursor-pointer rounded-full border border-gray-300 bg-white py-2 px-4 hover:bg-gray-50 focus:outline-none peer-checked:border-transparent peer-checked:ring-2 peer-checked:ring-cherry-800 transition-all duration-500 ease-in-out"
-                            for="unidad_{{ $unidad->id }}">{{ $unidad->nombreUnidad }}</label>
+                            for="unidad_{{ $unidad->id }}">{{ $unidad->nombreDI }}</label>
                     </li>
                 @endforeach
             </ul>

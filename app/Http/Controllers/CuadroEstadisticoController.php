@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\CEArchivos;
 use App\Models\CuadroEstadistico;
-use App\Models\Dependencia;
+use App\Models\DependenciaInformante;
 use App\Models\Grupo;
-use App\Models\UnidadInformativa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -62,10 +61,10 @@ class CuadroEstadisticoController extends Controller {
     public function listCE(Request $request) {
         $numeroCuadro = $request->get('tema').'.'.(CuadroEstadistico::where('tema_id', $request->get('tema_id'))->count() + 1);
         $tema = Grupo::find($request->get('tema_id'));
-        $cuadrosEstadisticos = CuadroEstadistico::where('tema_id', '=', $request->get('tema_id'))->get();
-        $dependencias = Dependencia::orderBy('tipo_dependencia')->get();
-    
-     
+        $cuadrosEstadisticos = CuadroEstadistico::where('tema_id', '=', $request->get('tema_id'))->with('informante')->get();
+        $dependencias = DependenciaInformante::where('nivelDI', '1')->orderBy('tipoDI')->get();
+        
+
 
         return view('grupos/listCuadrosEstadisticos2')->with([
             'tema' => $tema,
@@ -90,8 +89,8 @@ class CuadroEstadisticoController extends Controller {
         //dd($request);
         $dependencia = explode("_", $request->get('dependencia'));
         $origenCE = $dependencia[0] === "federal"
-            ? ['dependencia_id' => $dependencia[1]]
-            : ['unidad_id' => $request->get('unidad_id')];
+            ? ['di_id' => $dependencia[1]]
+            : ['di_id' => $request->get('unidad_id')];
 
         $ce = CuadroEstadistico::create($origenCE + [
             "numeroCE" => $request->get('numero_ce'),
@@ -116,7 +115,7 @@ class CuadroEstadisticoController extends Controller {
         if($request->hasfile('fileCE')) {
             $archivo = $request->file('fileCE');
             $nameFile = $request->get('ce') . '_' . $request->get('yearPost') . '.' . $archivo->getClientOriginalExtension();
-            $upload = $archivo->storeAS('assets/archivos', $nameFile);
+            $upload = $archivo->storeAS('public/archivos', $nameFile);
         }
 
         $archivoCE = CEArchivos::create([
@@ -138,6 +137,6 @@ class CuadroEstadisticoController extends Controller {
         $file = CEArchivos::find($request->get('archivo_id'));
         //dd($file);
         //return Storage::download('assets/archivos/'.$file->nombreArchivo);
-        return Storage::download('assets/archivos/'.$file->nombreArchivo);
+        return Storage::download('public/archivos/'.$file->nombreArchivo);
     }
 }

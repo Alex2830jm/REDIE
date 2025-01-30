@@ -10,8 +10,7 @@ class PersonaUnidad extends Model
     use HasFactory;
     protected $table = "personas_dependencia";
     protected $fillable = [
-        "dependencia_id",
-        "unidad_id",
+        "di_id",
         "nombrePersona",
         "profesion",
         "area",
@@ -21,11 +20,7 @@ class PersonaUnidad extends Model
     ];
 
 
-    public function unidad() {
-        return $this->belongsTo(UnidadInformativa::class, 'unidad_id');
-    }
-
     public function dependencia() {
-        return $this->belongsTo(Dependencia::class, 'dependencia_id');
+        return $this->belongsTo(DependenciaInformante::class, 'di_id');
     }
 }

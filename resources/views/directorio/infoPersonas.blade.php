@@ -20,7 +20,10 @@
                 <dt class="font-medium text-gray-900">Cargo en dependencia</dt>
                 <dd class="text-gray-700 sm:col-span-2"> {{ $persona->cargo }} </dd>
             </div>
-
+            <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
+                <dt class="font-medium text-gray-900">Domicilio</dt>
+                <dd class="text-gray-700 sm:col-span-2"> {{ $persona->dependencia->domicilioDI }} </dd>
+            </div>
             <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
                 <dt class="font-medium text-gray-900">Correo Electronico</dt>
                 <dd class="text-gray-700 sm:col-span-2 items-center">

@@ -65,8 +65,8 @@
                                                 class="block w-full px-4 py-3 text-sm text-gray-700 bg-gray-50 border border-gray-200 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
                                                 <option value="">-- Selección --</option>
                                                 @foreach ($dependencias as $dependencia)
-                                                    <option value="{{  $dependencia->tipo_dependencia === 'Estatal' ? 'estatal_'.$dependencia->id : 'federal_'.$dependencia->id }}">
-                                                        {{ $dependencia->nombreDependencia }}
+                                                    <option value="{{  $dependencia->tipoDI === 'Estatal' ? 'estatal_'.$dependencia->id : 'federal_'.$dependencia->id }}">
+                                                        {{ $dependencia->nombreDI }}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -172,22 +172,11 @@
                             <td class="p-3 text-sm text-gray-500"> {{ $ce->gradoDesagregacion }} </td>
                             <td class="p-3 text-sm text-gray-500"> {{ $ce->frecuenciaAct }} </td>
                             <td class="p-3 text-sm text-gray-500">
-                                @if($ce->dependencia_id)
-                                    <div class="text-sm">
-                                        <div class=" text-gray-800 font-semibold">
-                                            {{ $ce->dependencia->nombreDependencia }}
-                                        </div>
-                                    </div>
-                                @else
                                 <div class="text-sm">
                                     <div class=" text-gray-800 font-semibold">
-                                        {{ $ce->unidad->nombreUnidad }}
-                                    </div>
-                                    <div class="text-gray-500">
-                                        {{ $ce->unidad->dependencia->nombreDependencia }}
+                                        {{ $ce->informante->nombreDI }}
                                     </div>
                                 </div>
-                                @endif
                             </td>
                             <td class="p-3 text-sm text-gray-500">
                                 <button id="ce_{{ $ce->id }}" value="{{ $ce->id }}"
@@ -309,7 +298,7 @@
     </x-modal>
 
 
-    <x-modal name="verArchivo" maxWidth="7xl" focusable>
+    <x-modal name="verArchivo" maxWidth="7xl">
         <div class="bg-white px-4 pb-5 pt-5 sm:p-6 sm:pb-4">
             <div class="sm:items-center">
                 <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">

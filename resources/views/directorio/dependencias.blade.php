@@ -13,7 +13,7 @@
             <div class="p-6">
                 <h5
                     class="mb-2 block font-sans text-xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
-                    {{ $dependencia->nombreDIx }}
+                    {{ $dependencia->nombreDI }}
                 </h5>
             </div>
             <div class="p-6 pt-0 justify-center">

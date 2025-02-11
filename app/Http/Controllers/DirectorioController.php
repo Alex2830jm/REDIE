@@ -77,8 +77,8 @@ class DirectorioController extends Controller
 
         foreach($indexPersona as $j => $ip) {
             $tipoInformacion = $request->get('tipoPersona')[$j] === 'dependencia' 
-                ? ['dependencia_id' => $dependencia->id] 
-                : ['unidad_id' => $dependencia->unidades->pluck('id')[$indexPersona[$j]]];
+                ? ['di_id' => $dependencia->id] 
+                : ['di_id' => $dependencia->unidades->pluck('id')[$indexPersona[$j]]];
             
             PersonaUnidad::create($tipoInformacion + [
                 "nombrePersona" => $request->get('nombrePersona')[$j],

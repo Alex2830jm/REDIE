@@ -1,0 +1,73 @@
+{    
+      
+      "_token": "MJovzhuxhpzZPl0P2QRtgSBckJ2iTcCAuQlsSWNb",
+      "nombreDependencia": "Secretaría de Justicia y Derechos Humanos",
+      "domicilioDependencia": "C. Sor Juana I. de La C. 300, 5 de Mayo, 50090 Toluca de Lerdo, Méx.",
+      "tipo_dependencia": "Estatal",
+      "indexUnidad": [
+        "0"
+      ],
+      "unidadInformativa": [
+        "Dirección General del Registro Civil."
+      ],
+      "domicilioUnidad": [
+        "C. Sor Juana I. de La C. 300, 5 de Mayo, 50090 Toluca de Lerdo, Méx."
+      ],
+      "index": [
+        "0",
+        "1",
+        "2",
+        "0",
+        "0"
+      ],
+      "tipoPersona": [
+        "dependencia",
+        "dependencia",
+        "dependencia",
+        "unidad",
+        "unidad"
+      ],
+      "nombrePersona": [
+        "Jesus Sanchez Campos",
+        "Johana Velázquez Córdova",
+        "Alfredo Olivas Rojas",
+        "Marilu Sanchez García",
+        "Angeles Lopez Perez"
+      ],
+      "profesionPersona": [
+        "Maestro en Derecho",
+        "Maestra en Administración",
+        "Licenciado en Administración",
+        "Maestra en Derecho",
+        "Licenciada en Comunicación"
+      ],
+      "areaInformantePersona": [
+        "Titular de Dependencia",
+        "Titular de la Unidad de Información, Planeación, Programación y Evaluación o equivalente",
+        "Enlace responsable de la entrega de la Información",
+        "Titular de Dependencia",
+        "Titular de la Unidad Generadora de la Información"
+      ],
+      "cargoAreaPersona": [
+        "Director General de la Secretaría de Justicia y Derechos Humanos",
+        "Jefa Titular de la UIPPE",
+        "Informante de la UIPPE",
+        "Directoral Titular de la Dirección General del Registro Civil.",
+        "Informante"
+      ],
+      "telefonoContactoPersona": [
+        "7229635263",
+        "7229635263",
+        "7229635263",
+        "7984561239",
+        "7984561239"
+      ],
+      "correoContactoPersona": [
+        "jesus.campos@edomex.com.mx",
+        "johana.velazquez@edomex.com.mx",
+        "alfredo.olivas@edomex.com.mx",
+        "marilu.sanchez@edomex.gob.mx",
+        "angeles.lopez@edomex.gob.mx"
+      ]
+    
+  }

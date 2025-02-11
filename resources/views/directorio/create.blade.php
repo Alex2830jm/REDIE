@@ -40,6 +40,23 @@
                     </div>
                     <span class="text-red-800 text-base font-medium rounded-sm" id="errorTipoDependencia"> </span>
                 </div>
+                {{-- <div class="mt-2">
+                    <div class="max-w-xs mx-auto mt-10">
+                        <label for="mi-select" class="block text-sm font-medium text-gray-700">Selecciona una
+                            opción:</label>
+                        <select id="mi-select"
+                            class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                            <optgroup label="Grupo 1" class="text-gray-900">
+                                <option value="1">Opción 1</option>
+                                <option value="2">Opción 2</option>
+                            </optgroup>
+                            <optgroup label="Grupo 2" class="text-gray-900">
+                                <option value="3">Opción 3</option>
+                                <option value="4">Opción 4</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                </div> --}}
             </section>
 
             <h3>Datos de las Direcciones Informativas</h3>

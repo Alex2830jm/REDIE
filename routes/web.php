@@ -37,7 +37,7 @@ Route::middleware(['custom.headers'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::controller(CuadroEstadisticoController::class)->group(function() {
-        Route::get('/', 'listGrupos' )->middleware(['auth'])->name('home');
+        Route::get('/', 'index' )->middleware(['auth'])->name('home');
         Route::get('/sectores-grupo', 'listSectores')->name('sectorsByGroup')->middleware(['auth']);
         Route::get('/temas-sector', 'listTemas')->name('temasBySector');
         Route::get('/cuadro-estadistico', 'listCE')->name('cuadrosEstadisticosByTema');
@@ -78,15 +78,6 @@ Route::middleware(['custom.headers'])->group(function () {
         Route::post('dependencia/store', 'store')->name('dependenciaStore');
     });
 })->middleware(['auth']);
-
-
-/* Route::prefix('index')->name('index.')->group( function ()  {
-        Route::get('/', [DashboardController::class, 'grupos1' ])->middleware(['auth'])->name('home');
-        Route::get('/sectores-grupo', [DashboardController::class, 'sectores1'])->name('sectorsByGroup');
-        Route::get('/temas-sector', [DashboardController::class, 'temas1'])->name('temasBySector');
-        Route::get('/cuadro-estadistico', [DashboardController::class, 'cuadroEstadistico'])->name('cuadrosEstadisticosByTema');
-        Route::get('/archivos-ce', [DashboardController::class, 'archivosCE1'])->name('archivosByCuadrosEstadisticos');
-    }); */
 
 
 Route::get('/pruebas', [DashboardController::class, 'pruebas']);

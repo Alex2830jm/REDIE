@@ -15,5 +15,5 @@
     </section>
 
     <div class="mt-2 bg-cherry-800 text-center text-white text-xl font-bold">GRUPOS DE INFORMACIÓN</div>
-    @include('grupos/listGrupos2')
+    @include('grupos/listGrupos')
 </x-dashboard-layout>

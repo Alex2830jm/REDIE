@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Dirección de Estadística') }}</title>
-    <link rel="shortcut icon" href="{{asset('assets/img/igecem.ico')}}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('assets/img/igecem.ico') }}" type="image/x-icon">
     {{-- Fonts --}}
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
@@ -15,12 +15,11 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/jquery.steps.css') }}">
-    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-steps/1.1.0/jquery.steps.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
-    @if (isset($styles))
-        {{ $styles }}
-    @endif
 </head>
 
 <body class="bg-gray-100">
@@ -31,10 +30,12 @@
                 <div class="col-span-1 md:col-span-3">
                     <img src="{{ asset('assets/img/logo_h1.png') }}" alt="Logo" class="w-full md:w-auto">
                     <hr class="hidden">
-                    <span class="hidden sm:block font-light text-2xl text-center text-gold-500">Secretería de Finanzas</span>
+                    <span class="hidden sm:block font-light text-2xl text-center text-gold-500">Secretería de
+                        Finanzas</span>
                 </div>
                 <div class="col-span-1 md:col-span-9">
-                    <h2 class="hidden sm:block font-montserrat font-light text-cherry-800 text-2xl sm:lg md:text-xl lg:text-4xl font-sans leading-tight">
+                    <h2
+                        class="hidden sm:block font-montserrat font-light text-cherry-800 text-2xl sm:lg md:text-xl lg:text-4xl font-sans leading-tight">
                         Instituto de Información e Investigación Geográfica, Estadística y Catastral del Estado de
                         México IGECEM
                     </h2>
@@ -50,7 +51,7 @@
             {{ $slot }}
         </div>
     </main>
-    
+
     @if (isset($scripts))
         {{ $scripts }}
     @endif

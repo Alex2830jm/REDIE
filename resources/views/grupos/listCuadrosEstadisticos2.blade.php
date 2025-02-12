@@ -21,7 +21,7 @@
                             <div class='w-56 m-5 overflow-hidden bg-white rounded-lg shadow-lg border-2 border-gray-300 md:w-64'>
                                 <h3 class='py-2 font-bold tracking-wide text-center text-gray-800 uppercase'>${archivo.yearPost}</h3>
                                 <div class='flex items-center justify-between px-3 py-2 bg-gray-200'>
-                                    <button
+                                    <button id='viewFile' value='${archivo.nombreArchivo}' @click='contentCE(event)'
                                         class='inline-flex items-center px-2 py-1 bg-blue-500 transition ease-in-out delay-75 hover:bg-blue-600 text-white text-sm font-medium rounded-md hover:-translate-y-1 hover:scale-110'>
                                         <svg fill='none' viewBox='0 0 24 24'
                                             stroke-width='1.5' stroke='currentColor' class='h-5 w-5 mr-2'>
@@ -61,8 +61,16 @@
                     $('#unidades').append('<option>Dependencia Federal</option>').prop('disabled', true);
                 }
                 break;
+            case 'viewFile':
+                $('#file').empty();
+                $('#file').append(`<iframe src='https://view.officeapps.live.com/op/embed.aspx?src=https://redieigecem.edomex.gob.mx/storage/1-1_2023.xlsx' width='100%' height='650px' frameborder='0'></iframe>`)
+                //$('#file').append(`<iframe src='https://view.officeapps.live.com/op/embed.aspx?src=https://redieigecem.edomex.gob.mx{{ urlencode(asset('storage/' . `+valCE+`)) }}' width='800' height='600'></iframe>`)
+                $dispatch('open-modal', 'verArchivo');
+
+                break;
         }
     }
+        
 }">
 
     <div class="flex items-center justify-end mt-4 mb-2 gap-x-3">
@@ -296,6 +304,18 @@
 
             <div class="w-full lg:w-2/3 m-1 bg-white shadow-lg text-lg rounded-sm border border-gray-200"
                 id="listFiles">
+            </div>
+        </div>
+    </x-modal>
+
+
+    <x-modal name="verArchivo" maxWidth="7xl">
+        <div class="bg-white px-4 pb-5 pt-5 sm:p-6 sm:pb-4">
+            <div class="sm:items-center">
+                <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                    <div class="mt-2" id="file">
+                    </div>
+                </div>
             </div>
         </div>
     </x-modal>

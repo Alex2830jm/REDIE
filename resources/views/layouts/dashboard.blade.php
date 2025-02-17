@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
@@ -25,7 +25,7 @@
 <body class="bg-gray-100">
     <div class="flex flex-col flex-1 w-full">
         {{-- Header --}}
-        <div class="md:container md:mx-auto">
+        <div class="ml-10 mr-10">
             <div class="grid grid-cols-1 md:grid-cols-12 p-4 items-center">
                 <div class="col-span-1 md:col-span-3">
                     <img src="{{ asset('assets/img/logo_h1.png') }}" alt="Logo" class="w-full md:w-auto">
@@ -47,7 +47,7 @@
     </div>
     {{-- Contenido --}}
     <main class="h-full mb-7">
-        <div class="md:container md:mx-auto">
+        <div class="sm:pl-10 sm:pr-10">
             {{ $slot }}
         </div>
     </main>

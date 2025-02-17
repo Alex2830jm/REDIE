@@ -44,27 +44,25 @@ class CuadroEstadisticoController extends Controller {
         $user = Auth::user();
         $rol = $user->roles->pluck('id');
 
+        $infoSector = Grupo::find($request->get('sector_id'));
         $temas = Grupo::where('grupo_padre', '=', $request->get('sector_id'))->whereHas('rolesTema', function ($query) use ($rol) {
             $query->where('id', $rol);
         })->get();
 
         return view('grupos/listTemas2')->with([
-            'numeroSector' => $request->get('sector'),
-            'temas' => $temas,
+            'infoSector'    => $infoSector,
+            'temas'         => $temas,
         ]);
     }
 
     public function listCE(Request $request) {
-        $numeroCuadro = $request->get('tema').'.'.(CuadroEstadistico::where('tema_id', $request->get('tema_id'))->count() + 1);
+
         $tema = Grupo::find($request->get('tema_id'));
         $cuadrosEstadisticos = CuadroEstadistico::where('tema_id', '=', $request->get('tema_id'))->with('informante')->get();
         $dependencias = DependenciaInformante::where('nivelDI', '1')->orderBy('tipoDI')->get();
         
-
-
         return view('grupos/listCuadrosEstadisticos2')->with([
             'tema' => $tema,
-            'numeroCE' => $numeroCuadro,
             'cuadrosEstadisticos' => $cuadrosEstadisticos,
             'dependencias' => $dependencias
         ]);
@@ -103,21 +101,26 @@ class CuadroEstadisticoController extends Controller {
         return redirect()->route('home');
     }
 
-
-    
     public function saveArchives(Request $request) {
         //dd($request);
+        $ce = CuadroEstadistico::find($request->get('idCE'));
+        $tema = $ce->tema->nombreGrupo;
+        $ruta = 'public/' . $tema . '/' . $ce->numeroCE;
+
+
+        $archivo = $request->file('fileCE');
+        //dd($archivo->getClientOriginalExtension(), $archivo->getMimeType());
 
         if($request->hasfile('fileCE')) {
             $archivo = $request->file('fileCE');
-            $nameFile = $request->get('numeroCE') . '_' . $request->get('yearPost') . '.' . $archivo->getClientOriginalExtension();
-            $upload = $archivo->storeAS('public/', $nameFile);
+            //$nameFile = $request->get('numeroCE') . '_' . $request->get('yearPost') . '.' . $archivo->getClientOriginalExtension();
+            $upload = $archivo->storeAS($ruta, $archivo->getClientOriginalName());
         }
 
         $archivoCE = CEArchivos::create([
             'ce_id' => $request->get('idCE'),
             'yearPost' => $request->get('yearPost'),
-            'nombreArchivo' => $nameFile,
+            'nombreArchivo' => $archivo->getClientOriginalName(),
             'urlFile' => Storage::url($upload)
         ]);
         
@@ -129,10 +132,9 @@ class CuadroEstadisticoController extends Controller {
         return redirect()->route('home');
     }
 
-
     public function downloadFileCE(Request $request) {
         $file = CEArchivos::find($request->get('idFile'));
-        //dd($file);
-        return Storage::download('public/'.$file->nombreArchivo);
+        $pathFile = $file->ce->tema->nombreGrupo . '/' . $file->ce->numeroCE . '/' . $file->nombreArchivo;
+        return Storage::download('public/'.$pathFile);
     }
 }

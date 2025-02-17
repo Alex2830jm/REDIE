@@ -18,29 +18,7 @@
                     $('#numeroCE').val(ce.numeroCE);
                     ce.archivos.forEach((archivo) => {
                         $('#listFiles').append(`
-                            <div class='w-56 m-5 overflow-hidden bg-white rounded-lg shadow-lg border-2 border-gray-300 md:w-64'>
-                                <h3 class='py-2 font-bold tracking-wide text-center text-gray-800 uppercase'>${archivo.yearPost}</h3>
-                                <div class='flex items-center justify-between px-3 py-2 bg-gray-200'>
-                                    <button id='viewFile' value='${archivo.nombreArchivo}' @click='contentCE(event)'
-                                        class='inline-flex items-center px-2 py-1 bg-blue-500 transition ease-in-out delay-75 hover:bg-blue-600 text-white text-sm font-medium rounded-md hover:-translate-y-1 hover:scale-110'>
-                                        <svg fill='none' viewBox='0 0 24 24'
-                                            stroke-width='1.5' stroke='currentColor' class='h-5 w-5 mr-2'>
-                                            <path stroke-linecap='round' stroke-linejoin='round'
-                                                d='M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z' />
-                                        </svg>
-                                        Ver
-                                    </button>
-                                    <a href='{{ route('descargarArchivo') }}?idFile=${archivo.id}'
-                                        class='inline-flex items-center px-2 py-1 bg-green-500 transition ease-in-out delay-75 hover:bg-green-600 text-white text-sm font-medium rounded-md hover:-translate-y-1 hover:scale-110'>
-                                        <svg fill='none' viewBox='0 0 24 24'
-                                            stroke-width='1.5' stroke='currentColor' class='h-5 w-5 mr-2'>
-                                            <path stroke-linecap='round' stroke-linejoin='round'
-                                                d='M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z' />
-                                        </svg>
-                                        Descargar
-                                    </a>
-                                </div>
-                            </div>
+                            <x-card-file idFile='${archivo.id}' yearPost='${archivo.yearPost}' nameFile='${archivo.nombreArchivo}' />
                         `);
                     });
                 })
@@ -64,81 +42,93 @@
             case 'viewFile':
                 $('#file').empty();
                 $('#file').append(`<iframe src='https://view.officeapps.live.com/op/embed.aspx?src=https://redieigecem.edomex.gob.mx/storage/1-1_2023.xlsx' width='100%' height='650px' frameborder='0'></iframe>`)
-                //$('#file').append(`<iframe src='https://view.officeapps.live.com/op/embed.aspx?src=https://redieigecem.edomex.gob.mx{{ urlencode(asset('storage/' . `+valCE+`)) }}' width='800' height='600'></iframe>`)
+                //$('#file').append(`<iframe src='https://view.officeapps.live.com/op/embed.aspx?src=https://redieigecem.edomex.gob.mx{{ urlencode(asset('/storage/Hechos Vitales/1.1/1.1_2023.xlsx')) }}' width='800' height='600'></iframe>`)
                 $dispatch('open-modal', 'verArchivo');
 
                 break;
         }
     }
-        
+
 }">
-
-    <div class="flex items-center justify-end mt-4 mb-2 gap-x-3">
-        <button x-on:click.prevent="$dispatch('open-modal', 'formCE')"
-            class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg sm:w-auto gap-x-2 hover:bg-blue-600">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                stroke="currentColor" class="size-6">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M12 10.5v6m3-3H9m4.06-7.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
-            </svg>
-            <span>Agregar Cuadro</span>
-        </button>
-    </div>
-
-    <div class="relative w-full h-95">
-        <div class="overflow-auto rounded-lg shadow">
-            <table class="w-full text-sm text-left text-gray-500">
-                <thead class="text-sm text-gray-200 uppercase bg-cherry-800">
-                    <tr>
-                        <th scope="col" colspan="6" class="text-center py-2">
-                            Tema: {{ $tema->nombreGrupo }}
-                            <hr class=" border border-gold-400">
-                        </th>
-                    </tr>
-                    <tr>
-                        <th scope="col" class="w-20 p-3 text-sm font-semibold tracking-wide">#</th>
-                        <th scope="col" class="p-3 text-sm font-semibold tracking-wide">Nombre</th>
-                        <th scope="col" class="w-24 p-3 text-sm font-semibold tracking-wide">Grado</th>
-                        <th scope="col" class="w-24 p-3 text-sm font-semibold tracking-wide">Frecuencia</th>
-                        <th scope="col" class="p-3 text-sm font-semibold tracking-wide">Fuente</th>
-                        <th scope="col" class="w-32 p-3 text-sm font-semibold tracking-wide">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-100 border-t border-gray-100">
-                    @foreach ($cuadrosEstadisticos as $ce)
-                        <tr class="hover:bg-gray-50">
-                            <td class="p-3 text-sm text-gray-500"> {{ $ce->numeroCE }} </td>
-                            <td class="p-3 text-sm text-gray-800 font-semibold">
-                                {{ $ce->nombreCuadroEstadistico }}
-                            </td>
-                            <td class="p-3 text-sm text-gray-500"> {{ $ce->gradoDesagregacion }} </td>
-                            <td class="p-3 text-sm text-gray-500"> {{ $ce->frecuenciaAct }} </td>
-                            <td class="p-3 text-sm text-gray-500">
-                                <div class="text-sm">
-                                    <div class=" text-gray-800 font-semibold">
-                                        {{ $ce->informante->nombreDI }}
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="p-3 text-xs text-gray-500">
-                                <button id="fileHistory_{{ $ce->id }}" value="{{ $ce->nombreCuadroEstadistico }}"
-                                    @click="contentCE(event)"
-                                    class="inline-flex items-center px-4 py-2 bg-blue-500 transition ease-in-out delay-75 hover:bg-blue-600 text-white text-sm font-medium rounded-md hover:-translate-y-1 hover:scale-110">
-                                    <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                        class="h-5 w-5 mr-2">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
-                                    </svg>
-                                    Archivos
-                                </button>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+    <section>
+        <div class="sm:flex sm:items-center sm:justify-end">
+            <button x-on:click.prevent="$dispatch('open-modal', 'formCE')"
+                class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg sm:w-auto gap-x-2 hover:bg-blue-600">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M12 10.5v6m3-3H9m4.06-7.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
+                </svg>
+                <span>Agregar Cuadro</span>
+            </button>
         </div>
-    </div>
-
+        
+        <div class="flex flex-col mt-6">
+            <div class="-mx-4 -my-2 overflow-x-auto">
+                <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                    <div class="overflow-hidden border border-gray-200 md:rounded-lg">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-cherry-800 text-gray-200 divide-y divide-gray-200">
+                                <tr>
+                                    <th scope="col" colspan="6" class="px-4 py-4 text-lg font-semibold text-center">
+                                        {{ $tema->nombreGrupo }}
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="px-4 text-sm py-4 font-semibold text-left"> Num. Cuadro
+                                    </th>
+                                    <th scope="col" class="px-4 text-sm py-4 font-semibold text-left"> Nombre del
+                                        cuadro
+                                        estadístico </th>
+                                    <th scope="col" class="px-4 text-sm py-4 font-semibold text-left"> Grado de
+                                        desagregación </th>
+                                    <th scope="col" class="px-4 text-sm py-4 font-semibold text-left"> Frecuencia de
+                                        actualización </th>
+                                    <th scope="col" class="px-4 text-sm py-4 font-semibold text-left"> Fuente </th>
+                                    <th scope="col" class="px-4 text-sm py-4 font-semibold text-left"> Acciones </th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                @foreach ($cuadrosEstadisticos as $ce)
+                                    <tr>
+                                        <td class="px-4 py-4 text-sm font-medium whitespace-nowrap lg:whitespace-normal">
+                                            {{ $ce->numeroCE }}
+                                        </td>
+                                        <td class="px-4 py-4 text-sm font-medium whitespace-nowrap lg:whitespace-normal">
+                                            <h4 class="text-gray-700 font-semibold"> {{ $ce->nombreCuadroEstadistico }}
+                                            </h4>
+                                        </td>
+                                        <td class="px-4 py-4 text-sm whitespace-nowrap lg:whitespace-normal">
+                                            {{ $ce->gradoDesagregacion }}
+                                        </td>
+                                        <td class="px-4 py-4 text-sm whitespace-nowrap lg:whitespace-normal">
+                                            {{ $ce->frecuenciaAct }}
+                                        </td>
+                                        <td class="px-4 py-4 text-sm whitespace-nowrap lg:whitespace-normal">
+                                            <h4 class="text-gray-700 font-semibold"> {{ $ce->informante->nombreDI }}
+                                            </h4>
+                                        </td>
+                                        <td class="px-4 py-4 text-sm whitespace-nowrap lg:whitespace-normal">
+                                            <button id="fileHistory_{{ $ce->id }}"
+                                                value="{{ $ce->nombreCuadroEstadistico }}" @click="contentCE(event)"
+                                                class="inline-flex items-center px-4 py-2 bg-blue-500 transition ease-in-out delay-75 hover:bg-blue-600 text-white text-sm font-medium rounded-md hover:-translate-y-1 hover:scale-110">
+                                                <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                                    stroke="currentColor" class="h-5 w-5 mr-2">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
+                                                </svg>
+                                                Archivos
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <x-modal name="formCE" maxWidth="3xl" focusable>
         <div class="bg-white px-4 pb-5 pt-5 sm:p-6 sm:pb-4">
@@ -314,6 +304,9 @@
             <div class="sm:items-center">
                 <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                     <div class="mt-2" id="file">
+                        <iframe
+                            src="https://view.officeapps.live.com/op/embed.aspx?src=https://redieigecem.edomex.gob.mx{{ urlencode(asset('/storage/Hechos Vitales/1.1/1.1_2023.xlsx')) }}"
+                            width=800" height="600"></iframe>
                     </div>
                 </div>
             </div>

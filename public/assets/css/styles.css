@@ -1,17 +1,6 @@
-.wrapper-login {
-    width: 100%;
-    height: auto;
-    background-size: cover;
-    animation: BgAnimation 10s linear infinite;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto;
-}
-
 .wrapper {
     width: 100%;
-    height: 200px;
+    height: auto;
     background-size: cover;
     
     animation: BgAnimation 10s linear infinite;
@@ -19,7 +8,9 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    margin: 0 auto; /* Centrado horizontal */
+    margin: 0 auto; 
+    
+    border-radius: 10px;
 }
 
 /* Animaciones */
@@ -29,14 +20,6 @@
     60%     { background-image: url('../img/inicio3.jfif'); }
     100%    { background-image: url('../img/inicio4.jpg'); }
 }
-
-@keyframes BgAnimationLogin {
-    0%      { background-image: url('../img/dashboards/loginImage1.svg'); }
-    30%     { background-image: url('../img/dashboards/loginImage2.svg'); }
-    60%     { background-image: url('../img/dashboards/loginImage3.svg'); }
-    100%    { background-image: url('../img/dashboards/loginImage4.svg'); }
-}
-
 /* Diseño responsive */
 @media screen and (min-width: 600px) {
     .wrapper {

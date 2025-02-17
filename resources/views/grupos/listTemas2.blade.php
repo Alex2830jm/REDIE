@@ -3,8 +3,8 @@
 
     init() {
         this.listCuadrosEstadisticos = false;
-         setTimeout(() => {
-            $('#ceByTema').load(`{{ route('cuadrosEstadisticosByTema') }}?tema_id=4`, () => {
+        setTimeout(() => {
+            $('#ceByTema').load(`{{ route('cuadrosEstadisticosByTema') }}?tema_id={{ $infoSector->temas->first()->id }}`, () => {
                 this.listCuadrosEstadisticos = true;
             });
         }, 300);
@@ -22,14 +22,16 @@
         }, 300);
     }
 }">
-    <h2 class="text-xl font-bold text-center">Temas relacionados con el sector</h2>
+
+    <h2 class="text-xl font-bold text-center">Temas relacionados con el sector: <span
+            class="text-{{ $infoSector->padre->colorGrupo }}-400"> {{ $infoSector->nombreGrupo }} </span> </h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         @foreach ($temas as $tema)
-            <label for="tema_{{ $numeroSector }}.{{ $loop->iteration }}"
+            <label for="tema_{{ $tema->id }}"
                 class="cursor-pointer items-center justify-center text-center px-4 py-2 text-gray-500 text-sm font-medium rounded-md border border-{{ $tema->padre->padre->colorGrupo }}-200 bg-white transition ease-in-out delay-75 hover:border hover:border-{{ $tema->padre->padre->colorGrupo }}-200 has-[:checked]:ring-2 has-[:checked]:ring-{{ $tema->padre->padre->colorGrupo }}-500 has-[:checked]:text-{{ $tema->padre->padre->colorGrupo }}-400">
                 {{ $tema->nombreGrupo }}
-                <input type="radio" name="tema_id" id="tema_{{ $numeroSector }}.{{ $loop->iteration }}"
-                    value="{{ $tema->id }}" class="sr-only" @click="cesByTema($event)">
+                <input type="radio" name="tema_id" id="tema_{{ $tema->id }}" value="{{ $tema->id }}"
+                    class="sr-only" @click="cesByTema($event)">
             </label>
         @endforeach
     </div>

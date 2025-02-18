@@ -72,7 +72,11 @@ Route::middleware(['custom.headers'])->group(function () {
         Route::view('/', 'directorio/index')->name('index');
         Route::get('/dependencias', 'listDependencias')->name('dependencias');
         Route::get('{id}/unidades', 'listUnidades')->name('unidades');
+
+        
         Route::get('/infoPersonas', 'infoPersonas')->name('infoPersonas');
+        Route::get('/editInfoPersona/{id}', 'editInfoPersona')->name('editInfoPersona');
+        Route::post('/updateInfoPersona', 'updateInfoPersona')->name('updateInfoPersona');
 
         Route::get('dependecia/nueva', 'create')->name('dependenciaNueva');
         Route::post('dependencia/store', 'store')->name('dependenciaStore');

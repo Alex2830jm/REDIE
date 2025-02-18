@@ -97,4 +97,31 @@ class DirectorioController extends Controller
 
         return redirect()->route('directorio.index');
     }
+
+    public function editInfoPersona(string $id) {
+        $persona = PersonaUnidad::find($id);
+
+        return response()->json($persona);
+    }
+
+
+    public function updateInfoPersona(Request $request) {
+        //dd($request);
+        
+        $personaInformante = PersonaUnidad::find($request->get('idPersona'))->update([
+            "nombrePersona" => $request->get('nombrePersona'),
+            "profesion" => $request->get('profesionPersona'),
+            "area"  => $request->get('areaPersona'),
+            "cargo" => $request->get('cargoPersona'),
+            "telefono"  => $request->get('telefonoPersona'),
+            "correo"    => $request->get('correoPersona'),
+        ]);
+
+        notyf()
+            ->position('x', 'center')
+            ->position('y', 'top')
+            ->addSuccess('Los datos del titular informante se actualizarón correctamente');
+
+        return redirect()->back();
+    }
 }

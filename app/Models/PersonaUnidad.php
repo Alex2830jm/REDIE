@@ -12,11 +12,11 @@ class PersonaUnidad extends Model
     protected $fillable = [
         "di_id",
         "nombrePersona",
-        "profesion",
-        "area",
-        "cargo",
-        "telefono",
-        "correo",
+        "profesionPersona",
+        "areaPersona",
+        "cargoPersona",
+        "telefonoPersona",
+        "correoPersona"
     ];
 
 

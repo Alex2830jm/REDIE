@@ -7,82 +7,107 @@
             @csrf
             <h3>Datos de la Dependencia</h3>
             <section>
-                <div class="mt-2">
-                    <label class="text-gray-700 font-semibold" for="nombreDependencia">Nombre de la
-                        Dependencia</label>
-                    <input id="nombreDependencia" type="text" name="nombreDependencia"
-                        class="block w-full px-4 py-3 text-gray-700 bg-gray-100 border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring">
-                    <span class="text-red-800 text-base font-medium rounded-sm" id="errorNombreDep"> </span>
-                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div class="mt-2 md:col-span-2">
+                        <div class="flex flex-wrap">
+                            <div class="w-full md:w-1/3">
+                                <label class="text-gray-700 font-semibold" for="numDI">Número de Dependendencia</label>
+                                <input id="numDI" type="text" name="numDI"
+                                    class="block w-full px-4 py-3 text-gray-700 bg-gray-100 border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring">
+                                <span class="text-red-800 text-base font-medium rounded-sm" id="errorNombreDep"> </span>
+                            </div>
+                            <div class="w-full md:w-2/3">
+                                <label class="text-gray-700 font-semibold" for="nombreDI">Nombre de la
+                                    Dependencia</label>
+                                <input id="nombreDI" type="text" name="nombreDI"
+                                    class="block w-full px-4 py-3 text-gray-700 bg-gray-100 border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring">
+                                <span class="text-red-800 text-base font-medium rounded-sm" id="errorNombreDep"> </span>
+                            </div>
+                        </div>
+                    </div>
 
-                <div class="mt-2">
-                    <label class="text-gray-700 font-semibold" for="domicilioDependencia">Domicilio de la
-                        Dependencia</label>
-                    <input id="domicilioDependencia" type="text" name="domicilioDependencia"
-                        class="block w-full px-4 py-3 text-gray-700 bg-gray-100 border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring">
-                </div>
-                <div class="mt-2">
-                    <label class="text-gray-700 font-semibold" for="domicilioDependencia">Selecciona el tipo de
-                        Dependencia</label>
-                    <div class=" grid grid-cols-2 gap-4">
-                        <div class="flex items-center bg-gray-100  ps-4 border border-gray-200 rounded-lg">
-                            <input type="radio" name="tipo_dependencia" value="Estatal" id="tipo_Estatal"
-                                class="w-4 h-4 text-blue-600 bg-gwhite border-gray-400 focus:ring-blue-500 focus:ring-2">
-                            <label for="tipo_Estatal"
-                                class="w-full py-4 ms-2 text-sm font-medium text-gray-900">Estatal</label>
-                        </div>
-                        <div class="flex items-center bg-gray-100 ps-4 border border-gray-200 rounded-lg">
-                            <input type="radio" name="tipo_dependencia" value="Federal" id="tipo_Federal"
-                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
-                            <label for="tipo_Federal"
-                                class="w-full py-4 ms-2 text-sm font-medium text-gray-900">Federal</label>
-                        </div>
+                    <div class="mt-2 md:col-span-2">
+                        <label class="text-gray-700 font-semibold" for="domicilioDI">Domicilio de la
+                            Dependencia</label>
+                        <input id="domicilioDI" type="text" name="domicilioDI"
+                            class="block w-full px-4 py-3 text-gray-700 bg-gray-100 border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring">
                     </div>
-                    <span class="text-red-800 text-base font-medium rounded-sm" id="errorTipoDependencia"> </span>
-                </div>
-                {{-- <div class="mt-2">
-                    <div class="max-w-xs mx-auto mt-10">
-                        <label for="mi-select" class="block text-sm font-medium text-gray-700">Selecciona una
-                            opción:</label>
-                        <select id="mi-select"
-                            class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
-                            <optgroup label="Grupo 1" class="text-gray-900">
-                                <option value="1">Opción 1</option>
-                                <option value="2">Opción 2</option>
-                            </optgroup>
-                            <optgroup label="Grupo 2" class="text-gray-900">
-                                <option value="3">Opción 3</option>
-                                <option value="4">Opción 4</option>
-                            </optgroup>
-                        </select>
+
+                    <div class="mt-2">
+                        <label class="text-gray-700 font-semibold" for="correoDI"> Correo Electronico de Atención de
+                            Atención </label>
+                        <input id="correoDI" type="text" name="correoDI"
+                            class="block w-full px-4 py-3 text-gray-700 bg-gray-100 border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring">
                     </div>
-                </div> --}}
+
+                    <div class="mt-2">
+                        <label class="text-gray-700 font-semibold" for="numTelefonoDI"> No. Teléfono de Atención
+                        </label>
+                        <input id="numTelefonoDI" type="text" name="numTelefonoDI"
+                            class="block w-full px-4 py-3 text-gray-700 bg-gray-100 border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring">
+                    </div>
+
+                    <div class="mt-2 md:col-span-2">
+                        <label class="text-gray-700 font-semibold" for="tipoDI">Selecciona el tipo de
+                            Dependencia</label>
+                        <div class=" grid grid-cols-2 gap-4">
+                            <div class="flex items-center bg-gray-100  ps-4 border border-gray-200 rounded-lg">
+                                <input type="radio" name="tipoDI" value="Estatal" id="tipo_Estatal"
+                                    class="w-4 h-4 text-blue-600 bg-gwhite border-gray-400 focus:ring-blue-500 focus:ring-2">
+                                <label for="tipo_Estatal"
+                                    class="w-full py-4 ms-2 text-sm font-medium text-gray-900">Estatal</label>
+                            </div>
+                            <div class="flex items-center bg-gray-100 ps-4 border border-gray-200 rounded-lg">
+                                <input type="radio" name="tipoDI" value="Federal" id="tipo_Federal"
+                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2">
+                                <label for="tipo_Federal"
+                                    class="w-full py-4 ms-2 text-sm font-medium text-gray-900">Federal</label>
+                            </div>
+                        </div>
+                        <span class="text-red-800 text-base font-medium rounded-sm" id="errorTipoDependencia"> </span>
+                    </div>
+                </div>
             </section>
 
-            <h3>Datos de las Direcciones Informativas</h3>
+            <h3>Datos de las Unidades Generadoras de Información</h3>
             <section>
-                <div class="mt-2">
-                    <label class="text-gray-700 font-semibold" for="nombreUnidad">Nombre de la Dirección
-                        Informativa</label>
-                    <input id="nombreUnidad" type="text"
-                        class="block w-full px-4 py-3 text-gray-700 bg-gray-100 border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring">
-                </div>
+                <span class="text-lg text-gray-600 font-semibold">Agregar Unidades Generadoras de Información</span>
 
-                <div class="mt-2">
-                    {{-- <label class="text-gray-700 font-semibold" for="domicilioUnidad">Domicilio de la Dirección
-                        Informativa</label>
-                    <input id="domicilioUnidad" type="text"
-                        class="block w-full px-4 py-3 text-gray-700 bg-gray-100 border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring"> --}}
-                    <label for="domicilioUnidad"
-                        class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
-                    <div class="relative">
-                        <input type="text" id="domicilioUnidad"
-                            class="block w-full px-4 py-3 text-gray-700 bg-gray-100 border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring" />
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div class="mt-2 sm:col-span-2">
+                        <label class="text-gray-700 font-semibold" for="nombreUnidad">Nombre de la Unidad
+                            Informativa</label>
+                        <input id="nombreUnidad" type="text"
+                            class="block w-full px-4 py-3 text-gray-700 bg-gray-100 border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring">
+                    </div>
+
+                    <div class="mt-2 sm:col-span-2">
+                        <label class="text-gray-700 font-semibold" for="domiclioUnidad"> Domicilio de la Unidad
+                            Informativa </label>
+                        <input id="domiclioUnidad" type="text"
+                            class="w-full px-4 py-3 text-gray-700 bg-gray-100 border border-gray-200 rounded-md focus:border-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none">
+                    </div>
+
+                    <div class="mt-2">
+                        <label class="text-gray-700 font-semibold" for="correoUnidad"> Correo Electronico de Información
+                        </label>
+                        <input id="correoUnidad" type="email"
+                            class="w-full px-4 py-3 text-gray-700 bg-gray-100 border border-gray-200 rounded-md focus:border-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none">
+                    </div>
+
+                    <div class="mt-2">
+                        <label class="text-gray-700 font-semibold" for="telefonoUnidad"> Número Telefonico de Atención
+                        </label>
+                        <input id="telefonoUnidad" type="text"
+                            class="w-full px-4 py-3 text-gray-700 bg-gray-100 border border-gray-200 rounded-md focus:border-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none">
+                    </div>
+
+                    <div class="flex justify-end mt-2 md:col-span-2">
                         <button type="button" id="addUnidad"
-                            class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-1">Agregar
-                            Dirección</button>
+                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Agregar Unidad Informativa a Dependencia</button>
                     </div>
                 </div>
+
                 <div class="flex flex-col mt-6">
                     <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
@@ -93,6 +118,8 @@
                                             dirección
                                         </th>
                                         <th scope="col" class="p-3 font-semibold tracking-wide">Domicilio</th>
+                                        <th scope="col" class="p-3 font-semibold tracking-wide">Correo Electronico</th>
+                                        <th scope="col" class="p-3 font-semibold tracking-wide">No. Teléfono</th>
                                     </thead>
                                     <tbody class="divide-y divide-gray-400" id="unidadesList">
                                     </tbody>
@@ -137,20 +164,13 @@
                     current: ''
                 },
                 onStepChanged: function(event, currentIndex, newIndex) {
-                    if (currentIndex === 1 && $("input[type='radio']:checked").val() === "Federal") {
-                        form.steps("next");
-                    }
 
                     if (currentIndex === 2) {
-                        personasByDependencia();
+                        infoPersonasDI();
                     }
 
                     if (currentIndex === 3) {
-                        personasByUnidad();
-                    }
-
-                    if (currentIndex === 3 && $("input[type='radio']:checked").val() === "Federal") {
-                        $("#formulario_dependencias").submit();
+                        infoPersonasUGI();
                     }
 
                 },
@@ -191,7 +211,7 @@
                 },
 
                 errorPlacement: function(error, element) {
-                    if (element.attr("name") === "tipo_dependencia") {
+                    if (element.attr("name") === "tipoDI") {
                         error.appendTo("#errorTipoDependencia");
                     } else {
                         error.insertAfter(element);
@@ -208,19 +228,33 @@
             });
 
             function agregarUnidad() {
+                //Datos de la Unidad
                 var nombreUnidad = $("#nombreUnidad").val();
-                var domicilioUnidad = $("#domicilioUnidad").val();
-                var domicilioDependencia = $("#domicilioDependencia").val();
-                if (domicilioUnidad === "") var domicilio = domicilioDependencia;
-                else var domicilio = domicilioUnidad;
-                if (nombreUnidad != "") {
-                    var listUnidades = "<tr class='hover:bg-gray-100'>" +
-                        "<td class='p-3 text-gray-500'><input type='hidden' name='indexUnidad[]' value='" +
-                        contUnidad + "'>" + nombreUnidad +
-                        "<input type='hidden' name='unidadInformativa[]' value='" + nombreUnidad + "'></td>" +
-                        "<td class='p-3 text-gray-500'>" + domicilio +
-                        "<input type='hidden' name='domicilioUnidad[]' value='" + domicilio + "'></td>" +
-                        "</tr>";
+                var domicilioUnidad = $("#domiclioUnidad").val();
+                var correoUnidad = $("#correoUnidad").val();
+                var telefonoUnidad = $("#telefonoUnidad").val();
+
+                if (nombreUnidad != "" || domicilioUnidad != "" || correoUnidad != "" || telefonoUnidad != "") {
+                    var listUnidades = `
+                        <tr class="hover:bg-gray-100">
+                            <td class="p-3 text-gray-500">
+                                <input type="hidden" name="nombreDI_U[]" value="${nombreUnidad}" />
+                                ${nombreUnidad}
+                            </td>
+                            <td class="p-3 text-gray-500">
+                                <input type="hidden" name="domicilioDI_U[]" value="${domicilioUnidad}" />
+                                ${domicilioUnidad}
+                            </td>
+                            <td class="p-3 text-gray-500">
+                                <input type="hidden" name="correoDI_U[]" value"${correoUnidad}" />
+                                ${correoUnidad}
+                            </td>
+                            <td class="p-3 text-gray-500">
+                                <input type="hidden" name="numTelefonoDI_U[]" value="${telefonoUnidad}" />
+                                ${telefonoUnidad}
+                            </td>
+                        </tr>
+                    `;
                     unidades.push(nombreUnidad);
                     contUnidad++;
                     $("#nombreUnidad").val("");
@@ -230,79 +264,42 @@
                 }
             }
 
-            function formularioPersonas(area, index, tipoFormulario, unidad) {
-                return `
-                    <div class="mb-5 p-5 rounded-lg border-2 border-cherry-800">
-                        <div class="font-bold text-lg text-gray-700">${area} - ${unidad}</div>
-
-                        <input type="hidden" name="index[]" value="${index}">
-                        <input type="hidden" name="tipoPersona[]" value="${tipoFormulario}">
-
-                        <div class="mt-2">
-                            <label class="block uppercase tracking-wide text-sm font-semibold">Nombre Completo del Titular:</label>
-                            <input type="text" name="nombrePersona[]" class="w-full border rounded-lg border-gray-400 p-3 bg-gray-100">
-                        </div>
-                        <div class="mt-2">
-                            <label class="block uppercase tracking-wide text-sm font-semibold">Profesion del Titular:</label>
-                            <input type="text" name="profesionPersona[]"
-                                class="w-full border rounded-lg border-gray-400 p-3 bg-gray-100">
-                        </div>
-
-                        <div class="mt-2 grid md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block uppercase tracking-wide text-sm font-semibold">Área Informante:</label>
-                                <input type="text" name="areaInformantePersona[]"
-                                    class="w-full border rounded-lg border-gray-400 p-3 bg-gray-100" value="${area}" readonly>
-                            </div>
-                            <div>
-                                <label class="block uppercase tracking-wide text-sm font-semibold">Cargo en el Área:</label>
-                                <input type="text" name="cargoAreaPersona[]"
-                                    class="w-full border rounded-lg border-gray-400 p-3 bg-gray-100" value="">
-                            </div>
-                        </div>
-
-                        <div class="mt-2 grid md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block uppercase tracking-wide text-sm font-semibold">Número Telefónico de Contacto:</label>
-                                <input type="text" name="telefonoContactoPersona[]"
-                                    class="w-full border rounded-lg border-gray-400 p-3 bg-gray-100">
-                            </div>
-                            <div>
-                                <label class="block uppercase tracking-wide text-sm font-semibold">Correo Electrónico de Contacto:</label>
-                                <input type="text" name="correoContactoPersona[]"
-                                    class="w-full border rounded-lg border-gray-400 p-3 bg-gray-100">
-                            </div>
-                        </div>
-                    </div>
-                `;
+            function formularioPersonas(tipoForm, area, nombreDI, numTelefonoDI) {
+                return `<x-form-personas tipoForm='${tipoForm}' area='${area}' nombreDependencia='${nombreDI}' telefonoAtencion='${numTelefonoDI}' />`
             }
 
-            function personasByDependencia() {
-                const content = $("#personasInformantesDependencia").empty();
-                const tipo_dependencia = $("input[type='radio']:checked").val();
-                const dependencia = $("#nombreDependencia").val();
-                const tipoFormulario = "dependencia"
-                var areas = tipo_dependencia === "Federal" ? ["Titular de Dependencia",
-                    "Titular de la Unidad Generadora de la Información"
-                ] : [
-                    "Titular de Dependencia",
-                    "Titular de la Unidad de Información, Planeación, Programación y Evaluación o equivalente",
-                    "Enlace responsable de la entrega de la Información"
-                ];
-                areas.forEach((area, index) => {
-                    content.append(formularioPersonas(area, index, tipoFormulario, dependencia));
+            function infoPersonasDI() {
+                $("#personasInformantesDependencia").empty();
+
+                const nombreDI = $("#nombreDI").val()
+                const tipoDependencia = $("input[type='radio']:checked").val();
+                const numTelefonoDI = $("#numTelefonoDI").val()
+
+                var areasInformantes = tipoDependencia === "Federal" ? ["Titular"] : [
+                    "Titular - " + nombreDI,
+                    "Unidad de Información, Planeación, Programación y Evaluación",
+                    "Enlace Responsable de la entrega de la información"
+                ]
+
+                areasInformantes.forEach((area) => {
+                    //tipoForm: DI - Dependencia Informativa, UGI - Unidad Generadora de Información
+                    $("#personasInformantesDependencia").append(formularioPersonas(tipoForm = 'DI', area,
+                        nombreDI, numTelefonoDI));
                 })
             }
 
-            function personasByUnidad() {
-                const content = $("#personasInformantesUnidad").empty();
-                const areas = ["Titular de Dependencia", "Titular de la Unidad Generadora de la Información"];
 
-                unidades.forEach((unidad, index) => {
-                    areas.forEach((area, i) => {
-                        content.append(formularioPersonas(area, index, "unidad", unidad));
-                    })
+            function infoPersonasUGI() {
+                $("#personasInformantesUnidad").empty();
+
+                const numTelefonoDI = $("#numTelefonoDI").val()
+                const areasInformantes = "Titular"
+
+                unidades.forEach((unidad) => {
+                    $("#personasInformantesUnidad").append(formularioPersonas(tipoForm = 'UGI',
+                        areasInformantes, unidad, numTelefonoDI))
                 })
+
             }
         })
     </script>

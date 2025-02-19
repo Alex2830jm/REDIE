@@ -2,7 +2,7 @@
     <div class="flow-root rounded-lg border border-gray-400 shadow-sm mb-5">
         <dl class="divide-y divide-gray-300 text-sm">
             <div class="flex p-3 bg-cherry-800 even:bg-gray-50 sm:justify-between items-center">
-                <span class=" text-base md:text-xl lg:text-2xl text-white mx-auto"> {{ $persona->area }} </span>
+                <span class=" text-base md:text-xl lg:text-2xl text-white mx-auto"> {{ $persona->areaPersona }} </span>
                 <button value="{{ $persona->id }}" @click="personaContent(event)"
                     class="cursor-pointer relative after:content-['Editar_Datos'] after:text-white after:absolute after:text-nowrap after:scale-0 hover:after:scale-100 after:duration-200 w-10 h-10 rounded-full border border-gray-200 bg-gold-400 pointer flex items-center justify-center duration-300 hover:rounded-[50px] hover:w-36 group/button overflow-hidden active:scale-90">
 
@@ -25,12 +25,12 @@
 
             <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
                 <dt class="font-medium text-gray-900">Profesión</dt>
-                <dd class="text-gray-700 sm:col-span-2"> {{ $persona->profesion }} </dd>
+                <dd class="text-gray-700 sm:col-span-2"> {{ $persona->profesionPersona }} </dd>
             </div>
 
             <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
                 <dt class="font-medium text-gray-900">Cargo en dependencia</dt>
-                <dd class="text-gray-700 sm:col-span-2"> {{ $persona->cargo }} </dd>
+                <dd class="text-gray-700 sm:col-span-2"> {{ $persona->cargoPersona }} </dd>
             </div>
             <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
                 <dt class="font-medium text-gray-900">Domicilio</dt>
@@ -39,8 +39,8 @@
             <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
                 <dt class="font-medium text-gray-900">Correo Electronico</dt>
                 <dd class="text-gray-700 sm:col-span-2 items-center">
-                    <span> {{ $persona->correo }} </span>
-                    <a href="mailto:{{ $persona->correo }}"
+                    <span> {{ $persona->correoPersona }} </span>
+                    <a href="mailto:{{ $persona->correoPersona }}"
                         class="inline-block items-center justify-center px-1 py-1 text-sm font-medium leading-5 transition-colors duration-150 border border-gray-300 rounded-full hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2"
                         aria-label="Enviar correo">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -55,7 +55,7 @@
             <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
                 <dt class="font-medium text-gray-900">Teléfono</dt>
                 <dd class="text-gray-700 sm:col-span-2">
-                    <span> {{ $persona->telefono }} </span>
+                    <span> {{ $persona->dependencia->numTelefonoDI }} ext {{ $persona->telefonoPersona }}</span>
                     <a href="tel:+{{ $persona->telefono }}"
                         class="inline-block items-center justify-center px-1 py-1 text-sm font-medium leading-5 transition-colors duration-150 border border-gray-300 rounded-full hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"

@@ -14,29 +14,16 @@ return new class extends Migration
         Schema::create('cuadro_estadisticos', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('tema_id');
-            //$table->unsignedBigInteger('dependencia_id')->nullable();
-            //$table->unsignedBigInteger('unidad_id')->nullable();
             $table->unsignedBigInteger('di_id');
             $table->string('numeroCE');
             $table->string('nombreCuadroEstadistico');
             $table->string('gradoDesagregacion');
             $table->string('frecuenciaAct');
-
             $table->foreign('tema_id')
                 ->references('id')->on('grupos')
                 ->onDelete('cascade');
-
             $table->foreign('di_id')
                 ->references('id')->on('dependencias_informantes');
-
-            /* $table->foreign('dependencia_id')
-                ->references('id')
-                ->on('dependencias');
-
-            $table->foreign('unidad_id')
-                ->references('id')
-                ->on('unidades_informativas'); */
-
             $table->timestamps();
         });
     }

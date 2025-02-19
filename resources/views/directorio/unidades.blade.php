@@ -29,11 +29,11 @@
             await $.get(`{{ url('directorio/editInfoPersona/') }}/${idPersona}`, (persona) => {
                 $('#idPersona').val(persona.id);
                 $('#nombrePersona').val(persona.nombrePersona);
-                $('#profesionPersona').val(persona.profesion)
-                $('#areaPersona').val(persona.area);
-                $('#cargoPersona').val(persona.cargo);
-                $('#telefonoPersona').val(persona.telefono);
-                $('#correoPersona').val(persona.correo)
+                $('#profesionPersona').val(persona.profesionPersona)
+                $('#areaPersona').val(persona.areaPersona);
+                $('#cargoPersona').val(persona.cargoPersona);
+                $('#telefonoPersona').val(persona.telefonoPersona);
+                $('#correoPersona').val(persona.correoPersona)
             });
             $dispatch('open-modal', 'editInfoPersona');
         }

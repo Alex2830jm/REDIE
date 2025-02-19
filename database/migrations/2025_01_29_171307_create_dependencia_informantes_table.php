@@ -14,11 +14,12 @@ return new class extends Migration
         Schema::create('dependencias_informantes', function (Blueprint $table) {
             $table->id();
             $table->string('tipoDI')->nullable();
+            $table->string('numDI')->nullable();
             $table->string('nombreDI');
             $table->string('domicilioDI');
             $table->string('correoDI')->nullable();
             $table->string('numTelefonoDI')->nullable();
-            $table->integer('nivelDI')->comment('1: Dependencias, 2:Direcciones');
+            $table->integer('nivelDI')->comment('1: Dependencias, 2:Unidades Informativas');
             $table->integer('padreDI')->default(0);
             $table->timestamps();
         });

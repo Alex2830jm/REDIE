@@ -20,7 +20,7 @@
             }, 300);
         }
     }">
-        <div class="md:container md:mx-auto">
+        <div class="sm:pr-10 sm:pl-10">
             <div class="flex px-4 my-6 justify-between">
                 <h2 class="text-xl font-semibold text-gray-700">
                     Dependencias

@@ -12,7 +12,7 @@ class DirectorioController extends Controller
 
     public function listDependencias(Request $request)
     {
-        $dependencias = DependenciaInformante::where('tipoDI', '=', $request->get('type'))->get();
+        $dependencias = DependenciaInformante::where('tipoDI', '=', $request->get('type'))->where('nivelDI', '1')->get();
         return view('directorio/dependencias')->with([
             'dependencias' => $dependencias
         ]);

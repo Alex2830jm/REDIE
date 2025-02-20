@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('tipoDI')->nullable();
             $table->string('numDI')->nullable();
             $table->string('nombreDI');
-            $table->string('domicilioDI');
+            $table->string('domicilioDI')->nullable();
             $table->string('correoDI')->nullable();
             $table->string('numTelefonoDI')->nullable();
             $table->integer('nivelDI')->comment('1: Dependencias, 2:Unidades Informativas');

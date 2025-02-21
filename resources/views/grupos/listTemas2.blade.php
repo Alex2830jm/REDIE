@@ -29,7 +29,7 @@
         @foreach ($temas as $tema)
             <label for="tema_{{ $tema->id }}"
                 class="cursor-pointer items-center justify-center text-center px-4 py-2 text-gray-500 text-sm font-medium rounded-md border border-{{ $tema->padre->padre->colorGrupo }}-200 bg-white transition ease-in-out delay-75 hover:border hover:border-{{ $tema->padre->padre->colorGrupo }}-200 has-[:checked]:ring-2 has-[:checked]:ring-{{ $tema->padre->padre->colorGrupo }}-500 has-[:checked]:text-{{ $tema->padre->padre->colorGrupo }}-400">
-                {{ $tema->nombreGrupo }}
+                {{$tema->numGrupo}}.- {{ $tema->nombreGrupo }}
                 <input type="radio" name="tema_id" id="tema_{{ $tema->id }}" value="{{ $tema->id }}"
                     class="sr-only" @click="cesByTema($event)">
             </label>

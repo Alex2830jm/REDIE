@@ -50,7 +50,7 @@
                         <button id="button_grupo_{{ $grupo->id }}" type="button"
                             x-on:click="openAccodionGrupos_{{ $index }} = !openAccodionGrupos_{{ $index }}"
                             class="flex items-center justify-between w-full p-5 font-medium bg-white text-gray-500 border border-b-0 border-gray-200 border-t-4 {{ $borderColor }} rounded-t-xl">
-                            {{ $grupo->nombreGrupo }}
+                            {{$grupo->numGrupo}}.- {{ $grupo->nombreGrupo }}
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2"
                                 stroke="currentColor" class="size-5 shrink-0 transition" aria-hidden="true"
                                 x-bind:class="openAccodionGrupos_{{ $index }} ? 'rotate-180' : ''">
@@ -64,7 +64,7 @@
                                     <button type="button" value="{{ $sector->id }}" id="{{ $sector->id }}"
                                         @click="temasBySector(event)" aria-controls="temasBySector"
                                         class="w-full px-4 py-2 mb-1 font-medium text-sm text-left cursor-pointer border-l-4 border-{{ $grupo->colorGrupo }}-400 hover:bg-{{ $grupo->colorGrupo }}-300 focus:text-{{ $grupo->colorGrupo }}-400">
-                                        {{ $sector->nombreGrupo }}
+                                        {{ $sector->numGrupo}}.- {{ $sector->nombreGrupo }}
                                     </button>
                                 @endforeach
                             </div>

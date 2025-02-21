@@ -150,8 +150,8 @@
                             <div class="flex flex-wrap -mx-3 mb-6">
                                 <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                                     <label for="numero_ce">Número del cuadro estadístico</label>
-                                    <input type="text" id="numero_ce" name="numero_ce"
-                                        class="w-full px-4 py-3 text-sm text-gray-700 bg-gray-100 border border-gray-300 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
+                                    <input type="text" id="numero_ce" name="numero_ce" value="{{ $tema->numGrupo}}.{{ $cuadrosEstadisticos->count() + 1 }}"
+                                        class="w-full px-4 py-3 text-sm text-gray-700 bg-gray-100 border border-gray-300 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40" readonly>
                                 </div>
                                 <div class="w-full md:w-1/2 px-3">
                                     <label for="tema_id">Asignado al tema:</label>

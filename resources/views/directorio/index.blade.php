@@ -35,16 +35,6 @@
                 </a>
             </div>
 
-
-            {{-- Seleccion de tipo de dependencia --}}
-            <div class="sm:hidden">
-                <label for="tabs" class="sr-only">Select your country</label>
-                <select id="tabs"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <option>Profile</option>
-                    <option>Dashboard</option>
-                </select>
-            </div>
             <ul class="hidden text-sm font-medium text-center text-gray-500 rounded-lg shadow sm:flex">
                 <li class="w-full focus-within:z-10">
                     <button id="Estatal" @click="searchDependencia($event)"

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Events\DirectorioRegisterEvent;
 use App\Models\DependenciaInformante;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -180,23 +181,27 @@ class DependenciaInformativaSeed extends Seeder
         ];
 
         foreach( $dependenciasFederales as $i => $DF) {
-            DependenciaInformante::create([
+            $dependenciaFederal = DependenciaInformante::create([
                 'tipoDI' => 'Federal',
                 'numDI' => $DF['numDI'], 
                 'nombreDI' => $DF['nombreDI'], 
                 'padreDI' => $DF['padreDI'], 
                 'nivelDI' => $DF['nivelDI']
             ]);
+
+            event(new DirectorioRegisterEvent($dependenciaFederal));
         }
 
         foreach ( $dependenciasEstatales as $DE ) {
-            DependenciaInformante::create([
+            $dependenciaEstatal = DependenciaInformante::create([
                 'tipoDI' => 'Estatal',
                 'numDI' => $DE['numDI'], 
                 'nombreDI' => $DE['nombreDI'], 
                 'padreDI' => $DE['padreDI'], 
                 'nivelDI' => $DE['nivelDI']
             ]);
+
+            event(new DirectorioRegisterEvent($dependenciaEstatal));
         }
     }
 }

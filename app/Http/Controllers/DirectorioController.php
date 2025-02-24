@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Dependencia;
 use App\Models\DependenciaInformante;
 use App\Models\PersonaUnidad;
 use Illuminate\Http\Request;
@@ -12,7 +13,8 @@ class DirectorioController extends Controller
 
     public function listDependencias(Request $request)
     {
-        $dependencias = DependenciaInformante::where('tipoDI', '=', $request->get('type'))->where('nivelDI', '1')->get();
+        $dependencias = DependenciaInformante::where('tipoDI', '=', $request->get('type'))
+            ->where('nivelDI', '1')->orderBy('id', 'ASC')->get();
         return view('directorio/dependencias')->with([
             'dependencias' => $dependencias
         ]);
@@ -111,6 +113,38 @@ class DirectorioController extends Controller
         return redirect()->route('directorio.index');
     }
 
+    public function updateInfoDependencia(Request $request)
+    {
+        //dd($request);
+        $dependencia = DependenciaInformante::find($request->get('id_di'))->update(
+            $request->only('nombreDI', 'domicilioDI', 'numTelefonoDI', 'correoDI')
+        );
+
+        $dep = DependenciaInformante::find($request->get('id_di'));
+        $id = $dep->nivelDI === 1 ? $dep->id : $dep->dependencia->id;
+
+        notyf()
+            ->position('x', 'center')
+            ->position('y', 'top')
+            ->addSuccess('Los datos de la dependencia se han actualizado correctamente');
+
+        return redirect()->route('directorio.unidades', $id);
+    }
+
+    public function detallesUnidad(Request $request) {
+        $dependencia = DependenciaInformante::find($request->get('unidad_id'));
+        return response()->json($dependencia);
+    }
+
+    public function showInformantesUnidad(Request $request)
+    {
+        $unidad = DependenciaInformante::find($request->get('unidad_id'));
+        //return response()->json([$unidad]);
+        return view('directorio.infoPersonas')->with([
+            'unidad' => $unidad
+        ]);
+    }
+
     public function editInfoPersona(string $id)
     {
         $persona = PersonaUnidad::find($id);
@@ -122,14 +156,13 @@ class DirectorioController extends Controller
     public function updateInfoPersona(Request $request)
     {
         //dd($request);
-
         $personaInformante = PersonaUnidad::find($request->get('idPersona'))->update([
             "nombrePersona" => $request->get('nombrePersona'),
-            "profesion" => $request->get('profesionPersona'),
-            "area"  => $request->get('areaPersona'),
-            "cargo" => $request->get('cargoPersona'),
-            "telefono"  => $request->get('telefonoPersona'),
-            "correo"    => $request->get('correoPersona'),
+            "profesionPersona" => $request->get('profesionPersona'),
+            "areaPersona"  => $request->get('areaPersona'),
+            "cargoPersona" => $request->get('cargoPersona'),
+            "telefonoPersona"  => $request->get('telefonoPersona'),
+            "correoPersona"    => $request->get('cargoPersona'),
         ]);
 
         notyf()

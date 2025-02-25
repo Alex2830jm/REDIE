@@ -45,6 +45,7 @@ Route::middleware(['custom.headers'])->group(function () {
         Route::get('/archivos-ce', 'listArchivosCE')->name('archivosByCuadrosEstadisticos');
         Route::get('/info-ce', 'infoCE')->name('infoCE');
         Route::post('/guardar-archivo', 'saveArchives')->name('guardarArchivos');
+        Route::get('/ver-archivo', 'viewFile')->name('verArchivo');
         Route::get('/descargar-archivo', 'downloadFileCE')->name('descargarArchivo');
     });
     Route::get('unidades', [DirectorioController::class, 'unidadesCE'])->name('unidadesCE');

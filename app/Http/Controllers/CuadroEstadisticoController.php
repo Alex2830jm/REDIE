@@ -10,21 +10,25 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
-class CuadroEstadisticoController extends Controller {
+class CuadroEstadisticoController extends Controller
+{
 
-    public function index() {
+    public function index()
+    {
         $grupos = Grupo::where('grupo_nivel', '=', '2')->get();
         return view('index')->with([
             'grupos' => $grupos
         ]);
     }
 
-    public function listGrupos() {
+    public function listGrupos()
+    {
         $grupos = Grupo::where('grupo_nivel', '=', '2')->get();
         return response()->json($grupos);
     }
 
-    public function listSectores(Request $request) {
+    public function listSectores(Request $request)
+    {
         $user = Auth::user();
         $rol = $user->roles->pluck('id');
 
@@ -36,11 +40,12 @@ class CuadroEstadisticoController extends Controller {
 
         return view('grupos/listSectores2')->with([
             'numeroGrupo' => $request->get('grupo'),
-            'sectores' => $sectores,            
+            'sectores' => $sectores,
         ]);
     }
 
-    public function listTemas(Request $request) {
+    public function listTemas(Request $request)
+    {
         $user = Auth::user();
         $rol = $user->roles->pluck('id');
 
@@ -55,12 +60,13 @@ class CuadroEstadisticoController extends Controller {
         ]);
     }
 
-    public function listCE(Request $request) {
+    public function listCE(Request $request)
+    {
 
         $tema = Grupo::find($request->get('tema_id'));
         $cuadrosEstadisticos = CuadroEstadistico::where('tema_id', '=', $request->get('tema_id'))->with('informante')->get();
         $dependencias = DependenciaInformante::where('nivelDI', '1')->orderBy('tipoDI')->get();
-        
+
         return view('grupos/listCuadrosEstadisticos2')->with([
             'tema' => $tema,
             'cuadrosEstadisticos' => $cuadrosEstadisticos,
@@ -68,18 +74,26 @@ class CuadroEstadisticoController extends Controller {
         ]);
     }
 
-    public function listArchivosCE(Request $request) {
+    public function listArchivosCE(Request $request)
+    {
         $cuadroEstadistico = CuadroEstadistico::findOrFail($request->get('ce_id'));
         $cuadroEstadistico->archivos;
         return response()->json($cuadroEstadistico);
     }
 
-    public function infoCE(Request $request) {
+    public function infoCE(Request $request)
+    {
         $cuadroEstadistico = CuadroEstadistico::findOrFail($request->get('ce_id'));
         return response()->json($cuadroEstadistico);
     }
 
-    public function storeCE(Request $request){
+    public function viewFile(Request $request) {
+        $file = CEArchivos::find($request->get('idFile'));
+        return response()->json($file);
+    }
+
+    public function storeCE(Request $request)
+    {
         //dd($request);
         $dependencia = explode("_", $request->get('dependencia'));
         $origenCE = $dependencia[0] === "federal"
@@ -101,40 +115,49 @@ class CuadroEstadisticoController extends Controller {
         return redirect()->route('home');
     }
 
-    public function saveArchives(Request $request) {
+    public function saveArchives(Request $request)
+    {
         //dd($request);
-        $ce = CuadroEstadistico::find($request->get('idCE'));
-        $tema = $ce->tema->nombreGrupo;
-        $ruta = 'public/' . $tema . '/' . $ce->numeroCE;
+        $ce = CuadroEstadistico::findOrFail($request->get('idCE'));
 
-
-        $archivo = $request->file('fileCE');
-        //dd($archivo->getClientOriginalExtension(), $archivo->getMimeType());
-
-        if($request->hasfile('fileCE')) {
-            $archivo = $request->file('fileCE');
-            //$nameFile = $request->get('numeroCE') . '_' . $request->get('yearPost') . '.' . $archivo->getClientOriginalExtension();
-            $upload = $archivo->storeAS($ruta, $archivo->getClientOriginalName());
+        if (!$request->hasFile('fileCE')) {
+            return response()->json(['error' => 'No se recibió ningún archivo'], 400);
         }
 
+        $file = $request->file('fileCE');
+
+        $temaPadrePadre = optional($ce->tema->padre)->padre;
+        $temaPadre = optional($ce->tema)->padre;
+
+        $grupo = optional($temaPadrePadre)->numGrupo . '.-' . optional($temaPadrePadre)->nombreGrupo;
+        $sector = optional($temaPadre)->numGrupo . '.-' . optional($temaPadre)->nombreGrupo;
+        $tema = optional($ce->tema)->numGrupo . '.-' . optional($ce->tema)->nombreGrupo;
+
+        $fileName = $request->get('yearPost') . '.' . $file->getClientOriginalExtension();
+        $rutaFile = "public/{$grupo}/{$sector}/{$tema}/{$ce->numeroCE}";
+
+        $filePath = $file->storeAs($rutaFile, $fileName);
+
         $archivoCE = CEArchivos::create([
-            'ce_id' => $request->get('idCE'),
+            'ce_id' => $ce->id,
             'yearPost' => $request->get('yearPost'),
-            'nombreArchivo' => $archivo->getClientOriginalName(),
-            'urlFile' => Storage::url($upload)
+            'nombreArchivo' => $fileName,
+            'urlFile' => Storage::url($filePath)
         ]);
-        
+
         notyf()
             ->position('x', 'center')
             ->position('y', 'top')
-            ->addSuccess('Archivo guardado correctamente :)');
+            ->addSuccess('Archivo Guardado Correctamente');
 
         return redirect()->route('home');
+
     }
 
-    public function downloadFileCE(Request $request) {
+    public function downloadFileCE(Request $request)
+    {
         $file = CEArchivos::find($request->get('idFile'));
         $pathFile = $file->ce->tema->nombreGrupo . '/' . $file->ce->numeroCE . '/' . $file->nombreArchivo;
-        return Storage::download('public/'.$pathFile);
+        return Storage::download('public/' . $pathFile);
     }
 }

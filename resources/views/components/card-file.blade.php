@@ -7,7 +7,7 @@
 <div class='w-56 m-5 overflow-hidden bg-white rounded-lg shadow-lg border-2 border-gray-300 md:w-64'>
     <h3 class='py-2 font-bold tracking-wide text-center text-gray-800 uppercase'> {{ $yearPost }} </h3>
     <div class='flex items-center justify-between px-3 py-2 bg-gray-200'>
-        <button id='viewFile' value='{{ $nameFile }}' @click='contentCE(event)'
+        <button id='viewFile' value='{{ $idFile }}' @click='contentCE(event)'
             class='inline-flex items-center px-2 py-1 bg-blue-500 transition ease-in-out delay-75 hover:bg-blue-600 text-white text-sm font-medium rounded-md hover:-translate-y-1 hover:scale-110'>
             <svg fill='none' viewBox='0 0 24 24'
                 stroke-width='1.5' stroke='currentColor' class='h-5 w-5 mr-2'>

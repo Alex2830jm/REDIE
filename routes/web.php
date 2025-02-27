@@ -25,12 +25,7 @@ use Illuminate\Support\Facades\Route;
     return view('index');
 })->middleware(['auth'])->name('home'); */
 
-Route::middleware(['custom.headers'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->middleware(['auth'])->name('dashboard');
-    
-    
+Route::middleware(['custom.headers', 'auth'])->group(function () {    
     Route::view('prueba', 'pruebas');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -69,23 +64,25 @@ Route::middleware(['custom.headers'])->group(function () {
         Route::post('/eliminar', 'destroy')->name('delete');
     });
 
-    Route::prefix('directorio')->controller(DirectorioController::class)->name('directorio.')->group(function () {
-        Route::view('/', 'directorio/index')->name('index');
-        Route::get('/dependencias', 'listDependencias')->name('dependencias');
-        Route::post('/updateInfoDependencia', 'updateInfoDependencia')->name('updateInfoDependencia');
-        Route::get('{id}/unidades', 'listUnidades')->name('unidades');
+    Route::controller(DirectorioController::class)->group(function () {
+        Route::prefix('dependencias')->name('dependencia.')->group(function () {
+            Route::view('/', 'directorio/index')->name('home');
+            Route::get('/dependencias', 'listDependencias')->name('index');
+            Route::get('nueva', 'create')->name('create');
+            Route::post('store', 'store')->name('store');
+            Route::post('/updateInfoDependencia', 'updateInfoDependencia')->name('update');
+            Route::get('{id}/unidades', 'listUnidades')->name('listUnidades');
+        });
 
-        Route::get('/unidad', 'showInformantesUnidad')->name('detallesUnidad');
-        Route::get('/infoUnidad', 'detallesUnidad')->name('infoUnidad');
-        
-        Route::get('/infoPersonas', 'infoPersonas')->name('infoPersonas');
-        Route::get('/editInfoPersona/{id}', 'editInfoPersona')->name('editInfoPersona');
-        Route::post('/updateInfoPersona', 'updateInfoPersona')->name('updateInfoPersona');
-
-        Route::get('dependecia/nueva', 'create')->name('dependenciaNueva');
-        Route::post('dependencia/store', 'store')->name('dependenciaStore');
+        Route::prefix('unidades')->name('unidad.')->group(function () {
+            Route::get('/detalles', 'showInformantesUnidad')->name('show');
+            Route::get('/edit', 'editUnidad')->name('edit');
+            Route::get('/detallesInformante/{id}', 'showInformante')->name('showInformante');
+            Route::get('/editInformante/{id}', 'editInformante')->name('editInformante');
+            Route::post('/updateInformante', 'updateInformante')->name('updateInformante');
+        });
     });
-})->middleware(['auth']);
+});
 
 
 Route::get('/pruebas', [DashboardController::class, 'pruebas']);

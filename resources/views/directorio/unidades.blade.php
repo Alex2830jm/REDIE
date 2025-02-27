@@ -11,11 +11,11 @@
             $('#showInformantes').empty();
     
             setTimeout(() => {
-                $('#showInformantes').load(`{{ route('directorio.detallesUnidad') }}?unidad_id=${unidadId}`);
+                $('#showInformantes').load(`{{ route('unidad.show') }}?unidad_id=${unidadId}`);
                 this.openInformantes = true;
             }, 1000);
     
-            await $.get(`{{ route('directorio.infoUnidad') }}??unidad_id=${unidadId}`, (dependencia) => {
+            await $.get(`{{ route('unidad.edit') }}??unidad_id=${unidadId}`, (dependencia) => {
                 $('#nombreDI').html(dependencia.nombreDI);
                 $('#domicilioDI').html(dependencia.domicilioDI);
                 $('#numTelefonoDI').html(dependencia.numTelefonoDI);
@@ -32,7 +32,7 @@
     
         async contentInformantes(event) {
             const informanteId = event.currentTarget.value;
-            await $.get(`{{ url('directorio/editInfoPersona/') }}/${informanteId}`, (persona) => {
+            await $.get(`{{ url('unidades/editInformante/') }}/${informanteId}`, (persona) => {
                 $('#idPersona').val(persona.id);
                 $('#nombrePersona').val(persona.nombrePersona);
                 $('#profesionPersona').val(persona.profesionPersona)
@@ -234,7 +234,7 @@
                 </svg>
             </div>
             <div class="bg-white shadow-lg rounded-sm border border-gray-200 p-5">
-                <form action="{{ route('directorio.updateInfoDependencia') }}" method="post">
+                <form action="{{ route('dependencia.update') }}" method="post">
                     @csrf
 
                     <input type="hidden" name="id_di" value="{{ $dependencia->id }}" id="id_di">
@@ -303,7 +303,7 @@
                 </svg>
             </div>
             <div class="bg-white shadow-lg rounded-sm border border-gray-200 p-5">
-                <form action="{{ route('directorio.updateInfoPersona') }}" method="POST">
+                <form action="{{ route('unidad.updateInformante') }}" method="POST">
                     @csrf
                     <input type="hidden" name="idPersona" id="idPersona">
 

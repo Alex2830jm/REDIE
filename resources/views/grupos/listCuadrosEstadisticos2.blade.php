@@ -44,6 +44,7 @@
                 console.log(valCE);
                 $('#fileDetails').empty();
                 $.get(`{{ route('verArchivo') }}?idFile=${valCE}`, (archivo) => {
+                    console.log(`<iframe src='https://view.officeapps.live.com/op/embed.aspx?src=http://redieigecem.edomex.gob.mx/${archivo.urlFile}' width='100%' height='600px'></iframe>`);
                     $('#fileDetails').append(`
                         <iframe src='https://view.officeapps.live.com/op/embed.aspx?src=http://redieigecem.edomex.gob.mx/${archivo.urlFile}' width='100%' height='600px'></iframe>
                     `);

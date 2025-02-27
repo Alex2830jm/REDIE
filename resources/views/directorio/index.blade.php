@@ -4,7 +4,7 @@
 
         init() {
             setTimeout(() => {
-                $('#listDependencias').load(`{{ route('directorio.dependencias')}}?type=Estatal`, () => {
+                $('#listDependencias').load(`{{ route('dependencia.index')}}?type=Estatal`, () => {
                     this.openDependencias = true;
                 });
             }, 300);
@@ -14,7 +14,7 @@
             this.openDependencias = false;
             var type = $(event.currentTarget).attr('id');
             setTimeout(() => {
-                $('#listDependencias').load(`{{ route('directorio.dependencias')}}?type=${type}`, () => {
+                $('#listDependencias').load(`{{ route('dependencia.index')}}?type=${type}`, () => {
                     this.openDependencias = true;
                 });
             }, 300);
@@ -25,7 +25,7 @@
                 <h2 class="text-xl font-semibold text-gray-700">
                     Dependencias
                 </h2>
-                <a href="{{ route('directorio.dependenciaNueva') }}"
+                <a href="{{ route('dependencia.create') }}"
                     class="flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-500 border border-transparent rounded-lg active:bg-green-600 hover:bg-green-600 focus:outline-none focus:shadow-outline-purple">
                     <span>Agregar dependencia</span>
                     <svg class="w-4 h-4 ml-2 -mr-1" fill="none" viewBox="0 0 24 24" stroke-width="1.5"

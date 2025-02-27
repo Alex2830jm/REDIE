@@ -28,17 +28,6 @@ class DirectorioController extends Controller
         ]);
     }
 
-    public function infoPersonas(Request $request)
-    {
-        $tipo = $request->get('tipo');
-        $id = $request->get('id');
-
-        $personas = PersonaUnidad::where('di_id', $id)->get();
-        return view('directorio/infoPersonas')->with([
-            'personas' => $personas
-        ]);
-    }
-
     public function unidadesCE(Request $request)
     {
         $dependencia_id = $request->get('dependencia_id');
@@ -110,7 +99,7 @@ class DirectorioController extends Controller
             ->position('y', 'top')
             ->addSuccess('Dependencia agregada al directorio correctamente');
 
-        return redirect()->route('directorio.index');
+        return redirect()->route('dependencia.home');
     }
 
     public function updateInfoDependencia(Request $request)
@@ -128,10 +117,10 @@ class DirectorioController extends Controller
             ->position('y', 'top')
             ->addSuccess('Los datos de la dependencia se han actualizado correctamente');
 
-        return redirect()->route('directorio.unidades', $id);
+        return redirect()->route('dependencia.listUnidades', $id);
     }
 
-    public function detallesUnidad(Request $request) {
+    public function editUnidad(Request $request) {
         $dependencia = DependenciaInformante::find($request->get('unidad_id'));
         return response()->json($dependencia);
     }
@@ -145,7 +134,18 @@ class DirectorioController extends Controller
         ]);
     }
 
-    public function editInfoPersona(string $id)
+    public function showInformante(Request $request)
+    {
+        $tipo = $request->get('tipo');
+        $id = $request->get('id');
+
+        $personas = PersonaUnidad::where('di_id', $id)->get();
+        return view('directorio/infoPersonas')->with([
+            'personas' => $personas
+        ]);
+    }
+
+    public function editInformante(string $id)
     {
         $persona = PersonaUnidad::find($id);
 
@@ -153,7 +153,7 @@ class DirectorioController extends Controller
     }
 
 
-    public function updateInfoPersona(Request $request)
+    public function updateInformante(Request $request)
     {
         //dd($request);
         $personaInformante = PersonaUnidad::find($request->get('idPersona'))->update([

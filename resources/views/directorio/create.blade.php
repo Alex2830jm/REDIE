@@ -3,7 +3,7 @@
         <div class="px-4 my-6 text-2xl font-semibold text-gray-700">
             Registro de Dependencias y Unidades Generadoras de Información
         </div>
-        <form action="{{ route('directorio.dependenciaStore') }}" method="POST" id="formulario_dependencias">
+        <form action="{{ route('dependencia.store') }}" method="POST" id="formulario_dependencias">
             @csrf
             <h3>Datos de la Dependencia</h3>
             <section>

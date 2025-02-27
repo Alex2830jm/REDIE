@@ -39,7 +39,7 @@
                         <span class="block w-full pl-3 mr-3">Inicio</span>
                     </div>
                 </x-nav-link>
-                <x-nav-link :href="route('directorio.index')" :active="request()->routeIs('directorio')">
+                <x-nav-link :href="route('dependencia.home')" :active="request()->routeIs('directorio')">
                     <div class="relative flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="size-6">

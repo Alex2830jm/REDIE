@@ -43,6 +43,11 @@ Route::middleware(['custom.headers', 'auth'])->group(function () {
         Route::get('/ver-archivo', 'viewFile')->name('verArchivo');
         Route::get('/descargar-archivo', 'downloadFileCE')->name('descargarArchivo');
     });
+
+    Route::prefix('upload')->name('upload.')->group(function () {
+        Route::view('/', 'upload/fileUpload')->name('index');
+    });
+
     Route::get('unidades', [DirectorioController::class, 'unidadesCE'])->name('unidadesCE');
     
     Route::prefix('roles')->controller(RoleController::class)->name('roles.')->group(function() {

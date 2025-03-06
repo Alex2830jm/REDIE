@@ -160,4 +160,63 @@ class CuadroEstadisticoController extends Controller
         $pathFile = $file->ce->tema->nombreGrupo . '/' . $file->ce->numeroCE . '/' . $file->nombreArchivo;
         return Storage::download('public/' . $pathFile);
     }
+
+
+    public function infoCuadroEstadistico(Request $request) {
+        //dd($request);
+
+        $numeroCE = explode('.xlsx', $request->get('numero_ce'));
+        //dd($numeroCE);
+        
+        $ce = CuadroEstadistico::where('numeroCE', '=', $numeroCE)->get();
+        //$ce = CuadroEstadistico::find('2');
+        return response()->json(['cuadroEstadistico' => $ce]);
+    }
+
+    public function storeFiles(Request $request) {
+        //dd($request);
+
+        if(!$request->file('fileCE')) {
+            return response()->json(['error' => 'No se recibio ningún archivo'], 400);
+        }
+        
+        $index = $request->get('indexFile');
+        foreach($index as $i => $index) {
+            $ce = CuadroEstadistico::find($request->get('idCE')[$index]);
+            //dd($ce);
+            $file = $request->file('fileCE')[$index];
+
+            if($file->getError()) {
+                dd($file->getErrorMessage());
+            }
+
+            $temaPadrePadre = optional($ce->tema->padre)->padre;
+            $temaPadre = optional($ce->tema)->padre;
+
+            $grupo = optional($temaPadrePadre)->numGrupo . '.-' . optional($temaPadrePadre)->nombreGrupo;
+            $sector = optional($temaPadre)->numGrupo . '.-' . optional($temaPadre)->nombreGrupo;
+            $tema = optional($ce->tema)->numGrupo . '.-' . optional($ce->tema)->nombreGrupo;
+
+            $fileName = $request->get('yearPost') . '.' . $file->getClientOriginalExtension();
+            //$filePath = "public/{$grupo}/{$sector}/{$tema}/{$ce->numeroCE}";
+            $filePath = "public/" . $grupo . "/" . $sector . "/" . $tema . "/" . $ce->numeroCE;
+            
+
+            $fileStore = $file->storeAs($filePath, $fileName);
+
+            CEArchivos::create([
+                'ce_id' => $ce->id,
+                'yearPost' => $request->get('yearPost'),
+                'nombreArchivo' => $ce->numeroCE . '_' . $fileName,
+                'urlFile' => Storage::url($fileStore)
+            ]);
+        }
+
+        notyf()
+            ->position('x', 'center')
+            ->position('y', 'top')
+            ->addSuccess('Archivos Guardados Correctamente');
+
+        return redirect()->route('home');
+    }
 }

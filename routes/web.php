@@ -42,10 +42,12 @@ Route::middleware(['custom.headers', 'auth'])->group(function () {
         Route::post('/guardar-archivo', 'saveArchives')->name('guardarArchivos');
         Route::get('/ver-archivo', 'viewFile')->name('verArchivo');
         Route::get('/descargar-archivo', 'downloadFileCE')->name('descargarArchivo');
-    });
 
-    Route::prefix('upload')->name('upload.')->group(function () {
-        Route::view('/', 'upload/fileUpload')->name('index');
+        Route::prefix('upload')->name('upload.')->group(function () {
+            Route::view('/', 'upload/fileUpload')->name('index');
+            Route::get('infoCuadroEstadistico', 'infoCuadroEstadistico')->name('infoCuadroEstadistico');
+            Route::post('/store', 'storeFiles')->name('storeFiles');
+        });
     });
 
     Route::get('unidades', [DirectorioController::class, 'unidadesCE'])->name('unidadesCE');

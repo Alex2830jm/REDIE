@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CuadroEstadistico;
+use App\Models\DependenciaInformante;
 use App\Models\Grupo;
 use Illuminate\Http\Request;
 
@@ -85,9 +86,12 @@ class DashboardController extends Controller
         return view("grupos/archivosCuadroEstadistico");
     }
 
-    public function pruebas() {
-        $temas = Grupo::where('grupo_nivel', '4')->get();
-        //return response()->json(['Temas' => $temas]);
-        return view('pruebas')->with(['Temas' => $temas]);
+    public function prueba() {
+        $dependencias = DependenciaInformante::select('id', 'tipoDI', 'numDI', 'nombreDI', 'padreDI', 'nivelDI')
+            ->orderBy('tipoDI')
+            ->orderBy('id', 'ASC')
+            ->get();
+        //return response()->json(['dependencias' => $dependencias]);
+        return view('pruebas')->with(['collection' => $dependencias, 'typecollection' => '1']);
     }
 }

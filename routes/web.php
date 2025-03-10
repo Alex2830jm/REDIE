@@ -26,7 +26,7 @@ use Illuminate\Support\Facades\Route;
 })->middleware(['auth'])->name('home'); */
 
 Route::middleware(['custom.headers', 'auth'])->group(function () {    
-    Route::view('prueba', 'pruebas');
+    Route::get('prueba', [DashboardController::class, 'prueba']);
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -49,8 +49,6 @@ Route::middleware(['custom.headers', 'auth'])->group(function () {
             Route::post('/store', 'storeFiles')->name('storeFiles');
         });
     });
-
-    Route::get('unidades', [DirectorioController::class, 'unidadesCE'])->name('unidadesCE');
     
     Route::prefix('roles')->controller(RoleController::class)->name('roles.')->group(function() {
         Route::get('/', 'index')->name('index');

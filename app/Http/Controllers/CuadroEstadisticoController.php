@@ -64,8 +64,13 @@ class CuadroEstadisticoController extends Controller
     {
 
         $tema = Grupo::find($request->get('tema_id'));
-        $cuadrosEstadisticos = CuadroEstadistico::where('tema_id', '=', $request->get('tema_id'))->with('informante')->get();
-        $dependencias = DependenciaInformante::where('nivelDI', '1')->orderBy('tipoDI')->get();
+        $cuadrosEstadisticos = CuadroEstadistico::where('tema_id', '=', $request->get('tema_id'))
+            ->with('informante')
+            ->get();
+        $dependencias = DependenciaInformante::select('id', 'tipoDI', 'numDI', 'nombreDI', 'padreDI', 'nivelDI')
+            ->orderBy('tipoDI')
+            ->orderBy('id', 'ASC')
+            ->get();
 
         return view('grupos/listCuadrosEstadisticos2')->with([
             'tema' => $tema,
@@ -95,14 +100,11 @@ class CuadroEstadisticoController extends Controller
     public function storeCE(Request $request)
     {
         //dd($request);
-        $dependencia = explode("_", $request->get('dependencia'));
-        $origenCE = $dependencia[0] === "federal"
-            ? ['di_id' => $dependencia[1]]
-            : ['di_id' => $request->get('unidad_id')];
-
-        $ce = CuadroEstadistico::create($origenCE + [
+        $ce = CuadroEstadistico::create([
             "numeroCE" => $request->get('numero_ce'),
             "tema_id" => $request->get('tema_id'),
+            "di_id" => $request->get('di_id'),
+            'ui_id' => $request->get('ui_id'),
             "nombreCuadroEstadistico" => $request->get('nombreCuadroEstadistico'),
             "gradoDesagregacion" => $request->get('gradoDesagregacion'),
             "frecuenciaAct" => $request->get('frecuenciaAct'),

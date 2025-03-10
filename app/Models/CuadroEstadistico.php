@@ -13,6 +13,7 @@ class CuadroEstadistico extends Model
     protected $fillable = [
         "tema_id",
         "di_id",
+        "ui_id",
         "numeroCE",
         "nombreCuadroEstadistico",
         "gradoDesagregacion",

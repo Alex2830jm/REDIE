@@ -28,20 +28,6 @@ class DirectorioController extends Controller
         ]);
     }
 
-    public function unidadesCE(Request $request)
-    {
-        $dependencia_id = $request->get('dependencia_id');
-        $dependencia = DependenciaInformante::find($dependencia_id);
-        foreach ($dependencia->unidades as $key => $unidad) {
-            $unidadArray[$key] = [
-                'id' => $unidad->id,
-                'unidad' => $unidad->nombreDI
-            ];
-        }
-
-        return response()->json($unidadArray);
-    }
-
     public function create()
     {
         return view('directorio/create');

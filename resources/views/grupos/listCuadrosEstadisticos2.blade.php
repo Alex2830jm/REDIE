@@ -27,21 +27,6 @@
                 })
                 $dispatch('open-modal', 'fileHistory');
                 break;
-
-            case 'selectDependencia':
-                var [tipoDependencia, idDependencia] = valCE.split('_');
-                if (tipoDependencia === 'estatal') {
-                    $.get(`{{ route('unidadesCE') }}?dependencia_id=${idDependencia}`, (unidades) => {
-                        $('#unidades').empty();
-                        $.each(unidades, (index, value) => {
-                            $('#unidades').append('<option value=' + value.id + '>' + value.unidad + '</option>').prop('disabled', false);
-                        });
-                    });
-                } else if (tipoDependencia === 'federal') {
-                    $('#unidades').empty();
-                    $('#unidades').append('<option>Dependencia Federal</option>').prop('disabled', true);
-                }
-                break;
             case 'viewFile':
                 console.log(valCE);
                 $('#fileDetails').empty();

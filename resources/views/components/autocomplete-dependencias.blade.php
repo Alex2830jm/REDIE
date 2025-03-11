@@ -87,7 +87,8 @@
             @keydown.arrow-up.prevent="navigate(-1, '1')" 
             @keydown.enter.prevent="selectResult('1')""
             class="block w-full px-4 py-3 text-sm text-gray-700 bg-gray-50 border border-gray-400 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
-            placeholder="Selecciona la dependencia informativa">
+            placeholder="Selecciona la dependencia informativa"
+            autocomplete="off">
         <ul x-show="filtered.length > 0"
             class="absolute z-10 mt-1 max-h-56 overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
             <template x-for="(result, index) in filtered" :key="index">
@@ -110,7 +111,8 @@
             @keydown.arrow-up.prevent="navigate(-1, '2')" 
             @keydown.enter.prevent="selectResult('2')"
             class="block w-full px-4 py-3 text-sm text-gray-700 bg-gray-50 border border-gray-400 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
-            placeholder="Selecciona la dependencia informativa">
+            placeholder="Selecciona la dependencia informativa"
+            autocomplete="off">
         <ul x-show="subFiltered.length > 0"
             class="absolute z-10 mt-1 max-h-56 overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
             <template x-for="(result, index) in subFiltered" :key="index">

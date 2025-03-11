@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('cuadro_estadisticos', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('tema_id');
-            $table->unsignedBigInteger('di_id')->unique();
-            $table->unsignedBigInteger('ui_id')->unique();
+            $table->unsignedBigInteger('di_id');
+            $table->unsignedBigInteger('ui_id');
             $table->string('numeroCE');
             $table->string('nombreCuadroEstadistico');
             $table->string('gradoDesagregacion');

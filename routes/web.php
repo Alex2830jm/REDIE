@@ -35,7 +35,8 @@ Route::middleware(['custom.headers', 'auth'])->group(function () {
         Route::get('/', 'index' )->middleware(['auth'])->name('home');
         Route::get('/sectores-grupo', 'listSectores')->name('sectorsByGroup')->middleware(['auth']);
         Route::get('/temas-sector', 'listTemas')->name('temasBySector');
-        Route::get('/cuadro-estadistico', 'listCE')->name('cuadrosEstadisticosByTema');
+        Route::get('/cuadro-estadistico/{ce}', 'listCE')->name('cuadrosEstadisticosByTema');
+        Route::get('/cuadros-estadisticos/{ce}', 'jsonCE');
         Route::post('/store-ce', 'storeCE')->name('saveCE');
         Route::get('/archivos-ce', 'listArchivosCE')->name('archivosByCuadrosEstadisticos');
         Route::get('/info-ce', 'infoCE')->name('infoCE');

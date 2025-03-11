@@ -25,7 +25,7 @@ class CuadroEstadistico extends Model
     }
 
     public function informante() {
-        return $this->belongsTo(DependenciaInformante::class, 'di_id');
+        return $this->belongsTo(DependenciaInformante::class, 'ui_id');
     }
 
     public function archivos() {

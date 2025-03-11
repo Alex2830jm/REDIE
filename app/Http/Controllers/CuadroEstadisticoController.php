@@ -60,22 +60,34 @@ class CuadroEstadisticoController extends Controller
         ]);
     }
 
-    public function listCE(Request $request)
+    public function listCE(String $ce, Request $request)
     {
-
-        $tema = Grupo::find($request->get('tema_id'));
-        $cuadrosEstadisticos = CuadroEstadistico::where('tema_id', '=', $request->get('tema_id'))
+        $tema = Grupo::find($ce);
+        $cuadrosEstadisticos = CuadroEstadistico::where('tema_id', '=', $ce)
             ->with('informante')
-            ->get();
+            ->paginate(10);
         $dependencias = DependenciaInformante::select('id', 'tipoDI', 'numDI', 'nombreDI', 'padreDI', 'nivelDI')
             ->orderBy('tipoDI')
             ->orderBy('id', 'ASC')
             ->get();
-
         return view('grupos/listCuadrosEstadisticos2')->with([
             'tema' => $tema,
             'cuadrosEstadisticos' => $cuadrosEstadisticos,
             'dependencias' => $dependencias
+        ]);
+    }
+
+    public function jsonCE(String $ce, Request $request)
+    {
+        
+        $cuadrosEstadisticos = CuadroEstadistico::where('tema_id', '=', $ce)
+            ->orderBy('id', 'ASC')
+            ->with(['informante', 'informante.dependencia'])
+            ->paginate(10);
+        
+
+        return response()->json([
+            'cuadrosEstadisticos' => $cuadrosEstadisticos,            
         ]);
     }
 

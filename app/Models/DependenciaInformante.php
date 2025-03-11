@@ -24,6 +24,6 @@ class DependenciaInformante extends Model
     }
 
     public function cuadrosEstadisticos() {
-        return $this->hasMany(CuadroEstadistico::class, 'di_id');
+        return $this->hasMany(CuadroEstadistico::class, 'ui_id');
     }
 }

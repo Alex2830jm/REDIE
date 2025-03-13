@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\DirectorioRegisterEvent;
 use App\Models\Dependencia;
 use App\Models\DependenciaInformante;
 use App\Models\PersonaUnidad;
+use App\Models\UnidadInformativa;
 use Illuminate\Http\Request;
 
 class DirectorioController extends Controller
 {
-
-
     public function listDependencias(Request $request)
     {
         $dependencias = DependenciaInformante::where('tipoDI', '=', $request->get('type'))
@@ -23,8 +23,12 @@ class DirectorioController extends Controller
     public function listUnidades(string $id)
     {
         $dependencia = DependenciaInformante::find($id);
+        $informantes = PersonaUnidad::where('di_id', '=', $id)
+            ->orderBy('id', 'ASC')
+            ->get();
         return view('directorio/unidades')->with([
             'dependencia' => $dependencia,
+            'informantes' => $informantes
         ]);
     }
 
@@ -106,29 +110,64 @@ class DirectorioController extends Controller
         return redirect()->route('dependencia.listUnidades', $id);
     }
 
-    public function editUnidad(Request $request) {
+    public function addUnidad(DependenciaInformante $dependencia, Request $request){
+        //dd($request);
+            $request->validate([
+                'numDI_U' => 'required|string|max:12',
+                'nombreDI_U' => 'required|string|max:255',
+                'domicilioDI_U' => 'nullable|string|max:255',
+                'correoDI_U' => 'nullable|email|max:100',
+                'numTelefonoDI_U' => 'nullable|string|max:20'
+            ]);
+
+            $datosUnidad = $request->only([
+                'numDI_U', 'nombreDI_U', 'domicilioDI_U', 'correoDI_U', 'numTelefonoDI_U'
+            ]);
+
+            $unidad = DependenciaInformante::create([
+                'tipoDI' => $dependencia->tipoDI,
+                'numDI' => $datosUnidad['numDI_U'],
+                'nombreDI' => $datosUnidad['nombreDI_U'],
+                'domicilioDI' => $datosUnidad['domicilioDI_U'],
+                'correoDI' => $datosUnidad['correoDI_U'],
+                'numTelefonoDI' => $datosUnidad['numTelefonoDI_U'],
+                'nivelDI' => '2',
+                'padreDI' => $dependencia->id
+            ]);
+
+            event(new DirectorioRegisterEvent($unidad));
+
+            notyf()
+                ->position('x', 'center')
+                ->position('y', 'top')
+                ->addSuccess('La unidad informativa se a agregado correctamente a la dependencia');
+
+            return redirect()->route('dependencia.listUnidades', ['id' => $dependencia->id]);
+        
+    }
+
+    public function editUnidad(Request $request)
+    {
         $dependencia = DependenciaInformante::find($request->get('unidad_id'));
         return response()->json($dependencia);
     }
 
     public function showInformantesUnidad(Request $request)
     {
-        $unidad = DependenciaInformante::find($request->get('unidad_id'));
-        //return response()->json([$unidad]);
-        return view('directorio.infoPersonas')->with([
-            'unidad' => $unidad
+        $unidad = $request->get('unidad_id');
+        $informantes = PersonaUnidad::where('di_id', '=', $unidad)
+            ->orderBy('id', 'ASC')
+            ->get();
+            
+        return view('components/card-informante')->with([
+            'collection' => $informantes
         ]);
     }
 
-    public function showInformante(Request $request)
+    public function showInformante(PersonaUnidad $id)
     {
-        $tipo = $request->get('tipo');
-        $id = $request->get('id');
-
-        $personas = PersonaUnidad::where('di_id', $id)->get();
-        return view('directorio/infoPersonas')->with([
-            'personas' => $personas
-        ]);
+        $id->dependencia;
+        return response()->json(['informante' => $id]);
     }
 
     public function editInformante(string $id)
@@ -148,7 +187,7 @@ class DirectorioController extends Controller
             "areaPersona"  => $request->get('areaPersona'),
             "cargoPersona" => $request->get('cargoPersona'),
             "telefonoPersona"  => $request->get('telefonoPersona'),
-            "correoPersona"    => $request->get('cargoPersona'),
+            "correoPersona"    => $request->get('correoPersona'),
         ]);
 
         notyf()

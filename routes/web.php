@@ -81,6 +81,7 @@ Route::middleware(['custom.headers', 'auth'])->group(function () {
         });
 
         Route::prefix('unidades')->name('unidad.')->group(function () {
+            Route::post('/{dependencia}/agregar', 'addUnidad')->name('addUnidad');
             Route::get('/detalles', 'showInformantesUnidad')->name('show');
             Route::get('/edit', 'editUnidad')->name('edit');
             Route::get('/detallesInformante/{id}', 'showInformante')->name('showInformante');

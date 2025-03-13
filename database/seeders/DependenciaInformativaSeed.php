@@ -75,7 +75,7 @@ class DependenciaInformativaSeed extends Seeder
            /* 43 */ ["numDI" => '4.6',  "nombreDI" => 'Delegación del Instituto de Seguridad y Servicios Sociales de los Trabajadores del Estado (ISSSTE)', "padreDI" => '36', "nivelDI" => '2'],
            /* 44 */ ["numDI" => '4.7',  "nombreDI" => 'Instituto de Seguridad Social del Estado de México y Municipios (ISSEMyM)', "padreDI" => '36', "nivelDI" => '2'],
 
-           /* 45 */ ["numDI" => '5',    "nombreDI" => 'Secretaría del Trabajo', "padreDI" => '0', "nivelDI" => '2'],
+           /* 45 */ ["numDI" => '5',    "nombreDI" => 'Secretaría del Trabajo', "padreDI" => '0', "nivelDI" => '1'],
            /* 46 */ ["numDI" => '5',    "nombreDI" => 'Unidad de Información, Planeación, Programación y Evaluación', "padreDI" => '45', "nivelDI" => '2'],
            /* 47 */ ["numDI" => '5.1',  "nombreDI" => 'Dirección General de Empleo y Productividad', "padreDI" => '45', "nivelDI" => '2'],
            /* 48 */ ["numDI" => '5.2',  "nombreDI" => 'Instituto de Capacitación y Adiestramiento para el Trabajo Industrial (ICATI)', "padreDI" => '45', "nivelDI" => '2'],

@@ -78,6 +78,7 @@
 }">
     <section>
         <div class="sm:flex sm:items-center sm:justify-end">
+            @can('inicio.AgregarCuadro')
             <button x-on:click.prevent="$dispatch('open-modal', 'formCE')"
                 class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg sm:w-auto gap-x-2 hover:bg-blue-600">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -87,6 +88,7 @@
                 </svg>
                 <span>Agregar Cuadro</span>
             </button>
+            @endcan
         </div>
 
         <div class="flex flex-col mt-6">
@@ -147,6 +149,7 @@
                                             <p class="" x-text="ce.informante.dependencia.nombreDI"></p>
                                         </td>
                                         <td class="px-4 py-4 text-sm whitespace-nowrap lg:whitespace-normal">
+                                            @can('inicio.Archivos')
                                             <button :id="'fileHistory_' + ce.id" :value="ce.nombreCuadroEstadistico"
                                                 @click="contentCE(event)"
                                                 class="inline-flex items-center px-4 py-2 bg-blue-500 transition ease-in-out delay-75 hover:bg-blue-600 text-white text-sm font-medium rounded-md hover:-translate-y-1 hover:scale-110">
@@ -157,6 +160,7 @@
                                                 </svg>
                                                 Archivos
                                             </button>
+                                            @endcan
                                         </td>
                                     </tr>
                                 </template>
@@ -332,15 +336,17 @@
                     <x-input-upload />
 
                     <div class="flex justify-end mt-4">
-                        <button
-                            class="inline-flex items-center px-4 py-2 bg-green-500 text-white text-sm font-medium rounded-md hover:bg-green-600 transition">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="1.5" stroke="currentColor" class="h-5 w-5 mr-2">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m6.75 12-3-3m0 0-3 3m3-3v6m-1.5-15H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-                            </svg>
-                            Subir Archivo
-                        </button>
+                        @can('inicio.SubirArchivo')
+                            <button
+                                class="inline-flex items-center px-4 py-2 bg-green-500 text-white text-sm font-medium rounded-md hover:bg-green-600 transition">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor" class="h-5 w-5 mr-2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m6.75 12-3-3m0 0-3 3m3-3v6m-1.5-15H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                                </svg>
+                                Subir Archivo
+                            </button>
+                        @endcan
                     </div>
                 </form>
             </div>
@@ -349,6 +355,7 @@
 
             <div :class="openForm ? 'lg:w-2/3' : 'w-full'"
                 class="m-1 bg-white shadow-lg text-lg rounded-sm border border-gray-200 p-4">
+                @can('inicio.AgregarArchivo')
                 <button @click="openForm = !openForm"
                     class="inline-flex items-center px-4 py-2 bg-green-500 text-white text-sm font-medium rounded-md hover:bg-green-600 transition">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -358,6 +365,7 @@
                     </svg>
                     Agregar Archivo al Historial
                 </button>
+                @endcan
 
                 <div x-show="!loadingFiles" id="listFiles" class="mt-4">
                     <!-- Aquí se listarán los archivos -->

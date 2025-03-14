@@ -10,7 +10,7 @@
     async editDatosInformante(event) {
         const idInformante = event.currentTarget.value;
         console.log(idInformante)
-        const response = await fetch(`{{ route("unidad.showInformante", ["id" => "__idInformante"]) }}`.replace("__idInformante", idInformante));
+        const response = await fetch(`{{ route('unidad.showInformante', ['id' => '__idInformante']) }}`.replace("__idInformante", idInformante));
         const data = await response.json();
         this.dataInformante = data.informante;
 
@@ -26,6 +26,7 @@
                 <div class="flex p-3 bg-cherry-800 even:bg-gray-50 sm:justify-between items-center">
                     <span class=" text-base md:text-xl lg:text-2xl text-white mx-auto"> {{ $informantes->areaPersona }}
                     </span>
+                    @can('directorio.editInformante')
                     <button value="{{ $informantes->id }}" @click="editDatosInformante(event)"
                         class="cursor-pointer relative after:content-['Editar_Datos'] after:text-white after:absolute after:text-nowrap after:scale-0 hover:after:scale-100 after:duration-200 w-10 h-10 rounded-full border border-gray-200 bg-gold-400 pointer flex items-center justify-center duration-300 hover:rounded-[50px] hover:w-36 group/button overflow-hidden active:scale-90">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -35,6 +36,7 @@
                                 d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                         </svg>
                     </button>
+                    @endcan
                 </div>
 
 
@@ -102,7 +104,8 @@
                 <div class="mb-5">
                     <label for="" class="block mb-2 text-sm font-medium text-gray-900"> Profesión del
                         Titular </label>
-                    <input type="text" id="profesionPersona" name="profesionPersona" x-model="dataInformante.profesionPersona"
+                    <input type="text" id="profesionPersona" name="profesionPersona"
+                        x-model="dataInformante.profesionPersona"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                 </div>
 
@@ -118,28 +121,38 @@
                     <div class="mb-5 w-full sm:w-1/2">
                         <label for="" class="block mb-2 text-sm font-medium text-gray-900"> Cargo en el
                             Área: </label>
-                        <input type="text" id="cargoPersona" name="cargoPersona" x-model="dataInformante.cargoPersona"
+                        <input type="text" id="cargoPersona" name="cargoPersona"
+                            x-model="dataInformante.cargoPersona"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                     </div>
                 </div>
 
                 <div class="flex">
                     <div class="mb-5 mr-2 w-full sm:w-1/2">
-                        <label for="" class="block mb-2 text-sm font-medium text-gray-900"> Número de
+                        <label for="telefonoPersona" class="block mb-2 text-sm font-medium text-gray-900"> Número de
                             Teléfono de Contacto: </label>
-                        <input type="text" id="telefonoPersona" name="telefonoPersona" x-model="dataInformante.telefonoPersona"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                        <label for="inputPhone"
+                            class="relative block overflow-hidden rounded-md border border-gray-200 px-3 pt-3 shadow-xs focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500">
+                            <input type="text" name="telefonoPersona" id="inputPhone"
+                                class="peer h-8 w-full border-none bg-transparent p-0 placeholder-transparent focus:border-transparent focus:ring-0 focus:outline-hidden sm:text-sm" />
+                            <span
+                                class="absolute start-3 top-3 -translate-y-1/2 text-xs text-gray-700 transition-all peer-placeholder-shown:text-sm peer-focus:top-3 peer-focus:text-xs"
+                                x-text="dataInformante.dependencia.numTelefonoDI + ' ext.'">
+                            </span>
+                        </label>
                     </div>
 
                     <div class="mb-5 w-full sm:w-1/2">
                         <label for="correoPersona" class="block mb-2 text-sm font-medium text-gray-900"> Correo
                             Electrónico de Contacto: </label>
-                        <input type="text" id="correoPersona" name="correoPersona" x-model="dataInformante.correoPersona"
+                        <input type="text" id="correoPersona" name="correoPersona"
+                            x-model="dataInformante.correoPersona"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                     </div>
                 </div>
                 <hr class="border-2 boder-gray-400">
                 <div class="flex justify-end mt-5">
+                    @can('directorio.updateI')
                     <button type="submit"
                         class="inline-flex items-center px-3 py-2 bg-blue-500 text-white text-sm font-medium rounded-md">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -150,6 +163,7 @@
 
                         Guardar Cambios de Información
                     </button>
+                    @endcan
                 </div>
             </form>
         </div>

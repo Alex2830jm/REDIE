@@ -40,10 +40,10 @@ class UserSeeder extends Seeder
         ]);
 
         $DEE = User::create([
-            'name' => 'Alberto',
-            'primerApellido' => 'Mejia',
-            'segundoApellido' => 'Reyes',
-            'username' => 'amejiar',
+            'name' => 'María Angélica',
+            'primerApellido' => 'Villalva',
+            'segundoApellido' => 'Velázquez',
+            'username' => 'mvillalvav',
             'password' => Hash::make('password'),
             'activo' => TRUE
         ]);

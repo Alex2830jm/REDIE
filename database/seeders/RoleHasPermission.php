@@ -17,20 +17,25 @@ class RoleHasPermission extends Seeder
         $allPermissions = Permission::all();
 
         //Permisos Rol Admin
-        Role::findOrFile(1)->syncPermissions($allPermissions->pluck('id'));
+        Role::find(1)->syncPermissions($allPermissions->pluck('id'));
 
         //Permisos Rol DE
-        Role::findOrFile(2)->syncPermissions($allPermissions->pluck('id'));
+        Role::find(2)->syncPermissions($allPermissions->pluck('id'));
 
         //Permisos Rol DES
+
+        $allPermissions = Permission::all();
+
         $permissions = $allPermissions->filter(function($permission) {
             return 
-                substr($permission->name, 0, 15) != "inicio_RolesIndex" &&
-                substr($permission->name, 0, 20) != "inicio_UsuariosIndex" &&
-                substr($permission->name, 0, 20) != "inicio_AgregarCuadro";
+                substr($permission->name, 0, 20) != "inicio.UsuariosIndex" &&
+                substr($permission->name, 0, 17) != "inicio.RolesIndex" &&
+                substr($permission->name, 0, 20) != "inicio.AgregarCuadro" &&
+                substr($permission->name, 0, 11) != "directorio." ||
+                substr($permission->name, 0, 21) === "directorio.showDI";
         });
 
-        Role::findOrFile(3)->syncPermissions($permissions->pluck('id'));
-        Role::findOrFile(4)->syncPermissions($permissions->pluck('id'));
+        Role::find(3)->syncPermissions($permissions->pluck('id'));
+        Role::find(4)->syncPermissions($permissions->pluck('id'));
     }
 }

@@ -1,6 +1,7 @@
 <div class="mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
     @foreach ($dependencias as $dependencia)
         <div class="flex justify-center">
+            @can('directorio.showDI')
             <a href="{{ route('dependencia.listUnidades', $dependencia->id ) }}"
                 class="w-60 h-60 bg-white shadow rounded-3xl text-gray-700 hover:text-gold-400 p-4 flex flex-col gap-3 hover:shadow-2xl transition-shadow">
                 <div class="flex w-52 h-32 bg-cherry-800 rounded-2xl text-white items-center justify-center">
@@ -14,6 +15,7 @@
                     <p class="font-extrabold text-lg text-center"> {{ $dependencia->nombreDI }} </p>
                 </div>
             </a>
+            @endcan
         </div>
     @endforeach
 </div>

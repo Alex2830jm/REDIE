@@ -73,15 +73,15 @@ Route::middleware(['custom.headers', 'auth'])->group(function () {
     Route::controller(DirectorioController::class)->group(function () {
         Route::prefix('dependencias')->name('dependencia.')->group(function () {
             Route::view('/', 'directorio/index')->name('home');
-            Route::get('/dependencias', 'listDependencias')->name('index');
-            Route::get('nueva', 'create')->name('create');
-            Route::post('store', 'store')->name('store');
+            Route::get('/dependencias', 'indexDependencias')->name('index');
+            Route::get('nueva', 'storeDependencia')->name('create');
+            Route::post('store', 'storeDependencia')->name('store');
             Route::post('/updateInfoDependencia', 'updateInfoDependencia')->name('update');
-            Route::get('{id}/unidades', 'listUnidades')->name('listUnidades');
+            Route::get('{id}/unidades', 'showDependencia')->name('listUnidades');
         });
 
         Route::prefix('unidades')->name('unidad.')->group(function () {
-            Route::post('/{dependencia}/agregar', 'addUnidad')->name('addUnidad');
+            Route::post('/{dependencia}/agregar', 'storeUnidad')->name('addUnidad');
             Route::get('/detalles', 'showInformantesUnidad')->name('show');
             Route::get('/edit', 'editUnidad')->name('edit');
             Route::get('/detallesInformante/{id}', 'showInformante')->name('showInformante');

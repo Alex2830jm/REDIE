@@ -39,6 +39,7 @@
                         <span class="block w-full pl-3 mr-3">Inicio</span>
                     </div>
                 </x-nav-link>
+                @can('inicio.DirectorioIndex')
                 <x-nav-link :href="route('dependencia.home')" :active="request()->routeIs('directorio')">
                     <div class="relative flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -49,6 +50,7 @@
                         <span class="block w-full pl-3 mr-3">Directorio de Dependencias</span>
                     </div>
                 </x-nav-link>
+                @endcan
                 <x-dropdown aling="left">
                     <x-slot name="trigger">
                         <button
@@ -81,6 +83,7 @@
 
                         <hr class="border border-gold-400">
 
+                        @can('inicio.UsuariosIndex')
                         <x-dropdown-link :href="route('usuarios.index')">
                             <svg class="w-5 h-5 mx-1" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                 stroke="currentColor">
@@ -92,7 +95,9 @@
                                 Usuarios
                             </span>
                         </x-dropdown-link>
+                        @endcan
 
+                        @can('inicio.RolesIndex')
                         <x-dropdown-link :href="route('roles.index')">
                             <svg class="w-5 h-5 mx-1" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                 stroke="currentColor">
@@ -104,9 +109,11 @@
                                 Roles
                             </span>
                         </x-dropdown-link>
+                        @endcan
 
                         <hr class="border border-gold-400">
 
+                        @can('inicio.CargaArchivos')
                         <x-dropdown-link :href="route('upload.index')">
                             <svg class="w-5 h-5 mx-1" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                 stroke="currentColor">
@@ -118,6 +125,7 @@
                                 Carga de Archivos
                             </span>
                         </x-dropdown-link>
+                        @endcan
 
                         <hr class="border border-gold-400">
 

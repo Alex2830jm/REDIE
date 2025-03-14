@@ -8,11 +8,13 @@ use App\Models\DependenciaInformante;
 use App\Models\PersonaUnidad;
 use App\Models\UnidadInformativa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class DirectorioController extends Controller
 {
-    public function listDependencias(Request $request)
+    public function indexDependencias(Request $request)
     {
+        abort_if(Gate::denies('inicio.DirectorioIndex'), 403);
         $dependencias = DependenciaInformante::where('tipoDI', '=', $request->get('type'))
             ->where('nivelDI', '1')->orderBy('id', 'ASC')->get();
         return view('directorio/dependencias')->with([
@@ -20,26 +22,28 @@ class DirectorioController extends Controller
         ]);
     }
 
-    public function listUnidades(string $id)
+    public function showDependencia(string $id)
     {
+        abort_if(Gate::denies('directorio.showDI'), 403);
         $dependencia = DependenciaInformante::find($id);
         $informantes = PersonaUnidad::where('di_id', '=', $id)
             ->orderBy('id', 'ASC')
             ->get();
-        return view('directorio/unidades')->with([
+        return view('directorio/showDependencia')->with([
             'dependencia' => $dependencia,
             'informantes' => $informantes
         ]);
     }
 
-    public function create()
+    public function createDependencia()
     {
+        abort_if(Gate::denies('directorio.agregarDI'), 403);
         return view('directorio/create');
     }
 
-    public function store(Request $request)
+    public function storeDependencia(Request $request)
     {
-        //dd($request);
+        abort_if(Gate::denies('directorio.storeDI'), 403);
         $dependencia = DependenciaInformante::create(
             $request->only('tipoDI', 'nombreDI', 'domicilioDI', 'numTelefonoDI') + [
                 'nivelDI' => 1
@@ -94,7 +98,7 @@ class DirectorioController extends Controller
 
     public function updateInfoDependencia(Request $request)
     {
-        //dd($request);
+        abort_if(Gate::denies('directorio.updateDI'), 403);
         $dependencia = DependenciaInformante::find($request->get('id_di'))->update(
             $request->only('nombreDI', 'domicilioDI', 'numTelefonoDI', 'correoDI')
         );
@@ -110,44 +114,49 @@ class DirectorioController extends Controller
         return redirect()->route('dependencia.listUnidades', $id);
     }
 
-    public function addUnidad(DependenciaInformante $dependencia, Request $request){
-        //dd($request);
-            $request->validate([
-                'numDI_U' => 'required|string|max:12',
-                'nombreDI_U' => 'required|string|max:255',
-                'domicilioDI_U' => 'nullable|string|max:255',
-                'correoDI_U' => 'nullable|email|max:100',
-                'numTelefonoDI_U' => 'nullable|string|max:20'
-            ]);
+    public function storeUnidad(DependenciaInformante $dependencia, Request $request)
+    {
+        abort_if(Gate::denies('directorio.storeUI'), 403);
+        $request->validate([
+            'numDI_U' => 'required|string|max:12',
+            'nombreDI_U' => 'required|string|max:255',
+            'domicilioDI_U' => 'nullable|string|max:255',
+            'correoDI_U' => 'nullable|email|max:100',
+            'numTelefonoDI_U' => 'nullable|string|max:20'
+        ]);
 
-            $datosUnidad = $request->only([
-                'numDI_U', 'nombreDI_U', 'domicilioDI_U', 'correoDI_U', 'numTelefonoDI_U'
-            ]);
+        $datosUnidad = $request->only([
+            'numDI_U',
+            'nombreDI_U',
+            'domicilioDI_U',
+            'correoDI_U',
+            'numTelefonoDI_U'
+        ]);
 
-            $unidad = DependenciaInformante::create([
-                'tipoDI' => $dependencia->tipoDI,
-                'numDI' => $datosUnidad['numDI_U'],
-                'nombreDI' => $datosUnidad['nombreDI_U'],
-                'domicilioDI' => $datosUnidad['domicilioDI_U'],
-                'correoDI' => $datosUnidad['correoDI_U'],
-                'numTelefonoDI' => $datosUnidad['numTelefonoDI_U'],
-                'nivelDI' => '2',
-                'padreDI' => $dependencia->id
-            ]);
+        $unidad = DependenciaInformante::create([
+            'tipoDI' => $dependencia->tipoDI,
+            'numDI' => $datosUnidad['numDI_U'],
+            'nombreDI' => $datosUnidad['nombreDI_U'],
+            'domicilioDI' => $datosUnidad['domicilioDI_U'],
+            'correoDI' => $datosUnidad['correoDI_U'],
+            'numTelefonoDI' => $datosUnidad['numTelefonoDI_U'],
+            'nivelDI' => '2',
+            'padreDI' => $dependencia->id
+        ]);
 
-            event(new DirectorioRegisterEvent($unidad));
+        event(new DirectorioRegisterEvent($unidad));
 
-            notyf()
-                ->position('x', 'center')
-                ->position('y', 'top')
-                ->addSuccess('La unidad informativa se a agregado correctamente a la dependencia');
+        notyf()
+            ->position('x', 'center')
+            ->position('y', 'top')
+            ->addSuccess('La unidad informativa se a agregado correctamente a la dependencia');
 
-            return redirect()->route('dependencia.listUnidades', ['id' => $dependencia->id]);
-        
+        return redirect()->route('dependencia.listUnidades', ['id' => $dependencia->id]);
     }
 
     public function editUnidad(Request $request)
     {
+        abort_if(Gate::denies('directorio.detailDI'), 403);
         $dependencia = DependenciaInformante::find($request->get('unidad_id'));
         return response()->json($dependencia);
     }
@@ -158,7 +167,7 @@ class DirectorioController extends Controller
         $informantes = PersonaUnidad::where('di_id', '=', $unidad)
             ->orderBy('id', 'ASC')
             ->get();
-            
+
         return view('components/card-informante')->with([
             'collection' => $informantes
         ]);
@@ -172,15 +181,15 @@ class DirectorioController extends Controller
 
     public function editInformante(string $id)
     {
+        abort_if(Gate::denies('directorio.editInformante'), 403);
         $persona = PersonaUnidad::find($id);
-
         return response()->json($persona);
     }
 
 
     public function updateInformante(Request $request)
     {
-        //dd($request);
+        abort_if(Gate::denies('directorio.updateI'), 403);
         $personaInformante = PersonaUnidad::find($request->get('idPersona'))->update([
             "nombrePersona" => $request->get('nombrePersona'),
             "profesionPersona" => $request->get('profesionPersona'),

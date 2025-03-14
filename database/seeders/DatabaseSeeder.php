@@ -26,6 +26,8 @@ class DatabaseSeeder extends Seeder
             //SectorSeeder::class,
             //TemasSeeder::class,
             RoleSeeder::class,
+            PermissionSeed::class,
+            RoleHasPermission::class,
             SectorRoleSeed::class,
             TemasRoleSeed::class,
             UserSeeder::class,

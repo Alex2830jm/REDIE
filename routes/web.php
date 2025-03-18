@@ -33,18 +33,16 @@ Route::middleware(['custom.headers', 'auth'])->group(function () {
 
     Route::controller(CuadroEstadisticoController::class)->group(function() {
         Route::get('/', 'index' )->middleware(['auth'])->name('home');
-        Route::get('/sectores-grupo', 'listSectores')->name('sectorsByGroup')->middleware(['auth']);
         Route::get('/temas-sector', 'listTemas')->name('temasBySector');
         Route::get('/cuadro-estadistico/{ce}', 'listCE')->name('cuadrosEstadisticosByTema');
-        Route::get('/cuadros-estadisticos/{ce}', 'jsonCE');
+        Route::get('/cuadros-estadisticos-paginate/{tema}', 'listCEPaginate')->name('cuadrosEstadisticosByTemaPaginate');
         Route::post('/store-ce', 'storeCE')->name('saveCE');
         Route::get('/archivos-ce', 'listArchivosCE')->name('archivosByCuadrosEstadisticos');
-        Route::get('/info-ce', 'infoCE')->name('infoCE');
-        Route::post('/guardar-archivo', 'saveArchives')->name('guardarArchivos');
+        Route::post('/guardar-archivo', 'saveFile')->name('guardarArchivos');
         Route::get('/ver-archivo', 'viewFile')->name('verArchivo');
         Route::get('/descargar-archivo', 'downloadFileCE')->name('descargarArchivo');
 
-        Route::prefix('upload')->name('upload.')->group(function () {
+        Route::prefix('archivos')->name('upload.')->group(function () {
             Route::view('/', 'upload/fileUpload')->name('index');
             Route::get('infoCuadroEstadistico', 'infoCuadroEstadistico')->name('infoCuadroEstadistico');
             Route::post('/store', 'storeFiles')->name('storeFiles');

@@ -31,6 +31,8 @@ class RoleHasPermission extends Seeder
                 substr($permission->name, 0, 20) != "inicio.UsuariosIndex" &&
                 substr($permission->name, 0, 17) != "inicio.RolesIndex" &&
                 substr($permission->name, 0, 20) != "inicio.AgregarCuadro" &&
+                substr($permission->name, 0, 11) != "ce.agrearCE" &&
+                substr($permission->name, 0, 10) != "ce.storeCE" &&
                 substr($permission->name, 0, 11) != "directorio." ||
                 substr($permission->name, 0, 21) === "directorio.showDI";
         });

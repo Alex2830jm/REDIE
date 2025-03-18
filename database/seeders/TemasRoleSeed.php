@@ -25,11 +25,11 @@ class TemasRoleSeed extends Seeder
         //DEE - Departamento de Estadística Económica
         $temasDEE = $allTemas
             ->filter(function ($tema) {
-                return $tema->id === 13 ||
-                    $tema->padre->padre->id === 14 &&
-                    $tema->id  != 25 ||
-                    $tema->padre->padre->id === 32 ||
-                    $tema->id === 39;
+                return $tema->id === 11 ||
+                    $tema->padre->padre->id === 12 &&
+                    $tema->id  != 23 ||
+                    $tema->padre->padre->id === 30 ||
+                    $tema->id === 37;
             });
         Role::findOrFail(3)->temas()->sync($temasDEE->pluck('id'));
 
@@ -37,9 +37,9 @@ class TemasRoleSeed extends Seeder
         $temasDES = $allTemas
             ->filter(function ($tema) {
                 return $tema->padre->padre->id === 2 ||
-                $tema->id === 25 ||
-                $tema->padre->padre->id === 37 &&
-                $tema->id != 39;
+                $tema->id === 27 ||
+                $tema->padre->padre->id === 35 &&
+                $tema->id != 37;
             });
         Role::findOrFail(4)->temas()->sync($temasDES->pluck('id'));
     }

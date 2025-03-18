@@ -8,52 +8,42 @@ use App\Models\DependenciaInformante;
 use App\Models\Grupo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 
 class CuadroEstadisticoController extends Controller
 {
-
     public function index()
     {
-        $grupos = Grupo::where('grupo_nivel', '=', '2')->get();
+        abort_if(Gate::denies('ce.listGrupos'), 403);
+        $user = Auth::user();
+        $rol = $user->roles->pluck('id');
+
+        $grupos = Grupo::where('grupo_nivel', '=', '2')
+            ->with('sectores', function ($query) use ($rol) {
+                $query->whereHas('temas', function ($q) use ($rol) {
+                    $q->whereHas('rolesTema', function ($subquery) use ($rol) {
+                        $subquery->where('id', $rol);
+                    });
+                });
+            })
+            ->get();
         return view('index')->with([
             'grupos' => $grupos
         ]);
     }
 
-    public function listGrupos()
-    {
-        $grupos = Grupo::where('grupo_nivel', '=', '2')->get();
-        return response()->json($grupos);
-    }
-
-    public function listSectores(Request $request)
-    {
-        $user = Auth::user();
-        $rol = $user->roles->pluck('id');
-
-        $sectores = Grupo::where('grupo_padre', '=', $request->get('grupo_id'))->whereHas('temas', function ($query) use ($rol) {
-            $query->whereHas('rolesTema', function ($subquery) use ($rol) {
-                $subquery->where('id', $rol);
-            });
-        })->get();
-
-        return view('grupos/listSectores2')->with([
-            'numeroGrupo' => $request->get('grupo'),
-            'sectores' => $sectores,
-        ]);
-    }
-
     public function listTemas(Request $request)
     {
+        abort_if(Gate::denies('ce.listTemas'), 403);
         $user = Auth::user();
         $rol = $user->roles->pluck('id');
+
 
         $infoSector = Grupo::find($request->get('sector_id'));
         $temas = Grupo::where('grupo_padre', '=', $request->get('sector_id'))->whereHas('rolesTema', function ($query) use ($rol) {
             $query->where('id', $rol);
         })->get();
-
         return view('grupos/listTemas2')->with([
             'infoSector'    => $infoSector,
             'temas'         => $temas,
@@ -62,6 +52,7 @@ class CuadroEstadisticoController extends Controller
 
     public function listCE(String $ce, Request $request)
     {
+        abort_if(Gate::denies('ce.listCE'), 403);
         $tema = Grupo::find($ce);
         $cuadrosEstadisticos = CuadroEstadistico::where('tema_id', '=', $ce)
             ->with('informante')
@@ -77,40 +68,23 @@ class CuadroEstadisticoController extends Controller
         ]);
     }
 
-    public function jsonCE(String $ce, Request $request)
+    public function listCEPaginate(String $tema, Request $request)
     {
-        
-        $cuadrosEstadisticos = CuadroEstadistico::where('tema_id', '=', $ce)
+        abort_if(Gate::denies('ce.listCEPaginate'), 403);
+        $cuadrosEstadisticos = CuadroEstadistico::where('tema_id', '=', $tema)
             ->orderBy('id', 'ASC')
             ->with(['informante', 'informante.dependencia'])
             ->paginate(10);
-        
+
 
         return response()->json([
-            'cuadrosEstadisticos' => $cuadrosEstadisticos,            
+            'cuadrosEstadisticos' => $cuadrosEstadisticos,
         ]);
-    }
-
-    public function listArchivosCE(Request $request)
-    {
-        $cuadroEstadistico = CuadroEstadistico::findOrFail($request->get('ce_id'));
-        $cuadroEstadistico->archivos;
-        return response()->json($cuadroEstadistico);
-    }
-
-    public function infoCE(Request $request)
-    {
-        $cuadroEstadistico = CuadroEstadistico::findOrFail($request->get('ce_id'));
-        return response()->json($cuadroEstadistico);
-    }
-
-    public function viewFile(Request $request) {
-        $file = CEArchivos::find($request->get('idFile'));
-        return response()->json($file);
     }
 
     public function storeCE(Request $request)
     {
+        abort_if(Gate::denies('ce.storeCE'), 403);
         //dd($request);
         $ce = CuadroEstadistico::create([
             "numeroCE" => $request->get('numero_ce'),
@@ -129,8 +103,24 @@ class CuadroEstadisticoController extends Controller
         return redirect()->route('home');
     }
 
-    public function saveArchives(Request $request)
+    public function listArchivosCE(Request $request)
     {
+        abort_if(Gate::denies('ce.listArchivos'), 403);
+        $cuadroEstadistico = CuadroEstadistico::findOrFail($request->get('ce_id'));
+        $cuadroEstadistico->archivos;
+        return response()->json($cuadroEstadistico);
+    }
+
+    public function viewFile(Request $request)
+    {
+        abort_if(Gate::denies('ce.viewFile'), 403);
+        $file = CEArchivos::find($request->get('idFile'));
+        return response()->json($file);
+    }
+
+    public function saveFile(Request $request)
+    {
+        abort_if(Gate::denies('ce.saveFile'), 403);
         //dd($request);
         $ce = CuadroEstadistico::findOrFail($request->get('idCE'));
 
@@ -165,42 +155,45 @@ class CuadroEstadisticoController extends Controller
             ->addSuccess('Archivo Guardado Correctamente');
 
         return redirect()->route('home');
-
     }
 
     public function downloadFileCE(Request $request)
     {
+        abort_if(Gate::denies('ce.downloadFileCE'), 403);
         $file = CEArchivos::find($request->get('idFile'));
         $pathFile = $file->ce->tema->nombreGrupo . '/' . $file->ce->numeroCE . '/' . $file->nombreArchivo;
         return Storage::download('public/' . $pathFile);
     }
 
 
-    public function infoCuadroEstadistico(Request $request) {
+    //Funciones para la carga masiva de archivos
+    public function infoCuadroEstadistico(Request $request)
+    {
         //dd($request);
 
         $numeroCE = explode('.xlsx', $request->get('numero_ce'));
         //dd($numeroCE);
-        
+
         $ce = CuadroEstadistico::where('numeroCE', '=', $numeroCE)->get();
         //$ce = CuadroEstadistico::find('2');
         return response()->json(['cuadroEstadistico' => $ce]);
     }
 
-    public function storeFiles(Request $request) {
+    public function storeFiles(Request $request)
+    {
         //dd($request);
 
-        if(!$request->file('fileCE')) {
+        if (!$request->file('fileCE')) {
             return response()->json(['error' => 'No se recibio ningún archivo'], 400);
         }
-        
+
         $index = $request->get('indexFile');
-        foreach($index as $i => $index) {
+        foreach ($index as $i => $index) {
             $ce = CuadroEstadistico::find($request->get('idCE')[$index]);
             //dd($ce);
             $file = $request->file('fileCE')[$index];
 
-            if($file->getError()) {
+            if ($file->getError()) {
                 dd($file->getErrorMessage());
             }
 
@@ -214,7 +207,7 @@ class CuadroEstadisticoController extends Controller
             $fileName = $request->get('yearPost') . '.' . $file->getClientOriginalExtension();
             //$filePath = "public/{$grupo}/{$sector}/{$tema}/{$ce->numeroCE}";
             $filePath = "public/" . $grupo . "/" . $sector . "/" . $tema . "/" . $ce->numeroCE;
-            
+
 
             $fileStore = $file->storeAs($filePath, $fileName);
 

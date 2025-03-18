@@ -20,14 +20,23 @@ class PermissionSeed extends Seeder
             ['name' => 'inicio.UsuariosIndex',      'description' => 'Botón "Usuarios"'],
             ['name' => 'inicio.CargaArchivos',      'description' => 'Botón "Carga de Archivos"'],
 
-            ['name' => 'inicio.AgregarCuadro',      'description' => 'Botón "Agrega Cuadro Estadístico"'],
-            ['name' => 'inicio.Archivos',           'description' => 'Botón "Archivos" que muestra todos los archivos del cuadro estadistico'],
-            ['name' => 'inicio.AgregarArchivo',     'description' => 'Botón "Agregar Archivo al Historial" que muestra el formulario para agregar un archivo al cuadro estadistico'],
-            ['name' => 'inicio.SubirArchivo',       'description' => 'Botón "Subir Archivo" que guarda el archivo'],
-            ['name' => 'inicio.verArchivo',         'description' => 'Botón "Ver" para ver el contenido de un archivo seleccionado'],
-            ['name' => 'inicio.descargarArchivo',   'description' => 'Botón "Descargar" para descargar el archivo seleccionado'],
+            //Permisos para el apartado de "Cuadros Estadisticos"
+            ['name' => 'ce.listGrupos', 'description' => 'Se permite ver los grupos de información'],
+            ['name' => 'ce.listTemas', 'description' => 'Se permite ver los temas de información'],
+            ['name' => 'ce.listCE', 'description' => 'Se permite ver los cuadros estadísticos'],
+            ['name' => 'ce.listCEPaginate', 'description' => 'Se permite ver los cuadros estadísticos de menara paginada'],
+            ['name' => 'ce.agrearCE', 'description' => 'Botón "Agregar Cuadro Estadístico" que muestra el formulario para registrar un cuadro estadístico'],
+            ['name' => 'ce.storeCE', 'description' => 'Pemite guardar la información del cuadro estadístico a registrar'],
+            ['name' => 'ce.listArchivos', 'description' => 'Botón "Ver Archivos" que permite visualizar el historial de archivos del cuadro estadístico'],
+            ['name' => 'ce.agregarFile', 'description' => 'Botón "Agregar Archivo al Historial" que muestra el formulario para agregar un archivo al historial'],
+            ['name' => 'ce.saveFile', 'description' => 'Botón "Subir Archivo al Historial" que permite guardar el archivo que se desea agregar'],
+            ['name' => 'ce.viewFile', 'description' => 'Botón "Ver" que permite visualizar el archivo seleccionado'],
+            ['name' => 'ce.downloadFileCE', 'description' => 'Botón "Descargar" que permite descargar el archivo seleccionado'],
 
-            //Permiso en página "Directorio de Dependencias"
+            /* ['name' => '', 'description' => ''],
+            ['name' => '', 'description' => ''], */
+
+            //Permiso para el apartado de "Directorio de Dependencias"
             ['name' => 'directorio.agregarDI',        'description' => 'Botón "Agregar Dependencia" para agregar una nueva dependencia'],
             ['name' => 'directorio.storeDI',           'description' => 'Permite los datos cuando se agrega una dependencia informativa'],
             ['name' => 'directorio.updateDI',      'description' => 'Botón "Guardar cambios de información" que permite guardar los cambios realizados a la información de la dependencia o unidad'],

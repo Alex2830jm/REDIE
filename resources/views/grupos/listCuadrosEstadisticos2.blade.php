@@ -19,7 +19,7 @@
 
     async loadCuadrosEstadisticos(page = 1) {
         this.loadingCuadrosEstadisticos = true;
-        const response = await fetch(`{{ url('cuadros-estadisticos') }}/{{ $tema->id }}?page=${page}`);
+        const response = await fetch(`{{ route('cuadrosEstadisticosByTemaPaginate', ['tema' => '__tema__']) }}`.replace('__tema__', page));
         const data = await response.json();
         this.loadingCuadrosEstadisticos = false;
         this.cuadrosEstadisticos = data.cuadrosEstadisticos;
@@ -78,7 +78,7 @@
 }">
     <section>
         <div class="sm:flex sm:items-center sm:justify-end">
-            @can('inicio.AgregarCuadro')
+            @can('ce.agrearCE')
             <button x-on:click.prevent="$dispatch('open-modal', 'formCE')"
                 class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg sm:w-auto gap-x-2 hover:bg-blue-600">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -86,7 +86,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M12 10.5v6m3-3H9m4.06-7.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
                 </svg>
-                <span>Agregar Cuadro</span>
+                <span>Agregar Cuadro Estadístico</span>
             </button>
             @endcan
         </div>
@@ -149,7 +149,7 @@
                                             <p class="" x-text="ce.informante.dependencia.nombreDI"></p>
                                         </td>
                                         <td class="px-4 py-4 text-sm whitespace-nowrap lg:whitespace-normal">
-                                            @can('inicio.Archivos')
+                                            @can('ce.listArchivos')
                                             <button :id="'fileHistory_' + ce.id" :value="ce.nombreCuadroEstadistico"
                                                 @click="contentCE(event)"
                                                 class="inline-flex items-center px-4 py-2 bg-blue-500 transition ease-in-out delay-75 hover:bg-blue-600 text-white text-sm font-medium rounded-md hover:-translate-y-1 hover:scale-110">
@@ -158,7 +158,7 @@
                                                     <path stroke-linecap="round" stroke-linejoin="round"
                                                         d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
                                                 </svg>
-                                                Archivos
+                                                Ver Archivos
                                             </button>
                                             @endcan
                                         </td>
@@ -200,6 +200,7 @@
         </div>
     </section>
 
+    @can('ce.agrearCE')
     <x-modal name="formCE" maxWidth="7xl" focusable>
         <div class="header my-3 h-12 px-10 flex items-center justify-between">
             <h1 class="font-medium text-2xl">
@@ -220,7 +221,7 @@
                         <label for="numero_ce" class="text-sm font-semibold text-gray-700">Número del cuadro
                             estadístico</label>
                         <input type="text" id="numero_ce" name="numero_ce"
-                            value="{{ $tema->numGrupo }}.{{ $cuadrosEstadisticos->count() + 1 }}"
+                            value="{{ $tema->numGrupo }}.{{ $tema->cuadros_estadisticos->count() + 1 }}"
                             class="w-full px-4 py-3 text-sm text-gray-700 bg-gray-100 border border-gray-400 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
                             readonly>
                     </div>
@@ -285,7 +286,9 @@
             </form>
         </div>
     </x-modal>
+    @endcan
 
+    @can('ce.listArchivos')
     <x-modal name="fileHistory" maxWidth="7xl">
         <div class="header my-3 h-12 px-10 flex items-center justify-between">
             <h1 class="font-medium text-2xl">
@@ -336,7 +339,7 @@
                     <x-input-upload />
 
                     <div class="flex justify-end mt-4">
-                        @can('inicio.SubirArchivo')
+                        @can('ce.saveFile')
                             <button
                                 class="inline-flex items-center px-4 py-2 bg-green-500 text-white text-sm font-medium rounded-md hover:bg-green-600 transition">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -383,8 +386,10 @@
         </div>
 
     </x-modal>
+    @endcan
 
 
+    @can('ce.viewFile')
     <x-modal name="verArchivo" maxWidth="7xl">
         <div class="bg-white px-4 pb-5 pt-5 sm:p-6 sm:pb-4">
             <div class="sm:items-center">
@@ -395,4 +400,5 @@
             </div>
         </div>
     </x-modal>
+    @endcan
 </div>

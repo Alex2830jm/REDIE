@@ -57,6 +57,7 @@ Route::middleware(['custom.headers', 'auth'])->group(function () {
         Route::put('/{id}/updated', 'update')->name('update');
         Route::post('delete', 'destroy')->name('delete');
         Route::get('/temas', 'temasByRole')->name('temas');
+        Route::get('/permisos', 'permissionsByRole')->name('permisos');
     });
     
     Route::prefix('usuarios')->controller(UserController::class)->name('usuarios.')->group(function() {

@@ -12,7 +12,7 @@ class UserController extends Controller
 {
     
     public function index() {
-        $users = User::all();
+        $users = User::orderBy('id', 'ASC')->get();
         //return response()->json($users);
         return view('users/index')
             ->with(['users' => $users]);
@@ -26,7 +26,7 @@ class UserController extends Controller
     }
 
     public function store(UserFormRequest $request) {
-        dd($request);
+        //dd($request);
 
         $user = User::create([
             'name'              => $request->get('name'),
@@ -44,17 +44,17 @@ class UserController extends Controller
 
     public function edit(string $id){
         $user = User::find($id);
-        return view('users/edit')->with(['user' => $user]);
+        $roles = Role::all();
+        return view('users/edit')->with(['user' => $user, 'roles' => $roles]);
     }
 
-    public function update(UserFormRequest $request, string $id) {
+    public function update(Request $request, string $id) {
         //dd($request);
 
         $user = User::find($id)->update([
             'name'              => $request->get('name'),
             'primerApellido'    => $request->get('primerApellido'),
             'segundoApellido'   => $request->get('segundoApellido'),
-            'username'          => $request->get('username'),
             'activo'            => TRUE,
         ]);
 

@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Grupo;
-use App\Models\Temas;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redis;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -19,19 +17,44 @@ class RoleController extends Controller
     }
 
     public function temasByRole(Request $request) {
+        $rol = Role::find($request->get('role_id'));
+
         $temas = Grupo::whereHas('rolesTema', function ($query) use ($request) {
             $query->where('id', $request->get('role_id'));
         })->get();
 
         foreach($temas as $tema) {
             $temasArray[$tema->id] = [
-                'nombre' => $tema->nombreGrupo,
-                'sector' => $tema->padre->nombreGrupo,
-                'grupo' => $tema->padre->padre->nombreGrupo,
+                'numTema' => $tema->numGrupo,
+                'nombreTema' => $tema->nombreGrupo,
+                'numSector' => $tema->padre->numGrupo,
+                'nombreSector' => $tema->padre->nombreGrupo,
+                'numGrupo' => $tema->padre->padre->numGrupo,
+                'nomGrupo' => $tema->padre->padre->nombreGrupo,
             ];
         }
         
-        return response()->json($temasArray);
+        return response()->json([
+            'rol' => $rol,
+            'temas' => $temasArray
+        ]);
+    }
+
+    public function permissionsByRole(Request $request) {
+        $rol = Role::find($request->get('role_id'));
+        $permissions = $rol->permissions;
+
+        foreach ($permissions as $permission) {
+            $permissionsArray[$permission->id] = [
+                'idPermission' => $permission->id,
+                'nomPermission' => $permission->name,
+                'desPermission' => $permission->description,
+            ];
+        }
+        return response()->json([
+            'rol' => $rol,
+            'permissions' => $permissionsArray
+        ]);
     }
 
     public function create() {
@@ -45,9 +68,7 @@ class RoleController extends Controller
             ]);
     }
 
-    public function store(Request $request) {
-         //dd($request);
-        
+    public function store(Request $request) {        
         $role = Role::create([
             'name' => $request->get('nameRole'),
             'description' => $request->get('descriptionRole'),
@@ -56,19 +77,24 @@ class RoleController extends Controller
         $role->syncPermissions($request->get('permission', []));
         $role->temas()->sync($request->get('tema_id', []));
 
+        notyf()
+            ->position('x', 'center')
+            ->position('y', 'top')
+            ->addSuccess('El rol de acceso se ha guardado correctamente');
+
         return redirect()->route('roles.index');
     }
 
     public function edit(string $id) {
         $role = Role::find($id);
         $permissions = Permission::all();
-        $temas = Grupo::where('grupo_nivel', '4')->get();
+        $grupos = Grupo::where('grupo_nivel', '2')->get();
 
         return view('auth/roles/edit')
             ->with([
                 'role'          => $role,
                 'permissions'   => $permissions,
-                'temas'         => $temas
+                'grupos'         => $grupos
             ]);
     }
 

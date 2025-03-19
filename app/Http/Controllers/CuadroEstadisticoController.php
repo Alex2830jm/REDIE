@@ -25,7 +25,7 @@ class CuadroEstadisticoController extends Controller
                     $q->whereHas('rolesTema', function ($subquery) use ($rol) {
                         $subquery->where('id', $rol);
                     });
-                });
+                })->orderBy('id', 'ASC');
             })
             ->get();
         return view('index')->with([

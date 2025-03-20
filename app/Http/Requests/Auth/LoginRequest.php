@@ -41,20 +41,11 @@ class LoginRequest extends FormRequest
     public function authenticate(): void
     {
         $this->ensureIsNotRateLimited();
-            /* $user = User::where('username', $this->input('username'))->first();
-            if ($user) {
-                Auth::login($user, $this->boolean('remember'));
-            } else {
-                throw ValidationException::withMessages([
-                    'username' => trans('auth.failed'),
-                ]);
-            } */
-        
-        
 
-        if (! Auth::attempt($this->only('username', 'password'), $this->boolean('remember'))) {
+        //Validar Correctamente la conversión a minusculas
+        $username = strtolower($this->username);
+        if (! Auth::attempt(['username' => $username, 'password' => $this->password], $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
-
             throw ValidationException::withMessages([
                 'username' => trans('auth.failed'),
             ]);
@@ -91,6 +82,6 @@ class LoginRequest extends FormRequest
      */
     public function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->string('username')).'|'.$this->ip());
+        return Str::transliterate(Str::lower($this->string('username')) . '|' . $this->ip());
     }
 }

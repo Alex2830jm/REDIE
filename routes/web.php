@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Route;
     return view('index');
 })->middleware(['auth'])->name('home'); */
 
-Route::middleware(['custom.headers', 'auth'])->group(function () {    
+Route::middleware(['custom.headers', 'auth', 'update.defaultPassword'])->group(function () {    
     Route::get('prueba', [DashboardController::class, 'prueba']);
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -67,10 +67,11 @@ Route::middleware(['custom.headers', 'auth'])->group(function () {
         Route::get('/{id}/editar', 'edit')->name('edit');
         Route::put('/{id}/update', 'update')->name('update');
         Route::post('/eliminar', 'destroy')->name('delete');
+        Route::post('reset-password', 'userResetPassword')->name('reset-password');
     });
 
     Route::controller(DirectorioController::class)->group(function () {
-        Route::prefix('dependencias')->name('dependencia.')->group(function () {
+    Route::prefix('dependencias')->name('dependencia.')->group(function () {
             Route::view('/', 'directorio/index')->name('home');
             Route::get('/dependencias', 'indexDependencias')->name('index');
             Route::get('nueva', 'storeDependencia')->name('create');

@@ -73,4 +73,20 @@ class UserController extends Controller
             ->addSuccess('El usuario se ha eliminado correctamente');
         return redirect()->route('usuarios.index');
     }
+
+    public function userResetPassword(Request $request) {
+        
+        $user = User::find($request->get('resetId'));
+
+        $user->update([
+            'password' => Hash::make($user->username.'2025')
+        ]);
+        
+        notyf()
+            ->position('x', 'center')
+            ->position('y', 'top')
+            ->addSuccess('La contraseña del usuario se ha restablecido correctamente');
+        
+        return redirect()->route('usuarios.index');
+    }
 }

@@ -25,16 +25,16 @@ use Illuminate\Support\Facades\Route;
     return view('index');
 })->middleware(['auth'])->name('home'); */
 
-Route::middleware(['custom.headers', 'auth', 'update.defaultPassword'])->group(function () {    
+Route::middleware(['custom.headers', 'auth', 'update.defaultPassword'])->group(function () {
     Route::get('prueba', [DashboardController::class, 'prueba']);
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::controller(CuadroEstadisticoController::class)->group(function() {
-        Route::get('/', 'index' )->middleware(['auth'])->name('home');
+    Route::controller(CuadroEstadisticoController::class)->group(function () {
+        Route::get('/', 'index')->middleware(['auth'])->name('home');
         Route::get('/temas-sector', 'listTemas')->name('temasBySector');
-        Route::get('/cuadro-estadistico/{ce}', 'listCE')->name('cuadrosEstadisticosByTema');
+        Route::get('/cuadro-estadistico/{tema}', 'listCE')->name('cuadrosEstadisticosByTema');
         Route::get('/cuadros-estadisticos-paginate/{tema}', 'listCEPaginate')->name('cuadrosEstadisticosByTemaPaginate');
         Route::post('/store-ce', 'storeCE')->name('saveCE');
         Route::get('/archivos-ce', 'listArchivosCE')->name('archivosByCuadrosEstadisticos');
@@ -48,8 +48,8 @@ Route::middleware(['custom.headers', 'auth', 'update.defaultPassword'])->group(f
             Route::post('/store', 'storeFiles')->name('storeFiles');
         });
     });
-    
-    Route::prefix('roles')->controller(RoleController::class)->name('roles.')->group(function() {
+
+    Route::prefix('roles')->controller(RoleController::class)->name('roles.')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/create', 'create')->name('create');
         Route::post('/store', 'store')->name('store');
@@ -59,8 +59,8 @@ Route::middleware(['custom.headers', 'auth', 'update.defaultPassword'])->group(f
         Route::get('/temas', 'temasByRole')->name('temas');
         Route::get('/permisos', 'permissionsByRole')->name('permisos');
     });
-    
-    Route::prefix('usuarios')->controller(UserController::class)->name('usuarios.')->group(function() {
+
+    Route::prefix('usuarios')->controller(UserController::class)->name('usuarios.')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/registrar', 'create')->name('create');
         Route::post('/registrar', 'store')->name('store');
@@ -71,7 +71,7 @@ Route::middleware(['custom.headers', 'auth', 'update.defaultPassword'])->group(f
     });
 
     Route::controller(DirectorioController::class)->group(function () {
-    Route::prefix('dependencias')->name('dependencia.')->group(function () {
+        Route::prefix('dependencias')->name('dependencia.')->group(function () {
             Route::view('/', 'directorio/index')->name('home');
             Route::get('/dependencias', 'indexDependencias')->name('index');
             Route::get('nueva', 'storeDependencia')->name('create');
@@ -93,4 +93,4 @@ Route::middleware(['custom.headers', 'auth', 'update.defaultPassword'])->group(f
 
 
 Route::get('/pruebas', [DashboardController::class, 'pruebas']);
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

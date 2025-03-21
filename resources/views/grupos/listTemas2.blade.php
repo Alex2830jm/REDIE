@@ -4,7 +4,7 @@
     init() {
         this.listCuadrosEstadisticos = false;
         setTimeout(() => {
-            $('#ceByTema').load(`{{ route('cuadrosEstadisticosByTema', ['ce' => $infoSector->temas->first()->id ]) }}`, () => {
+            $('#ceByTema').load(`{{ route('cuadrosEstadisticosByTema', ['tema' => $infoSector->temas->first()->id ]) }}`, () => {
                 this.listCuadrosEstadisticos = true;
             });
         }, 300);
@@ -16,7 +16,7 @@
 
         this.listCuadrosEstadisticos = false;
         setTimeout(() => {
-            $('#ceByTema').load(`{{ route('cuadrosEstadisticosByTema', ['ce' => '__TEMA__'] ) }}`.replace('__TEMA__', value), () => {
+            $('#ceByTema').load(`{{ route('cuadrosEstadisticosByTema', ['tema' => '__TEMA__'] ) }}`.replace('__TEMA__', value), () => {
                 this.listCuadrosEstadisticos = true;
             });
         }, 300);

@@ -2,15 +2,15 @@
     <div x-data="{
         documents: [],
         yearPost: '',
+        loadingFile: false,
+        totalFiles: '',
     
         async filesUpload(event) {
             let files = Array.from(event.target.files);
-            console.log(files);
-    
-    
+            this.totalFile = files.length;
+            this.loadingFile = true;
             let existingFiles = new Set(this.documents.map(doc => doc.name));
             let newFiles = files.filter(file => !existingFiles.has(file.name));
-    
             let fileDataArray = await Promise.all(newFiles.map(async (file) => {
                 let data = await $.get(`{{ route('upload.infoCuadroEstadistico') }}?numero_ce=${file.name}`);
                 let fileData = {
@@ -26,8 +26,7 @@
                     idCE: data.cuadroEstadistico.length > 0 ? data.cuadroEstadistico[0].id : 0,
                     nameCE: data.cuadroEstadistico.length > 0 ? data.cuadroEstadistico[0].nombreCuadroEstadistico : 'No existe el cuadro estadistico',
                 };
-                console.log(fileData);
-
+    
                 let reader = new FileReader();
     
                 reader.onprogress = (e) => {
@@ -48,20 +47,22 @@
     
             this.documents = [...this.documents, ...fileDataArray];
             console.log(this.documents);
-
+    
             this.addFiletToInput();
+
+            this.loadingFile = false;
         },
     
         addFiletToInput() {
             let dataTransfer = new DataTransfer();
-
+    
             this.documents.forEach(doc => {
                 dataTransfer.items.add(doc.file);
             });
-
+    
             this.$refs.fileInput.files = dataTransfer.files;
         },
-
+    
         removeFile(index) {
             this.documents.splice(index, 1);
             this.addFiletToInput()
@@ -84,9 +85,17 @@
                             for ($i = $year; $i >= 2010; $i--) {
                                 echo '
                                     <div>
-                                        <label for="year_' . $i . '" class="flex cursor-pointer items-center justify-center rounded-md border border-gray-300 bg-gray-100 px-3 py-2 text-gray-900 hover:border-gray-400 has-[:checked]:border-blue-500 has-[:checked]:bg-blue-500 has-[:checked]:text-white">
-                                            <input x-model="yearPost" type="radio" name="yearPost" value="' . $i . '" id="year_' . $i . '" class="sr-only" />
-                                            <p class="text-sm font-medium"> ' . $i . ' </p>
+                                        <label for="year_' .
+                                    $i .
+                                    '" class="flex cursor-pointer items-center justify-center rounded-md border border-gray-300 bg-gray-100 px-3 py-2 text-gray-900 hover:border-gray-400 has-[:checked]:border-blue-500 has-[:checked]:bg-blue-500 has-[:checked]:text-white">
+                                            <input x-model="yearPost" type="radio" name="yearPost" value="' .
+                                    $i .
+                                    '" id="year_' .
+                                    $i .
+                                    '" class="sr-only"  />
+                                            <p class="text-sm font-medium"> ' .
+                                    $i .
+                                    ' </p>
                                         </label>
                                     </div>
                                 ';
@@ -106,15 +115,19 @@
                                             stroke-width="2"
                                             d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
                                     </svg>
-                                    <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">Click para subir
+                                    <p x-show="yearPost == ''" class="mb-2 text-sm text-gray-500">
+                                        <span class="font-semibold">Debes de seleccionar un año para poder agregar los
+                                            archiivos</span>
+                                    </p>
+                                    <p x-show="yearPost != ''" class="mb-2 text-sm text-gray-500"><span
+                                            class="font-semibold">Click para subir
                                             archivo</span> o puedes arrastrarlo y soltarlo</p>
-                                    <p class="text-xs text-gray-500"> XLSX, XLS or CVS (MAX: 5MB)</p>
+                                    <p x-show="yearPost != ''" class="text-xs text-gray-500"> XLSX, XLS or CVS (MAX:
+                                        5MB)</p>
                                 </div>
-                                {{-- <input hidden type="file" multiple name="fileCE"
-                                @change="documents = Array.from($event.target.files).map(file => ({url: URL.createObjectURL(file), name: file.name, preview: ['jpg', 'jpeg', 'png', 'gif', 'xlsx', 'xls', 'csv'].includes(file.name.split('.').pop().toLowerCase()), size: file.size > 1024 ? file.size > 1048576 ? Math.round(file.size / 1048576) + 'mb' : Math.round(file.size / 1024) + 'kb' : file.size + 'b'}))"
-                                x-ref="fileInput"> --}}
                                 <input type="file" name="fileCE[]" @change="filesUpload($event)" hidden multiple
-                                    accept=".xlsx, .xls, .csv" x-ref="fileInput">
+                                    accept=".xlsx, .xls, .csv" x-ref="fileInput"
+                                    x-bind:disabled="yearPost === ''" />
                             </div>
                         </div>
                     </label>
@@ -127,7 +140,8 @@
                                     <div x-show="document.preview">
                                         <div>
                                             <input type="text" name="indexFile[]" x-model="index" hidden readonly />
-                                            <input type="text" name="idCE[]" x-model="document.idCE" hidden  readonly />
+                                            <input type="text" name="idCE[]" x-model="document.idCE" hidden
+                                                readonly />
                                             <input type="text" name="fileName[]" x-model="document.name" hidden />
                                         </div>
 
@@ -144,15 +158,20 @@
                                                         </svg>
                                                     </span>
                                                     <div class="">
-                                                        <p class="flex text-sm font-medium text-gray-800 justify-between">
-                                                            <span class="truncate inline-block max-w-[300px] align-bottom"
+                                                        <p
+                                                            class="flex text-sm font-medium text-gray-800 justify-between">
+                                                            <span
+                                                                class="truncate inline-block max-w-[300px] align-bottom"
                                                                 x-text="document.name"></span>
-                                                            <span class="truncate inline-block max-w-[300px] align-bottom"
+                                                            <span
+                                                                class="truncate inline-block max-w-[300px] align-bottom"
                                                                 x-text="document.size"> </span>
-                                                            <span class="truncate inline-block max-w-[300px] align-bottom"
+                                                            <span
+                                                                class="truncate inline-block max-w-[300px] align-bottom"
                                                                 x-text="yearPost"></span>
                                                         </p>
-                                                        <p class="text-xs text-justify text-gray-500" x-text="document.nameCE"> </p>
+                                                        <p class="text-xs text-justify text-gray-500"
+                                                            x-text="document.nameCE"> </p>
                                                     </div>
                                                 </div>
 
@@ -168,7 +187,7 @@
                                                     </button>
                                                 </div>
                                             </div>
-                                                {{-- <div class="flex items-center gap-x-3 whitespace-nowrap mt-2">
+                                            {{-- <div class="flex items-center gap-x-3 whitespace-nowrap mt-2">
                                                     <div class="flex w-full h-2 bg-gray-200 rounded-full overflow-hidden" role="progressbar"
                                                         :aria-valenow="document.progress" aria-valuemin="0" aria-valuemax="100">
                                                         <div class="flex flex-col justify-center rounded-full overflow-hidden bg-blue-600 text-xs text-white text-center whitespace-nowrap transition-all duration-500"
@@ -199,6 +218,8 @@
                             </div>
                         </div>
                     </template>
+
+                    <x-file-loader show="loadingFile" />
                 </div>
             </form>
         </div>

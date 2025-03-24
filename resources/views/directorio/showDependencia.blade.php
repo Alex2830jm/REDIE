@@ -14,7 +14,7 @@
                 this.openInformantes = true;
             }, 1000);
     
-            await $.get(`{{ route('unidad.edit') }}??unidad_id=${unidadId}`, (dependencia) => {
+            await $.get(`{{ route('unidad.edit') }}?unidad_id=${unidadId}`, (dependencia) => {
                 $('#nombreDI').html(dependencia.nombreDI);
                 $('#domicilioDI').html(dependencia.domicilioDI);
                 $('#numTelefonoDI').html(dependencia.numTelefonoDI);
@@ -33,26 +33,37 @@
         <div class="sm:px-10">
             <div class="container mx-auto p-5 grid grid-cols-1 sm:grid-cols-2">
                 <div class="relative flex justify-center">
+                    <div class="absolute top-0 left-0 p-2">
+                        <a href="{{ route('dependencia.home') }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+                            </svg>
+                        </a>
+                    </div>
+
                     <div
                         class="w-60 h-60 bg-white shadow rounded-3xl text-gray-700 hover:text-gold-400 p-4 flex flex-col gap-3 hover:shadow-2xl transition-shadow">
                         <div class="flex w-52 h-32 bg-cherry-800 rounded-2xl text-white items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                stroke="currentColor" class="h-20 w-20">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="1.5" stroke="currentColor" class="h-20 w-20">
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5" />
                             </svg>
                         </div>
-                        <div class="">
+                        <div>
                             <p class="font-extrabold text-lg text-center" id="nombreDI"> {{ $dependencia->nombreDI }}
                             </p>
                         </div>
                     </div>
                 </div>
+
                 <div class="relative flex flex-col justify-between">
                     <div>
-                        <h2 class="text-xl font-semibold text-gray-900"> Titutar </h2>
-                        <p class="text-lg text-gray-800 font-bold">
-                            {{-- {{ $dependencia->personasInformantes->where('areaPersona', 'Titular')->first()->nombrePersona }} --}}
+                        <h2 class="text-xl font-semibold text-gray-900"> Titular </h2>
+                        <p class="text-lg text-gray-600" id="titular">
+                            {{ $dependencia->personasInformantes->where('areaPersona', '1')->first()->nombrePersona }}
                         </p>
                     </div>
                     <div>
@@ -80,15 +91,15 @@
                         </p>
                     </div>
                     @can('directorio.editDI')
-                    <button @click="$dispatch('open-modal', 'editInfoDependecia')"
-                        class="cursor-pointer self-end absolute after:content-['Editar_Datos_de_Dependencia'] after:text-white after:absolute after:text-nowrap after:scale-0 hover:after:scale-100 after:duration-200 w-10 h-10 rounded-full border border-gray-200 bg-gold-400 pointer flex items-center justify-center duration-300 hover:rounded-[50px] hover:w-56 group/button overflow-hidden active:scale-90">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor"
-                            class="w-5 delay-50 duration-200 group-hover/button:-translate-y-12 text-white">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-                        </svg>
-                    </button>
+                        <button @click="$dispatch('open-modal', 'editInfoDependecia')"
+                            class="cursor-pointer self-end absolute after:content-['Editar_Datos_de_Dependencia'] after:text-white after:absolute after:text-nowrap after:scale-0 hover:after:scale-100 after:duration-200 w-10 h-10 rounded-full border border-gray-200 bg-gold-400 pointer flex items-center justify-center duration-300 hover:rounded-[50px] hover:w-56 group/button overflow-hidden active:scale-90">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor"
+                                class="w-5 delay-50 duration-200 group-hover/button:-translate-y-12 text-white">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                            </svg>
+                        </button>
                     @endcan
                 </div>
             </div>
@@ -114,30 +125,30 @@
                     class="absolute inset-x-0 z-20 px-6 py-4 bg-gray-50 w-full transition-all duration-300 ease-in-out xl:relative xl:w-1/4 xl:opacity-100 xl:translate-x-0">
                     <ul class="space-y space-y-6 font-medium text-gray-500 md:me-4 mb-4 md:mb-0">
                         <li id="{{ $dependencia->id }}" @click="contentUnidades(event)"
-                            class="flex items-center p-4 mb-4 border-l-8 border-cherry-800 bg-white shadow transition ease-in-out delay-75 hover:translate-y-1 hover:scale-100 hover:bg-brown-100">
+                            class="flex items-center cursor-pointer p-4 mb-4 border-l-8 border-cherry-800 bg-white shadow transition ease-in-out delay-75 hover:translate-y-1 hover:scale-100 hover:bg-brown-100">
                             <div class="ms-3 text-sm font-medium">
                                 {{ $dependencia->nombreDI }}
                             </div>
                         </li>
                         @foreach ($dependencia->unidades as $unidad)
                             <li id="{{ $unidad->id }}" @click="contentUnidades(event)"
-                                class="flex items-center p-4 mb-4 border-l-8 border-cherry-800 bg-white shadow transition ease-in-out delay-75 hover:translate-y-1 hover:scale-100 hover:bg-brown-100">
+                                class="flex items-center cursor-pointer p-4 mb-4 border-l-8 border-cherry-800 bg-white shadow transition ease-in-out delay-75 hover:translate-y-1 hover:scale-100 hover:bg-brown-100">
                                 <div class="ms-3 text-sm font-medium">
                                     {{ $unidad->nombreDI }}
                                 </div>
                             </li>
                         @endforeach
                         @can('directorio.agregarUI')
-                        <li x-on:click="$dispatch('open-modal', 'agregar-unidad')"
-                            class="flex items-center p-4 mb-4 border-l-8 border-cherry-800 bg-white shadow transition ease-in-out delay-75 hover:translate-y-1 hover:scale-100 hover:bg-brown-50/20">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="1.5" stroke="currentColor" class="size-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                            </svg>
-                            <span class="ms-3 text-sm font-medium">
-                                Agregar Unidad Informativa
-                            </span>
-                        </li>
+                            <li x-on:click="$dispatch('open-modal', 'agregar-unidad')"
+                                class="flex items-center cursor-pointer p-4 mb-4 border-l-8 border-cherry-800 bg-white shadow transition ease-in-out delay-75 hover:translate-y-1 hover:scale-100 hover:bg-brown-50/20">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor" class="size-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                </svg>
+                                <span class="ms-3 text-sm font-medium">
+                                    Agregar Unidad Informativa
+                                </span>
+                            </li>
                         @endcan
                     </ul>
                 </div>
@@ -211,7 +222,7 @@
                             Cancelar
                         </button>
 
-                        
+
                         <button type="submit"
                             class="inline-flex items-center px-3 py-2 bg-blue-500 text-white text-sm font-medium rounded-md">
 
@@ -235,7 +246,7 @@
                 </svg>
             </div>
 
-            <div class="bg-white shadow-lg rounded-sm border border-gray-200 p-5">
+            <div class="m-5 px-4 py-2 rounded-lg border border-gray-300">
                 <form action="{{ route('unidad.addUnidad', $dependencia->id) }}" method="POST">
                     @csrf
                     <input type="text" name="di_id" value="{{ $dependencia->id }}" hidden>
@@ -304,24 +315,15 @@
                     </div>
 
                     <hr class="border-gray-400 border-2">
-                    <div class="flex justify-between mt-3">
+                    <div class="mt-4 sm:flex sm:items-center sm:-mx-2">
                         <button type="reset" x-on:click="$dispatch('close')"
-                            class="inline-flex justify-between items-center px-3 py-2 bg-red-500 text-white text-sm font-medium rounded-md">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-                            </svg>
-                            <span>Cancelar</span>
+                            class="w-full px-4 py-2 text-sm font-medium tracking-wide text-gray-700 capitalize transition-colors duration-300 transform border border-gray-200 rounded-md sm:w-1/2 sm:mx-2 hover:bg-gray-100 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-40">
+                            Cancelar
                         </button>
 
                         <button type="submit"
-                            class="inline-flex items-center justify-between px-3 py-2 bg-green-500 text-white text-sm font-medium rounded-md">
-                            <span>Guardar Datos de Unidad</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                            </svg>
-
+                            class="w-full px-4 py-2 mt-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-green-500 rounded-md sm:mt-0 sm:w-1/2 sm:mx-2 hover:bg-green-600 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
+                            Guardar cambios de información
                         </button>
                     </div>
                 </form>

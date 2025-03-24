@@ -25,10 +25,10 @@ class InformantesListener
         $dependencia = $event->dependencia;
 
         $areas = $dependencia->nivelDI === '1' ? [
-            'Titular de la Dependencia',
-            'Enlace Responsable de la entrega de la información'
+            '1', //Titular de la dependencia
+            '2' //Enlace de Información
         ] : [
-            'Titular de la Unidad Generadora de Información'
+            '3' //Titular de la unidad
         ];
 
         foreach($areas as $area) {

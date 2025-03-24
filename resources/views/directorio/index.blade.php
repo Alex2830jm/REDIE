@@ -23,9 +23,9 @@
         <div class="sm:pr-10 sm:pl-10">
             <div class="flex px-4 my-6 justify-between">
                 <h2 class="text-xl font-semibold text-gray-700">
-                    Dependencias
+                    Dependencias Informativas
                 </h2>
-                @can('directorio.agregarDI')
+                {{-- @can('directorio.agregarDI')
                 <a href="{{ route('dependencia.create') }}"
                     class="flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-500 border border-transparent rounded-lg active:bg-green-600 hover:bg-green-600 focus:outline-none focus:shadow-outline-purple">
                     <span>Agregar dependencia</span>
@@ -34,7 +34,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                     </svg>
                 </a>
-                @endcan 
+                @endcan  --}}
             </div>
 
             <ul class="hidden text-sm font-medium text-center text-gray-500 rounded-lg shadow sm:flex">

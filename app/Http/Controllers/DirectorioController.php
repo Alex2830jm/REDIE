@@ -156,7 +156,7 @@ class DirectorioController extends Controller
 
     public function editUnidad(Request $request)
     {
-        abort_if(Gate::denies('directorio.detailDI'), 403);
+        //abort_if(Gate::denies('directorio.detailDI'), 403);
         $dependencia = DependenciaInformante::find($request->get('unidad_id'));
         return response()->json($dependencia);
     }

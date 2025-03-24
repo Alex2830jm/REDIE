@@ -10,15 +10,18 @@
         next_page_url: null,
         prev_page_url: null
     },
+    //Validaciones del formulario en registro de CE
+    nombreCE: '',
+    validateNombre: true,
+
 
     init() {
         this.loadCuadrosEstadisticos();
-        console.log(this.cuadrosEstadisticos);
     },
 
     async loadCuadrosEstadisticos(page = 1) {
         this.loadingCuadrosEstadisticos = true;
-        const response = await fetch(`{{ route('cuadrosEstadisticosByTemaPaginate', ['tema' => $tema->id ]) }}?page=${page}`);
+        const response = await fetch(`{{ route('cuadrosEstadisticosByTemaPaginate', ['tema' => $tema->id]) }}?page=${page}`);
         const data = await response.json();
         this.loadingCuadrosEstadisticos = false;
         this.cuadrosEstadisticos = data.cuadrosEstadisticos;
@@ -60,16 +63,21 @@
                 $dispatch('open-modal', 'fileHistory');
                 break;
             case 'viewFile':
-                console.log(valCE);
                 $('#fileDetails').empty();
                 $.get(`{{ route('verArchivo') }}?idFile=${valCE}`, (archivo) => {
-                    console.log(`<iframe src='https://view.officeapps.live.com/op/embed.aspx?src=http://redieigecem.edomex.gob.mx/${archivo.urlFile}' width='100%' height='600px'></iframe>`);
+                    $('#yearFile').text(archivo.yearPost);
                     $('#fileDetails').append(`<iframe src='https://view.officeapps.live.com/op/embed.aspx?src=http://redieigecem.edomex.gob.mx/${archivo.urlFile}' width='100%' height='600px'></iframe>`);
                 });
                 $dispatch('open-modal', 'verArchivo');
                 break;
         }
     },
+
+    validateFormCreateCE() {
+        this.validateNombre = this.nombreCE != '';
+
+        return this.validateNombre;
+    }
 }">
     <section>
         <div class="sm:flex sm:items-center sm:justify-end">
@@ -210,7 +218,7 @@
                 </svg>
             </div>
             <div class="m-5 px-4 py-2 rounded-lg border border-gray-300">
-                <form action="{{ route('saveCE') }}" method="POST">
+                <form action="{{ route('saveCE') }}" method="POST"  @submit.prevent="if(validateFormCreateCE()) $el.submit()">
                     @csrf
                     <div class="flex flex-wrap -mx-3 mb-6">
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -235,8 +243,10 @@
                     <label for="nombreCuadroEstadistico" class="text-sm font-semibold text-gray-700">
                         Nombre del Cuadro Estadístico
                     </label>
-                    <input type="text" name="nombreCuadroEstadistico" id="nombreCuadroEstadistico"
+                    <input type="text" x-model="nombreCE"
+                        name="nombreCuadroEstadistico" id="nombreCuadroEstadistico"
                         class="w-full px-4 py-3 text-sm text-gray-700 bg-gray-50 border border-gray-400 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
+                    <p x-show="!validateNombre" class="text-sm font-bold text-red-500">Se requiere el nombre del cuadro Estadístico</p>
 
                     <div class="flex flex-wrap -mx-3 mb-6">
                         <div class="w-full md:w-1/2 px-3">
@@ -354,7 +364,7 @@
 
                 <div :class="openForm ? 'lg:w-2/3' : 'w-full'"
                     class="m-1 bg-white shadow-lg text-lg rounded-sm border border-gray-200 p-4">
-                    @can('inicio.AgregarArchivo')
+                    @can('ce.agregarFile')
                         <button @click="openForm = !openForm"
                             class="inline-flex items-center px-4 py-2 bg-green-500 text-white text-sm font-medium rounded-md hover:bg-green-600 transition">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -387,12 +397,19 @@
 
     @can('ce.viewFile')
         <x-modal name="verArchivo" maxWidth="7xl">
-            <div class="bg-white px-4 pb-5 pt-5 sm:p-6 sm:pb-4">
-                <div class="sm:items-center">
-                    <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                        <div class="mt-2" id="fileDetails">
-                        </div>
-                    </div>
+            <div class="header my-3 h-12 px-10 flex items-center justify-between">
+                <h1 class="font-medium text-2xl">
+                    Vista del Archivo del Año.: <span id="yearFile"></span>
+                </h1>
+
+                <svg x-on:click="$dispatch('close')" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                    class="h-6 w-6 cursor-pointer text-2xl font-medium hover:text-red-500">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                </svg>
+            </div>
+            <div class="m-5 px-4 py-2 rounded-lg border border-gray-300">
+                <div id="fileDetails">
                 </div>
             </div>
         </x-modal>

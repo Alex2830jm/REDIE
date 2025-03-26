@@ -1,7 +1,7 @@
 @props([
     'idFile',
     'yearPost',
-    'nameFile'
+    'nameFile',
 ])
 
 <div class='w-56 m-5 overflow-hidden bg-white rounded-lg shadow-lg border-2 border-gray-300 md:w-64'>

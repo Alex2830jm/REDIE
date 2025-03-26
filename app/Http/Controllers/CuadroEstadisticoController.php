@@ -20,7 +20,16 @@ class CuadroEstadisticoController extends Controller
         $rol = $user->roles->pluck('id');
 
         $grupos = Grupo::where('grupo_nivel', '=', '2')
-            ->with('sectores', function ($query) use ($rol) {
+            //Solo muestra los grupos relacionados a los temas con los que cuenta
+            ->whereHas('sectores', function ($query) use ($rol) {
+                $query->whereHas('temas', function ($q) use ($rol) {
+                    $q->whereHas('rolesTema', function ($subquery) use ($rol) {
+                        $subquery->where('id', $rol);
+                    });
+                });
+            //Solo muestra los sectores y temas relacionados a los temas con los que cuenta
+            })->with('sectores', function ($query) use ($rol) {
+                $query->with('temas');
                 $query->whereHas('temas', function ($q) use ($rol) {
                     $q->whereHas('rolesTema', function ($subquery) use ($rol) {
                         $subquery->where('id', $rol);
@@ -154,9 +163,29 @@ class CuadroEstadisticoController extends Controller
     public function downloadFileCE(Request $request)
     {
         abort_if(Gate::denies('ce.downloadFileCE'), 403);
-        $file = CEArchivos::find($request->get('idFile'));
-        $pathFile = $file->ce->tema->nombreGrupo . '/' . $file->ce->numeroCE . '/' . $file->nombreArchivo;
-        return Storage::download('public/' . $pathFile);
+        $file = CEArchivos::findOrFail($request->get('idFile'));
+        return Storage::download(str_replace('storage/', 'public/', $file->urlFile), $file->nombreArchivo);
+    }
+
+
+    public function deleteFileCE(Request $request) {
+        $file = CEArchivos::findOrFail($request->get('idFile'));
+        $deleteFile = Storage::delete(str_replace('storage/', 'public/', $file->urlFile));
+
+        notyf()
+            ->position('x', 'center')
+            ->position('y', 'top')
+            ->addMessage(
+                $deleteFile ? 'El archivo se ha eliminado correctamente' : 'No se pudo eliminar el archivo',
+                $deleteFile ? 'success' : 'warning'
+            );
+
+        if ($deleteFile) {
+            $file->delete();
+        }
+
+        return redirect()->route('home');
+
     }
 
 

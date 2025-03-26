@@ -25,11 +25,14 @@ use Illuminate\Support\Facades\Route;
     return view('index');
 })->middleware(['auth'])->name('home'); */
 
+Route::get('prueba', [DashboardController::class, 'prueba']);
+
 Route::middleware(['custom.headers', 'auth', 'update.defaultPassword'])->group(function () {
-    Route::get('prueba', [DashboardController::class, 'prueba']);
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/pruebas', [DashboardController::class, 'prueba']);
 
     Route::controller(CuadroEstadisticoController::class)->group(function () {
         Route::get('/', 'index')->middleware(['auth'])->name('home');
@@ -41,6 +44,7 @@ Route::middleware(['custom.headers', 'auth', 'update.defaultPassword'])->group(f
         Route::post('/guardar-archivo', 'saveFile')->name('guardarArchivos');
         Route::get('/ver-archivo', 'viewFile')->name('verArchivo');
         Route::get('/descargar-archivo', 'downloadFileCE')->name('descargarArchivo');
+        Route::get('/eliminar-archivo', 'deleteFileCE')->name('eliminarArchivo');
 
         Route::prefix('archivos')->name('upload.')->group(function () {
             Route::view('/', 'upload/fileUpload')->name('index');
@@ -90,7 +94,4 @@ Route::middleware(['custom.headers', 'auth', 'update.defaultPassword'])->group(f
         });
     });
 });
-
-
-Route::get('/pruebas', [DashboardController::class, 'pruebas']);
 require __DIR__ . '/auth.php';

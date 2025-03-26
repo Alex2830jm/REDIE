@@ -2,7 +2,11 @@
     collapseFiles: false,
     cuadroEstadistico: '',
     openForm: false,
-    loadingCuadrosEstadisticos: true,
+    loadingCE: true,
+    loadingFiles: true,
+    loadingFile: true,
+    files: [],
+    fileUrl: '',
     cuadrosEstadisticos: {
         data: [],
         current_page: 1,
@@ -20,10 +24,10 @@
     },
 
     async loadCuadrosEstadisticos(page = 1) {
-        this.loadingCuadrosEstadisticos = true;
+        this.loadingCE = true;
         const response = await fetch(`{{ route('cuadrosEstadisticosByTemaPaginate', ['tema' => $tema->id]) }}?page=${page}`);
         const data = await response.json();
-        this.loadingCuadrosEstadisticos = false;
+        this.loadingCE = false;
         this.cuadrosEstadisticos = data.cuadrosEstadisticos;
 
     },
@@ -46,29 +50,26 @@
         var idCE = event.currentTarget.id;
         var [tipo, id] = idCE.split('_');
         var valCE = event.currentTarget.value;
-
         this.collapseFiles = false;
+
         switch (tipo) {
             case 'fileHistory':
-                this.cuadroEstadistico = valCE;
-                $('#listFiles').empty();
-                $.get(`{{ route('archivosByCuadrosEstadisticos') }}?ce_id=${id}`, (ce) => {
-                    $('#idCE').val(ce.id);
-                    $('#nombreArchivo').val(ce.nombreCuadroEstadistico);
-                    $('#numeroCE').val(ce.numeroCE);
-                    ce.archivos.forEach((archivo) => {
-                        $('#listFiles').append(`<x-card-file idFile='${archivo.id}' yearPost='${archivo.yearPost}' nameFile='${archivo.nombreArchivo}' />`);
-                    });
-                });
                 $dispatch('open-modal', 'fileHistory');
+                this.cuadroEstadistico = valCE;
+                this.loadingFiles = true;
+                const responseFiles = await fetch(`{{ route('archivosByCuadrosEstadisticos') }}?ce_id=${id}`);
+                const files = await responseFiles.json();
+                this.files = files.archivos;
+                this.loadingFiles = false;
                 break;
             case 'viewFile':
-                $('#fileDetails').empty();
-                $.get(`{{ route('verArchivo') }}?idFile=${valCE}`, (archivo) => {
-                    $('#yearFile').text(archivo.yearPost);
-                    $('#fileDetails').append(`<iframe src='https://view.officeapps.live.com/op/embed.aspx?src=http://redieigecem.edomex.gob.mx/${archivo.urlFile}' width='100%' height='600px'></iframe>`);
-                });
                 $dispatch('open-modal', 'verArchivo');
+                this.loadingFile = true;
+                const responseFile = await fetch(`{{ route('verArchivo') }}?idFile=${valCE}`);
+                this.file = await responseFile.json();
+                {{-- El archivo tiene que estar en linea (servidor) --}}
+                this.fileUrl = `https://view.officeapps.live.com/op/embed.aspx?src=https://redieigecem.edomex.gob.mx/${this.file.urlFile}`;
+                this.loadingFile = false;
                 break;
         }
     },
@@ -80,7 +81,9 @@
     }
 }">
     <section>
-        <div class="sm:flex sm:items-center sm:justify-end">
+        <div class="sm:flex sm:items-center sm:justify-between">
+            <h1 class="text-xl text-gray-600 font-bold"> Cuadros Estadísticos del Tema: <span class="text-cherry-800">
+                    {{ $tema->nombreGrupo }} </span> </h1>
             @can('ce.agrearCE')
                 <button x-on:click.prevent="$dispatch('open-modal', 'formCE')"
                     class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg sm:w-auto gap-x-2 hover:bg-blue-600">
@@ -97,10 +100,9 @@
         <div class="flex flex-col mt-6">
             <div class="-mx-4 -my-2 overflow-x-auto">
                 <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-                    <x-tableLoader show="loadingCuadrosEstadisticos" />
+                    <x-tableLoader show="loadingCE" />
 
-                    <div x-show="!loadingCuadrosEstadisticos"
-                        class="overflow-hidden border border-gray-200 md:rounded-lg">
+                    <div x-show="!loadingCE" class="overflow-hidden border border-gray-200 md:rounded-lg">
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-cherry-800 text-gray-200 divide-y divide-gray-200">
                                 <tr>
@@ -218,7 +220,8 @@
                 </svg>
             </div>
             <div class="m-5 px-4 py-2 rounded-lg border border-gray-300">
-                <form action="{{ route('saveCE') }}" method="POST"  @submit.prevent="if(validateFormCreateCE()) $el.submit()">
+                <form action="{{ route('saveCE') }}" method="POST"
+                    @submit.prevent="if(validateFormCreateCE()) $el.submit()">
                     @csrf
                     <div class="flex flex-wrap -mx-3 mb-6">
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -243,10 +246,10 @@
                     <label for="nombreCuadroEstadistico" class="text-sm font-semibold text-gray-700">
                         Nombre del Cuadro Estadístico
                     </label>
-                    <input type="text" x-model="nombreCE"
-                        name="nombreCuadroEstadistico" id="nombreCuadroEstadistico"
+                    <input type="text" x-model="nombreCE" name="nombreCuadroEstadistico" id="nombreCuadroEstadistico"
                         class="w-full px-4 py-3 text-sm text-gray-700 bg-gray-50 border border-gray-400 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
-                    <p x-show="!validateNombre" class="text-sm font-bold text-red-500">Se requiere el nombre del cuadro Estadístico</p>
+                    <p x-show="!validateNombre" class="text-sm font-bold text-red-500">Se requiere el nombre del cuadro
+                        Estadístico</p>
 
                     <div class="flex flex-wrap -mx-3 mb-6">
                         <div class="w-full md:w-1/2 px-3">
@@ -376,17 +379,50 @@
                         </button>
                     @endcan
 
-                    <div id="listFiles" class="mt-4">
-                        <!-- Aquí se listarán los archivos -->
-                        <button @click="$dispatch('open-modal', 'verArchivo')"
-                            class="inline-flex items-center px-4 py-2 bg-green-500 text-white text-sm font-medium rounded-md hover:bg-green-600 transition">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="1.5" stroke="currentColor" class="h-5 w-5 mr-2">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m6.75 12-3-3m0 0-3 3m3-3v6m-1.5-15H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-                            </svg>
-                            Agregar Archivo al Historial
-                        </button>
+                    <x-card-file-loader show="loadingFiles" />
+
+                    <div x-show="!loadingFiles" id="listFiles" class="mt-4">
+                        <template x-if="files.length > 0">
+                            <template x-for="file in files" :key="file.id">
+                                <div class="w-full max-w-sm m-5 bg-white rounded-lg shadow-lg border border-gray-300 p-5">
+                                    <h3 class="py-3 text-lg font-bold tracking-wide text-center text-gray-800 uppercase"
+                                        x-text="file.yearPost">2023</h3>
+                                    <div class="flex flex-wrap justify-center gap-3 mt-4">
+                                        <button id='viewFile' :value="file.id" @click='contentCE(event)'
+                                            class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border rounded-md shadow-sm transition hover:bg-gray-100 hover:text-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-400">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-cyan-500">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25M9 16.5v.75m3-3v3M15 12v5.25m-4.5-15H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                                            </svg>
+
+                                            Ver
+                                        </button>
+                                        <a :href="'{{ route('descargarArchivo') }}?idFile=' + file.id"
+                                            class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border rounded-md shadow-sm transition hover:bg-gray-100 hover:text-green-500 focus:outline-none focus:ring-2 focus:ring-green-400">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-green-500">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                                            </svg>
+
+                                            Descargar
+                                        </a>
+                                        <a :href="'{{ route('eliminarArchivo') }}?idFile=' + file.id"
+                                            x-on:click="contentCE(event)"
+                                            class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border rounded-md shadow-sm transition hover:bg-gray-100 hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-red-400">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-red-500">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m6.75 12H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                                            </svg>
+
+                                            Eliminar
+                                        </a>
+                                    </div>
+                                </div>
+                            </template>
+                        </template>
                     </div>
                 </div>
             </div>
@@ -396,10 +432,10 @@
 
 
     @can('ce.viewFile')
-        <x-modal name="verArchivo" maxWidth="7xl">
+        <x-modal name="verArchivo" maxWidth="full">
             <div class="header my-3 h-12 px-10 flex items-center justify-between">
                 <h1 class="font-medium text-2xl">
-                    Vista del Archivo del Año.: <span id="yearFile"></span>
+                    Vista del Archivo del Año.:
                 </h1>
 
                 <svg x-on:click="$dispatch('close')" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -409,8 +445,19 @@
                 </svg>
             </div>
             <div class="m-5 px-4 py-2 rounded-lg border border-gray-300">
-                <div id="fileDetails">
+                <div class="flex-col gap-4 w-full flex items-center justify-center">
+                    <div x-show="loadingFile"
+                        class="w-28 h-28 border-8 text-cherry-800 text-4xl animate-spin border-gray-300 flex items-center justify-center border-t-cherry-800 rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" height="1em" width="1em"
+                            class="animate-ping"viewBox="0 0 384 512">
+                            <path
+                                d="M64 464c-8.8 0-16-7.2-16-16L48 64c0-8.8 7.2-16 16-16l160 0 0 80c0 17.7 14.3 32 32 32l80 0 0 288c0 8.8-7.2 16-16 16L64 464zM64 0C28.7 0 0 28.7 0 64L0 448c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-293.5c0-17-6.7-33.3-18.7-45.3L274.7 18.7C262.7 6.7 246.5 0 229.5 0L64 0zm56 256c-13.3 0-24 10.7-24 24s10.7 24 24 24l144 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-144 0zm0 96c-13.3 0-24 10.7-24 24s10.7 24 24 24l144 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-144 0z" />
+                        </svg>
+                    </div>
                 </div>
+
+                {{-- El archivo tiene que estar en linea (servidor) --}}
+                <iframe x-show="!loadingFile" :src="fileUrl" width='100%' height='600px'></iframe>
             </div>
         </x-modal>
     @endcan

@@ -67,17 +67,17 @@
             this.documents.splice(index, 1);
             this.addFiletToInput()
         }
-    }">
-
-        <div class="pr-10 pl-10">
-            <div class="flex px-4 my-6">
-                <h2 class="text-xl font-semibold text-gray-700">Carga Masiva de Archivos Historicos a Cuadros
-                    Estadísticos</h2>
-            </div>
+    }" class="px-4 py-6 mt-10 mb-8 bg-white rounded-lg shadow-md space-y-6">
+        <div class="flex justify-between">
+            <h1 class="px-4 py-2 text-2xl font-semibold text-gray-700">
+                Carga de Archivos Historicos a Cuadros Estadísticos
+            </h1>
+        </div>
+        <div class="flex flex-col mt-6">
 
             <form method="POST" action="{{ route('upload.storeFiles') }}" enctype="multipart/form-data">
                 @csrf
-                <div class="px-4 py-2 bg-white shadow rounded-lg">
+                <div class="px-4 py-2">
                     <h2 class="text-lg font-semibold text-gray-500">Selecciona el año de publicación de los archivos</h2>
                     <div class="flex flex-wrap gap-3 mb-5">
                         @php
@@ -85,17 +85,10 @@
                             for ($i = $year; $i >= 2010; $i--) {
                                 echo '
                                     <div>
-                                        <label for="year_' .
-                                    $i .
-                                    '" class="flex cursor-pointer items-center justify-center rounded-md border border-gray-300 bg-gray-100 px-3 py-2 text-gray-900 hover:border-gray-400 has-[:checked]:border-blue-500 has-[:checked]:bg-blue-500 has-[:checked]:text-white">
-                                            <input x-model="yearPost" type="radio" name="yearPost" value="' .
-                                    $i .
-                                    '" id="year_' .
-                                    $i .
-                                    '" class="sr-only"  />
-                                            <p class="text-sm font-medium"> ' .
-                                    $i .
-                                    ' </p>
+                                        <label for="year_' . $i .'" 
+                                            class="flex cursor-pointer items-center justify-center rounded-md border border-gray-300 bg-gray-100 px-3 py-2 text-gray-900 hover:border-gray-400 has-[:checked]:border-blue-500 has-[:checked]:bg-blue-500 has-[:checked]:text-white">
+                                            <input x-model="yearPost" type="radio" name="yearPost" value="' . $i .'" id="year_' . $i .'" class="sr-only"  />
+                                            <p class="text-sm font-medium"> ' . $i . ' </p>
                                         </label>
                                     </div>
                                 ';

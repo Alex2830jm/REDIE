@@ -5,20 +5,23 @@ namespace App\Http\Controllers;
 use App\Models\CuadroEstadistico;
 use App\Models\DependenciaInformante;
 use App\Models\Grupo;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
 
     //Diseño 1
-    public function grupos() {
+    public function grupos()
+    {
         $grupos = Grupo::where('grupo_nivel', '=', '2')->get();
         return view('index')->with([
             'grupos/listGrupos2'     => $grupos,
         ]);
     }
 
-    public function sectores(Request $request) {
+    public function sectores(Request $request)
+    {
         $grupo = $request->get('grupo');
         $grupoSectores = Grupo::find($request->get('id'));
         return view('grupos/listSectores2')->with([
@@ -27,7 +30,8 @@ class DashboardController extends Controller
         ]);
     }
 
-    public function temas(Request $request) {
+    public function temas(Request $request)
+    {
         $sector = $request->get('sector');
         $sectorTemas = Grupo::find($request->get('id'));
         return view('grupos/listTemas2')->with([
@@ -36,7 +40,8 @@ class DashboardController extends Controller
         ]);
     }
 
-    public function cuadroEstadistico(Request $request) {
+    public function cuadroEstadistico(Request $request)
+    {
         $numeroCuadro = $request->get('tema');
         dd($numeroCuadro);
         $tema = Grupo::findOrFail($request->get('id'));
@@ -45,7 +50,8 @@ class DashboardController extends Controller
         ]);
     }
 
-    public function archivosCE(Request $request) {
+    public function archivosCE(Request $request)
+    {
         $cuadroEstadistico = CuadroEstadistico::findOrFail($request->get('id'));
         return view("grupos/archivosCuadroEstadistico")->with([
             'cuadroEstadistico' => $cuadroEstadistico
@@ -53,21 +59,24 @@ class DashboardController extends Controller
     }
 
     //Diseño2
-    public function grupos1() {
+    public function grupos1()
+    {
         $grupos = Grupo::where('grupo_nivel', '=', '2')->get();
         return view('grupos/dashboard')->with([
             'grupos'     => $grupos,
         ]);
     }
 
-    public function sectores1(Request $request) {
+    public function sectores1(Request $request)
+    {
         $grupoSectores = Grupo::find($request->get('id'));
         return view('grupos/listSectores')->with([
             'grupoSectores' => $grupoSectores
         ]);
     }
 
-    public function temas1(Request $request) {
+    public function temas1(Request $request)
+    {
         $sectorTemas = Grupo::find($request->get('id'));
         //return response()->json($sectorTemas);
         return view('grupos/listTemas')->with([
@@ -75,23 +84,28 @@ class DashboardController extends Controller
         ]);
     }
 
-    public function cuadroEstadistico2(Request $request) {
+    public function cuadroEstadistico2(Request $request)
+    {
         $tema = Grupo::where('id', '=', $request->get('id'));
         return view('grupos/listCuadrosEstadisticos')->with([
             'tema' => $tema
         ]);
     }
 
-    public function archivosCE2() {
+    public function archivosCE2()
+    {
         return view("grupos/archivosCuadroEstadistico");
     }
 
-    public function prueba() {
-        $dependencias = DependenciaInformante::select('id', 'tipoDI', 'numDI', 'nombreDI', 'padreDI', 'nivelDI')
-            ->orderBy('tipoDI')
-            ->orderBy('id', 'ASC')
+    public function prueba()
+    {
+        $user = Auth::user();
+        $rol = $user->roles->pluck('id');
+
+        $grupos = Grupo::where('grupo_nivel', '=', '2')
+            ->with(['sectores', 'sectores.temas'])
             ->get();
-        //return response()->json(['dependencias' => $dependencias]);
-        return view('pruebas')->with(['collection' => $dependencias, 'typecollection' => '1']);
+        //return response()->json(['grupos' => $grupos]);
+        return view('pruebas')->with(['grupos' => $grupos]);
     }
 }

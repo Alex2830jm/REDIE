@@ -76,12 +76,11 @@ Route::middleware(['custom.headers', 'auth', 'update.defaultPassword'])->group(f
 
     Route::controller(DirectorioController::class)->group(function () {
         Route::prefix('dependencias')->name('dependencia.')->group(function () {
-            Route::view('/', 'directorio/index')->name('home');
-            Route::get('/dependencias', 'indexDependencias')->name('index');
+            Route::get('/', 'indexDependencias')->name('home');
             Route::get('nueva', 'createDependencia')->name('create');
             Route::post('store', 'storeDependencia')->name('store');
             Route::post('/updateInfoDependencia', 'updateInfoDependencia')->name('update');
-            Route::get('{id}/unidades', 'showDependencia')->name('listUnidades');
+            Route::get('unidades/{id}', 'showDependencia')->name('listUnidades');
         });
 
         Route::prefix('unidades')->name('unidad.')->group(function () {

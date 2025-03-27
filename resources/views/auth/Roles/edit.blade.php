@@ -52,8 +52,8 @@
                             </div>
                         </div>
 
-                        <form action="{{ route('roles.store') }}" method="post">
-                            @csrf
+                        <form action="{{ route('roles.update', $role->id) }}" method="post">
+                            @csrf @method('PUT')
                             <div x-show.transition.in="step === 1">
                                 <div class="mt-5">
                                     <div class="mb-5">

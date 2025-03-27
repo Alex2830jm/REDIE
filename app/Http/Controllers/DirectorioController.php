@@ -15,9 +15,10 @@ class DirectorioController extends Controller
     public function indexDependencias(Request $request)
     {
         abort_if(Gate::denies('inicio.DirectorioIndex'), 403);
-        $dependencias = DependenciaInformante::where('tipoDI', '=', $request->get('type'))
-            ->where('nivelDI', '1')->orderBy('id', 'ASC')->get();
-        return view('directorio/dependencias')->with([
+        $dependencias = DependenciaInformante::where('nivelDI', '1')
+            ->orderBy('id', 'ASC')
+            ->get();
+        return view('directorio/index')->with([
             'dependencias' => $dependencias
         ]);
     }

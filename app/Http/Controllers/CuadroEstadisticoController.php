@@ -93,7 +93,7 @@ class CuadroEstadisticoController extends Controller
             "numeroCE" => $request->get('numero_ce'),
             "tema_id" => $request->get('tema_id'),
             "di_id" => $request->get('di_id'),
-            'ui_id' => $request->get('ui_id'),
+            'ui_id' => is_null($request->get('ui_id')) ? $request->get('di_id') : $request->get('ui_id'),
             "nombreCuadroEstadistico" => $request->get('nombreCuadroEstadistico'),
             "gradoDesagregacion" => $request->get('gradoDesagregacion'),
             "frecuenciaAct" => $request->get('frecuenciaAct'),

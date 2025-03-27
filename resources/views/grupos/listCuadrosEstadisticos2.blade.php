@@ -261,6 +261,9 @@
                                 <option value="Municipal"> Municipal </option>
                                 <option value="Estatal"> Estatal </option>
                                 <option value="Federal"> Federal </option>
+                                <option value="Institución de Salud"> Institución de Salud </option>
+                                <option value="Sector y dependencia"> Sector y dependencia </option>
+                                <option value="Unidad Administrativa"> Unidad Administrativa </option>
                             </select>
                         </div>
                         <div class="w-full md:w-1/2 px-3">

@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('tema_id');
             $table->unsignedBigInteger('di_id');
-            $table->unsignedBigInteger('ui_id');
+            $table->unsignedBigInteger('ui_id')->nullable();
             $table->string('numeroCE');
-            $table->string('nombreCuadroEstadistico');
+            $table->text('nombreCuadroEstadistico');
             $table->string('gradoDesagregacion');
             $table->string('frecuenciaAct');
             $table->foreign('tema_id')

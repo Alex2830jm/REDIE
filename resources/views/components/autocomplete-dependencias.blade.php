@@ -2,11 +2,11 @@
 
 {{-- Se creo compontent autocomplete para buscar alguna dependencia informativa.
         Donde:
-            1 = Si se desea se desea mostrar las unidades / hijos
+            1 = Si se desea se desea mostrar con las unidades / hijos
             2 = Si se desea solo mostrar dependencias / unidades 
  --}}
 
- <div x-data="{
+<div x-data="{
     query: '',
     di_id: '',
     filtered: [],
@@ -18,7 +18,7 @@
     subFiltered: [],
     subCollection: [],
     subSelectedIndex: -1,
-    
+
     typecollection: {{ $typecollection }},
 
     filterResults() {
@@ -30,7 +30,7 @@
 
     subFilterResults() {
         if (this.di_id) {
-            this.subFiltered = this.subCollection.filter(subItem => 
+            this.subFiltered = this.subCollection.filter(subItem =>
                 subItem.padreDI === this.di_id &&
                 subItem.nombreDI.toLowerCase().includes(this.subQuery.toLowerCase())
             );
@@ -78,16 +78,26 @@
     }
 }" class="flex flex-wrap -mx-3 mb-6">
     <div class="w-full md:w-1/2 px-3">
-        <input type="text" x-model="di_id" name="{{ $typecollection === '1' ? 'di_id' : 'ui_id'}}" hidden readonly>
-        <label class="text-sm font-semibold text-gray-700" for="query">Busca la {{ $typecollection === '1' ? 'dependencia informativa' : 'unidad informariva'}}</label>
-        <input type="text" x-model="query" 
+        <input 
+            type="text"
+            x-model="di_id"
+            name="{{ $typecollection === '1' ? 'di_id' : 'ui_id' }}" hidden readonly>
+        <label 
+            class="text-sm font-semibold text-gray-700" 
+            for="query">
+            Busca la {{ $typecollection === '1' ? 'dependencia informativa' : 'unidad informariva' }}
+        </label>
+        <input
+            type="text" 
+            x-model="query"
             id="autocompletePadre"
-            @input="filterResults()" 
+            @input="filterResults()"
+            @focus="filterResults()"
             @keydown.arrow-down.prevent="navigate(1, '1')"
-            @keydown.arrow-up.prevent="navigate(-1, '1')" 
-            @keydown.enter.prevent="selectResult('1')""
+            @keydown.arrow-up.prevent="navigate(-1, '1')"
+            @keydown.enter.prevent="selectResult('1')"
             class="block w-full px-4 py-3 text-sm text-gray-700 bg-gray-50 border border-gray-400 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
-            placeholder="Selecciona la dependencia informativa"
+            placeholder="Busca/Selecciona la dependencia informativa"
             autocomplete="off">
         <ul x-show="filtered.length > 0"
             class="absolute z-10 mt-1 max-h-56 overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
@@ -103,16 +113,15 @@
         </ul>
     </div>
     <div x-show="query" class="w-full md:w-1/2 px-3">
-        <input type="text" x-model="ui_id" name="{{ $typecollection === '1' ? 'ui_id' : ''}}" hidden readonly>
-        <label class="text-sm font-semibold text-gray-700" for="subQuery">Busca la {{ $typecollection === '1' ? 'unidad informariva' : ''}}</label>
-        <input type="text" x-model="subQuery" 
-            @input="subFilterResults()" 
-            @keydown.arrow-down.prevent="navigate(1, '2')"
-            @keydown.arrow-up.prevent="navigate(-1, '2')" 
+        <input type="text" x-model="ui_id" name="{{ $typecollection === '1' ? 'ui_id' : '' }}" hidden readonly>
+        <label class="text-sm font-semibold text-gray-700" for="subQuery">Busca la
+            {{ $typecollection === '1' ? 'unidad informariva' : '' }}</label>
+        <input type="text" x-model="subQuery" @input="subFilterResults()"
+            @focus="subFilterResults()"
+            @keydown.arrow-down.prevent="navigate(1, '2')" @keydown.arrow-up.prevent="navigate(-1, '2')"
             @keydown.enter.prevent="selectResult('2')"
             class="block w-full px-4 py-3 text-sm text-gray-700 bg-gray-50 border border-gray-400 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
-            placeholder="Selecciona la dependencia informativa"
-            autocomplete="off">
+            placeholder="Busca/Selecciona la dependencia informativa" autocomplete="off">
         <ul x-show="subFiltered.length > 0"
             class="absolute z-10 mt-1 max-h-56 overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
             <template x-for="(result, index) in subFiltered" :key="index">

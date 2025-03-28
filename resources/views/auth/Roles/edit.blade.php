@@ -8,7 +8,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
                     </svg>
                 </a>
-                Crear nuevo rol de acceso
+                Editar accesos del Rol: {{ $role->description }}
             </h1>
         </div>
         <div x-data="app()" x-cloak>
@@ -18,7 +18,7 @@
                         <div x-show.transition="step != 'complete'">
                             <div class="border-b-2 py-4">
                                 <div class="uppercase tracking-wide text-xs font-bold text-gray-500 mb-1 leading-tight"
-                                    x-text="`Paso: ${step} de 3`"></div>
+                                    x-text="`Paso: ${step} de 4`"></div>
                                 <div class="flex flex-col md:flex-row md:items-center md:justify-between">
                                     <div class="flex-1">
                                         <div x-show="step === 1">
@@ -29,13 +29,19 @@
 
                                         <div x-show="step === 2">
                                             <div class="text-lg font-bold text-gray-700 leading-tight">
-                                                Permisos a otorgar al Rol
+                                                Temas Asignados al Rol
                                             </div>
                                         </div>
 
                                         <div x-show="step === 3">
                                             <div class="text-lg font-bold text-gray-700 leading-tight">
-                                                Temas Asignados al Rol
+                                                Dependencias Asignadas al Rol
+                                            </div>
+                                        </div>
+
+                                        <div x-show="step === 3">
+                                            <div class="text-lg font-bold text-gray-700 leading-tight">
+                                                Permisos a otorgar al Rol
                                             </div>
                                         </div>
                                     </div>
@@ -43,9 +49,9 @@
                                     <div class="flex items-center md:w-64">
                                         <div class="w-full bg-white rounded-full mr-2">
                                             <div class="rounded-full bg-green-500 text-xs leading-none h-2 text-center text-white"
-                                                :style="'width: ' + parseInt(step / 3 * 100) + '%'"></div>
+                                                :style="'width: ' + parseInt(step / 4 * 100) + '%'"></div>
                                         </div>
-                                        <div class="text-xs w-10 text-gray-600" x-text="parseInt(step / 3 * 100) +'%'">
+                                        <div class="text-xs w-10 text-gray-600" x-text="parseInt(step / 4 * 100) +'%'">
                                         </div>
                                     </div>
                                 </div>
@@ -77,47 +83,6 @@
                             </div>
 
                             <div x-show.transition.in="step === 2">
-                                <h4 class="text-xl font-semibold text-gray-600">Selección de Permisos:</h4>
-                                <p class="text-sm text-gray-400">Selecciona los permisos con los que contará este rol
-                                </p>
-                                <div
-                                    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-4 border-dashed border-2 border-cherry-800 rounded-lg p-4  bg-gray-100">
-                                    <!-- Checkbox -->
-                                    @foreach ($permissions as $permission)
-                                        <div class="inline-flex items-start bg-white shadow-xl rounded-lg p-5">
-                                            <label class="flex items-start cursor-pointer relative"
-                                                for="role_{{ $permission->id }}">
-                                                <input type="checkbox"name="permission[]" value="{{ $permission->name }}" {{ $role->permissions->contains($permission->id) ? 'checked' : ''}}
-                                                    class="peer h-5 w-5 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md border border-slate-300 checked:bg-slate-800 checked:border-slate-800"
-                                                    id="role_{{ $permission->id }}" />
-                                                <span
-                                                    class="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5"
-                                                        viewBox="0 0 20 20" fill="currentColor" stroke="currentColor"
-                                                        stroke-width="1">
-                                                        <path fill-rule="evenodd"
-                                                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                                            clip-rule="evenodd"></path>
-                                                    </svg>
-                                                </span>
-                                            </label>
-                                            <label class="cursor-pointer ml-2 text-slate-600 text-sm"
-                                                for="role_{{ $permission->id }}">
-                                                <div>
-                                                    <p class="font-medium">
-                                                        {{ $permission->name }}
-                                                    </p>
-                                                    <p class="text-slate-500">
-                                                        {{ $permission->description }}
-                                                    </p>
-                                                </div>
-                                            </label>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-
-                            <div x-show.transition.in="step === 3">
                                 <h4 class="text-lg font-semibold text-gray-600 mb-2">Asignación de Temas</h4>
                                 <div class="flex justify-between">
                                     <label class="block text-sm text-gray-400">
@@ -195,6 +160,84 @@
                                 </div>
                             </div>
 
+                            <div x-show.transition.in="step === 3">
+                                <h4 class="text-xl font-semibold text-gray-600">
+                                    Selección de dependencias informantes
+                                </h4>
+                                <div class="grid grid-col-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-4 border-dashed border-2 border-x-cherry-800 rounded-pg p-4 bg-gray-100">
+                                    @foreach ($dependencias as $dependencia)
+                                        <div class="inline-flex items-center bg-white shadow-xl rounded-lg p-5">
+                                            <label class="flex items-center cursor-pointer relative"
+                                                for="di_{{ $dependencia->id }}">
+                                                <input type="checkbox" value="{{ $dependencia->id }}" name="dependencias[]" {{ $role->dependencias->contains($dependencia->id) ? 'checked' : '' }}
+                                                    class="peer h-5 w-5 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md border border-stale-300 checked:bg-slate-800 checked:border-slate-800"
+                                                    id="di_{{ $dependencia->id }}" />
+                                                <span
+                                                    class="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5"
+                                                        viewBox="0 0 20 20" fill="currentColor" stroke="currentColor"
+                                                        stroke-width="1">
+                                                        <path fill-rule="evenodd"
+                                                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                                            clip-rule="evenodd"></path>
+                                                    </svg>
+                                                </span>
+                                            </label>
+                                            <label class="cursor-pointer ml-2 text-slate-600 text-sm"
+                                                for="di_{{ $dependencia->id }}">
+                                                <div>
+                                                    <p class="font-medium">
+                                                        {{ $dependencia->nombreDI }}
+                                                    </p>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+
+                            <div x-show.transition.in="step === 4">
+                                <h4 class="text-xl font-semibold text-gray-600">Selección de Permisos:</h4>
+                                <p class="text-sm text-gray-400">Selecciona los permisos con los que contará este rol
+                                </p>
+                                <div
+                                    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-4 border-dashed border-2 border-cherry-800 rounded-lg p-4  bg-gray-100">
+                                    <!-- Checkbox -->
+                                    @foreach ($permissions as $permission)
+                                        <div class="inline-flex items-start bg-white shadow-xl rounded-lg p-5">
+                                            <label class="flex items-start cursor-pointer relative"
+                                                for="role_{{ $permission->id }}">
+                                                <input type="checkbox"name="permission[]" value="{{ $permission->name }}" {{ $role->permissions->contains($permission->id) ? 'checked' : ''}}
+                                                    class="peer h-5 w-5 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md border border-slate-300 checked:bg-slate-800 checked:border-slate-800"
+                                                    id="role_{{ $permission->id }}" />
+                                                <span
+                                                    class="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5"
+                                                        viewBox="0 0 20 20" fill="currentColor" stroke="currentColor"
+                                                        stroke-width="1">
+                                                        <path fill-rule="evenodd"
+                                                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                                            clip-rule="evenodd"></path>
+                                                    </svg>
+                                                </span>
+                                            </label>
+                                            <label class="cursor-pointer ml-2 text-slate-600 text-sm"
+                                                for="role_{{ $permission->id }}">
+                                                <div>
+                                                    <p class="font-medium">
+                                                        {{ $permission->name }}
+                                                    </p>
+                                                    <p class="text-slate-500">
+                                                        {{ $permission->description }}
+                                                    </p>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+
+
                             <div class="flex justify-between gap-4 p-4" x-show="step != 'complete'">
                                 <button type="button"
                                     class="rounded bg-red-500 text-white px-4 py-2 hover:bg-red-700 flex items-center gap-2"
@@ -208,7 +251,7 @@
                                 </button>
                                 <button type="button"
                                     class="rounded bg-blue-500 text-white px-4 py-2 hover:bg-blue-700 flex items-center gap-2"
-                                    x-show="step < 3" @click="step++">
+                                    x-show="step < 4" @click="step++">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="size-6">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -218,7 +261,7 @@
                                 </button>
                                 <button type="submit"
                                     class="rounded bg-green-500 text-white px-4 py-2 hover:bg-green-700 flex items-center gap-2"
-                                    @click="step = 'complete'" x-show="step === 3">
+                                    @click="step = 'complete'" x-show="step === 4">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="size-6">
                                         <path stroke-linecap="round" stroke-linejoin="round"

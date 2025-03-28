@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DependenciaInformante;
 use App\Models\Grupo;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
@@ -60,15 +61,19 @@ class RoleController extends Controller
     public function create() {
         $permissions = Permission::all();
         $grupos = Grupo::where('grupo_nivel', '2')->get();
-        
+        $dependencias = DependenciaInformante::where('nivelDI', '=', '1')
+            ->orderBy('id', 'ASC')->get();
+
         return view('auth/roles/create')
             ->with([
                 'permissions' => $permissions,
-                'grupos' => $grupos
+                'grupos' => $grupos,
+                'dependencias' => $dependencias
             ]);
     }
 
     public function store(Request $request) {        
+        //dd($request);
         $role = Role::create([
             'name' => $request->get('nameRole'),
             'description' => $request->get('descriptionRole'),
@@ -76,6 +81,7 @@ class RoleController extends Controller
         
         $role->syncPermissions($request->get('permission', []));
         $role->temas()->sync($request->get('tema_id', []));
+        $role->dependencias()->sync($request->get('dependencias'), []);
 
         notyf()
             ->position('x', 'center')
@@ -89,12 +95,15 @@ class RoleController extends Controller
         $role = Role::find($id);
         $permissions = Permission::all();
         $grupos = Grupo::where('grupo_nivel', '2')->get();
+        $dependencias = DependenciaInformante::where('nivelDI', '=', '1')
+            ->orderBy('id', 'ASC')->get();
 
         return view('auth/roles/edit')
             ->with([
                 'role'          => $role,
                 'permissions'   => $permissions,
-                'grupos'         => $grupos
+                'grupos'         => $grupos,
+                'dependencias' => $dependencias
             ]);
     }
 
@@ -107,6 +116,7 @@ class RoleController extends Controller
         $role = Role::find($id);
         $role->syncPermissions($request->get('permission', []));
         $role->temas()->sync($request->get('tema_id', []));
+        $role->dependencias()->sync($request->get('dependencias'), []);
 
         return redirect()->route('roles.index');
     }

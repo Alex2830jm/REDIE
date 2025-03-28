@@ -27,11 +27,11 @@ class DatabaseSeeder extends Seeder
             //TemasSeeder::class,
             RoleSeeder::class,
             PermissionSeed::class,
-            SectorRoleSeed::class,
             TemasRoleSeed::class,
             UserSeeder::class,
-            RoleHasPermission::class,
+            RoleHasPermission::class,            
             DependenciaInformativaSeed::class,
+            RoleHasDependenciaSeed::class,
             //DependeciaSeed::class,
             //UnidadInformativaSeeder::class,
         ]);

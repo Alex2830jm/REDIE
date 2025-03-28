@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Spatie\Permission\Models\Role;
 
 class DependenciaInformante extends Model
 {
@@ -25,5 +27,9 @@ class DependenciaInformante extends Model
 
     public function cuadrosEstadisticos() {
         return $this->hasMany(CuadroEstadistico::class, 'ui_id');
+    }
+
+    public function role_dependencia(): BelongsToMany {
+        return $this->belongsToMany(Role::class, 'role_has_dependencias', 'dependencia_id', 'role_id');
     }
 }

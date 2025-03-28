@@ -4,22 +4,32 @@
         showPassword: true,
         newPassword: '',
         confirmPassword: '',
-        validate: true,
+        validate: false,
+        validateMin: false,
+        validateMax: false,
+        validateCar: false,
+        validateNum: false,
+        validateLMA: false,
+        validateLMN: false,
     
         validatePassword() {
             const caracteres = /[!#$%&,.-_]/;
             const numeros = /\d/;
-            const letras = /[a-zA-Z]/;
+            const minusculas = /[a-z]/;
+            const mayusculas = /[A-Z]/;
             const max = 16;
             const min = 8;
     
-            this.validate = (
-                this.newPassword.length >= min &&
-                this.newPassword.length <= max &&
-                caracteres.test(this.newPassword) &&
-                numeros.test(this.newPassword) &&
-                letras.test(this.newPassword)
-            );
+    
+            this.validateMin = this.newPassword.length >= min;
+            this.validateMax = this.newPassword.length >= min && this.newPassword.length <= max;
+            this.validateCar = caracteres.test(this.newPassword);
+            this.validateNum = numeros.test(this.newPassword);
+            this.validateLMA = mayusculas.test(this.newPassword);
+            this.validateLMN = minusculas.test(this.newPassword);
+    
+            this.validate = this.validateMin && this.validateMax && this.validateCar &&
+                this.validateNum && this.validateLMA && this.validateLMN;
         }
     }" class="px-4 py-6 mt-10 mb-8 bg-white rounded-lg shadow-md space-y-10">
         <div class="flex flex-col justify-center">
@@ -31,16 +41,16 @@
             <div class="-mx-4 -my-2 overflow-x-auto">
                 <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
                     <div class="overflow-hidden divide-y divide-gray-200">
-                        <form method="POST" action="{{ route('update-password', $user->id) }}">
+                        <form method="POST" action="{{ route('update-password', $user->id) }}" x-on:submit.prevent="if(validate) $el.submit()">
                             @csrf
-                            <section>
+                            <div class="relative mb-3">
                                 <label for="username" class="block text-sm font-medium text-gray-700">Usuario: </label>
                                 <input type="text" id="username" name="username" value="{{ $user->username }}"
                                     readonly
                                     class="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:right-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300">
 
-                            </section>
-                            <div class="relative">
+                            </div>
+                            <div class="relative mb-3">
                                 <label for="password" class="block text-sm font-medium text-gray-700">Contraseña Nueva:
                                 </label>
                                 <input :type="showPassword ? 'password' : 'text'" id="password" name="password"
@@ -67,29 +77,101 @@
                                 </div>
                             </div>
                             <button type="submit"
+                                :class="{'disabled: opacity-50': !validate}"
                                 class="mt-3 w-full bg-black text-white p-2 rounded-md hover:bg-gray-800  focus:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300">
                                 Cambiar Contraseña
                             </button>
-                            <div class="flex p-4 mt-3 mb-4 text-sm text-gray-400 bg-gray-50"
-                                :class="{ 'text-green-500 bg-green-50': validate, 'text-red-800 rounded-lg bg-red-50': !
-                                    validate }"
-                                role="alert">
-                                <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                    <path
-                                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
-                                </svg>
-                                <div>
-                                    <span class="font-medium">La contraseña debe de contener</span>
-                                    <ul class="mt-1.5 list-disc list-inside">
-                                        <li> Minino, una letra minúscula. </li>
-                                        <li> Minino, una letra mayúscula. </li>
-                                        <li> Minino, algún número. </li>
-                                        <li> Alguno de los siguientes caracteres especiales: ! # $ % & , . - _ </li>
-                                        <li> Mínimo de 8 caracteres. </li>
-                                        <li> Máximo de 16 caracteres. </li>
-                                    </ul>
-                                </div>
+                            <div class="mb-3">
+
+                                <h4 class="my-2 text-sm font-semibold text-gray-800">
+                                    Tu contaseña debe de contener lo siguiente:
+                                </h4>
+
+                                <ul class="space-y-1 text-sm text-gray-500">
+                                    <li :class="{ 'text-teal-500': validateMin, }" class="flex items-center gap-x-2">
+                                        <svg x-show="!validateMin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="shrink-0 size-4">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M6 18 18 6M6 6l12 12" />
+                                        </svg>
+                                        <svg x-show="validateMin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="shrink-0 size-4">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="m4.5 12.75 6 6 9-13.5" />
+                                        </svg>
+                                        Número mínimo de caracteres: 8
+                                    </li>
+
+                                    <li :class="{ 'text-teal-500': validateMax, }" class="flex items-center gap-x-2">
+                                        <svg x-show="!validateMax" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="shrink-0 size-4">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M6 18 18 6M6 6l12 12" />
+                                        </svg>
+                                        <svg x-show="validateMax" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="shrink-0 size-4">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="m4.5 12.75 6 6 9-13.5" />
+                                        </svg>
+                                        Número máximo de caracteres: 16
+                                    </li>
+
+                                    <li :class="{ 'text-teal-500': validateLMN }" class="flex items-center gap-x-2">
+                                        <svg x-show="!validateLMN" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="shrink-0 size-4">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M6 18 18 6M6 6l12 12" />
+                                        </svg>
+                                        <svg x-show="validateLMN" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="shrink-0 size-4">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="m4.5 12.75 6 6 9-13.5" />
+                                        </svg>
+                                        Contener una letra minúscula
+                                    </li>
+
+                                    <li :class="{ 'text-teal-500': validateLMA, }" class="flex items-center gap-x-2">
+                                        <svg x-show="!validateLMA" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="shrink-0 size-4">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M6 18 18 6M6 6l12 12" />
+                                        </svg>
+                                        <svg x-show="validateLMA" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="shrink-0 size-4">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="m4.5 12.75 6 6 9-13.5" />
+                                        </svg>
+                                        Contener una letra mayúscula
+                                    </li>
+
+                                    <li :class="{ 'text-teal-500': validateNum }" class="flex items-center gap-x-2">
+                                        <svg x-show="!validateNum" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="shrink-0 size-4">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M6 18 18 6M6 6l12 12" />
+                                        </svg>
+                                        <svg x-show="validateNum" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="shrink-0 size-4">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="m4.5 12.75 6 6 9-13.5" />
+                                        </svg>
+                                        Contener un número
+                                    </li>
+
+                                    <li :class="{ 'text-teal-500': validateCar }" class="flex items-center gap-x-2">
+                                        <svg x-show="!validateCar" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="shrink-0 size-4">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M6 18 18 6M6 6l12 12" />
+                                        </svg>
+                                        <svg x-show="validateCar" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="shrink-0 size-4">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="m4.5 12.75 6 6 9-13.5" />
+                                        </svg>
+                                        Contener algún caracter especial ( ! # $ % & , . - _ )
+                                    </li>
+                                </ul>
                             </div>
                         </form>
                     </div>

@@ -38,10 +38,10 @@ Route::middleware(['custom.headers'])->group(function () {
     });
 
     Route::middleware('auth',)->group(function () {
-        Route::get('change-password/{user}', [NewPasswordController::class, 'change_password'])
+        Route::get('change-password/{user}', [PasswordController::class, 'change_password'])
             ->name('change-password');
 
-        Route::post('update-password/{id}', [NewPasswordController::class, 'update_password'])
+        Route::post('update-password/{id}', [PasswordController::class, 'update_password'])
             ->name('update-password');
 
         Route::get('verify-email', EmailVerificationPromptController::class)

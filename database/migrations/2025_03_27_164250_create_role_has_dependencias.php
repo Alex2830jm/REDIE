@@ -11,18 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('role_has_tema', function (Blueprint $table) {
+        Schema::create('role_has_dependencias', function (Blueprint $table) {
             //$table->id();
-            $table->unsignedBigInteger('grupo_id');
+            $table->unsignedBigInteger('dependencia_id');
             $table->unsignedBigInteger('role_id');
+            $table->foreign('dependencia_id')
+                ->references('id')
+                ->on('dependencias_informantes')
+                ->onDelete('cascade');
+                
             $table->foreign('role_id')
                 ->references('id')
                 ->on('roles')
-                ->onDelete('cascade');
-
-            $table->foreign('grupo_id')
-                ->references('id')
-                ->on('grupos')
                 ->onDelete('cascade');
             //$table->timestamps();
         });
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('role_has_tema');
+        Schema::dropIfExists('role_has_dependencias');
     }
 };

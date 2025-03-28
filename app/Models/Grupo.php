@@ -29,10 +29,6 @@ class Grupo extends Model
         return $this->hijos()->where('grupo_nivel', '=', '4');
     }
 
-    public function rolesSector(): BelongsToMany {
-        return $this->belongsToMany(Role::class, 'role_has_sector', 'grupo_id', 'role_id');
-    }
-
     public function rolesTema(): BelongsToMany {
         return $this->belongsToMany(Role::class, 'role_has_tema', 'grupo_id', 'role_id');
     }

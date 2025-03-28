@@ -8,6 +8,8 @@ use App\Models\DependenciaInformante;
 use App\Models\PersonaUnidad;
 use App\Models\UnidadInformativa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 
 class DirectorioController extends Controller
@@ -15,9 +17,17 @@ class DirectorioController extends Controller
     public function indexDependencias(Request $request)
     {
         abort_if(Gate::denies('inicio.DirectorioIndex'), 403);
-        $dependencias = DependenciaInformante::where('nivelDI', '1')
+        $user = Auth::user();
+        $rol = $user->roles->pluck('id');
+
+        $dependencias = DependenciaInformante::where('nivelDI', 1)
+            ->whereHas('role_dependencia', function ($query) use ($rol){
+                $query->where('id', '=', $rol);
+            })->get();
+        //return response()->json(['dependencias' => $dependencias]);
+        /* $dependencias = DependenciaInformante::where('nivelDI', '1')
             ->orderBy('id', 'ASC')
-            ->get();
+            ->get(); */
         return view('directorio/index')->with([
             'dependencias' => $dependencias
         ]);

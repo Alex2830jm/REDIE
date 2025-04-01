@@ -1,12 +1,10 @@
 <div x-data="{
     collapseFiles: false,
-    cuadroEstadistico: '',
     openForm: false,
     loadingCE: true,
     loadingFiles: true,
     loadingFile: true,
     files: [],
-    fileUrl: '',
     cuadrosEstadisticos: {
         data: [],
         current_page: 1,
@@ -18,7 +16,17 @@
     nombreCE: '',
     validateNombre: true,
 
+    //Datos del cuadro estadístico
+    idCE: '',
+    nombreCE: '',
+    numCE: '',
 
+    //Datos del archivo seleccionado
+    nombreCEFILE: '',
+    numeroCEFILE: '',
+    fileUrl: '',
+    yearFile: '',
+    
     init() {
         this.loadCuadrosEstadisticos();
     },
@@ -59,6 +67,11 @@
                 this.loadingFiles = true;
                 const responseFiles = await fetch(`{{ route('archivosByCuadrosEstadisticos') }}?ce_id=${id}`);
                 const files = await responseFiles.json();
+                //Datos del CE
+                this.idCE = files.id;
+                this.nombreCE = files.nombreCuadroEstadistico;
+                this.numCE = files.numeroCE;
+                //Archivos del CE
                 this.files = files.archivos;
                 this.loadingFiles = false;
                 break;
@@ -67,6 +80,9 @@
                 this.loadingFile = true;
                 const responseFile = await fetch(`{{ route('verArchivo') }}?idFile=${valCE}`);
                 this.file = await responseFile.json();
+                this.numeroCEFILE = this.file.ce.numeroCE;
+                this.nombreCEFILE = this.file.ce.nombreCuadroEstadistico;
+                this.yearFile = this.file.yearPost;
                 {{-- El archivo tiene que estar en linea (servidor) --}}
                 this.fileUrl = `https://view.officeapps.live.com/op/embed.aspx?src=https://redieigecem.edomex.gob.mx/${this.file.urlFile}`;
                 this.loadingFile = false;
@@ -322,17 +338,17 @@
                     class="bg-white shadow-lg rounded-sm border border-gray-200 p-4 min-w-0 w-full lg:w-1/3">
                     <form action="{{ route('guardarArchivos') }}" method="post" enctype="multipart/form-data">
                         @csrf
-                        <input type="hidden" name="idCE" id="idCE" value="">
+                        <input type="hidden" name="idCE" id="idCE" value="" x-model="idCE">
 
                         <label for="nombreArchivo" class="block text-sm font-medium text-gray-700">Cuadro
                             Estadístico</label>
-                        <input type="text" name="nombreArchivo" id="nombreArchivo" x-model="cuadroEstadistico"
+                        <input type="text" name="nombreArchivo" id="nombreArchivo" x-model="nombreCE"
                             class="w-full px-4 py-2 text-sm text-gray-700 bg-gray-100 border border-gray-300 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
                             readonly>
 
                         <label for="numeroCE" class="block text-sm font-medium text-gray-700 mt-2">Número del Cuadro
                             Estadístico</label>
-                        <input type="text" name="numeroCE" id="numeroCE" value=""
+                        <input type="text" name="numeroCE" id="numeroCE" value="" x-model="numCE"
                             class="w-full px-4 py-2 text-sm text-gray-700 bg-gray-100 border border-gray-300 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
                             readonly>
 
@@ -438,7 +454,7 @@
         <x-modal name="verArchivo" maxWidth="full">
             <div class="header my-3 h-12 px-10 flex items-center justify-between">
                 <h1 class="font-medium text-2xl">
-                    Vista del Archivo del Año.:
+                    <span x-text="numeroCEFILE"></span> - <span x-text="nombreCEFILE"></span> - <span x-text="yearFile"></span>
                 </h1>
 
                 <svg x-on:click="$dispatch('close')" xmlns="http://www.w3.org/2000/svg" fill="none"

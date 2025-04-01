@@ -1,60 +1,62 @@
     <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name', 'Dirección de Estadística') }}</title>
-    <link rel="shortcut icon" href="{{ asset('assets/img/igecem.ico') }}" type="image/x-icon">
-    {{-- Fonts --}}
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+        <title>{{ config('app.name', 'Dirección de Estadística') }}</title>
+        <link rel="shortcut icon" href="{{ asset('assets/img/igecem.ico') }}" type="image/x-icon">
+        {{-- Fonts --}}
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-    <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/jquery.steps.css') }}">
-    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-        crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-steps/1.1.0/jquery.steps.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
-</head>
+        <!-- Scripts -->
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/jquery.steps.css') }}">
+        <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 
-<body class="bg-gray-100">
-    <div class="flex flex-col flex-1 w-full">
-        {{-- Header --}}
-        <div class="ml-10 mr-10">
-            <div class="grid grid-cols-1 md:grid-cols-12 p-4 items-center">
-                <div class="col-span-1 md:col-span-3">
-                    <img src="{{ asset('assets/img/logo_h1.png') }}" alt="Logo" class="w-full md:w-auto">
-                    <hr class="hidden">
-                    <span class="hidden sm:block font-light text-2xl text-center text-gold-500">Secretería de
-                        Finanzas</span>
-                </div>
-                <div class="col-span-1 md:col-span-9">
-                    <h2
-                        class="hidden sm:block font-montserrat font-light text-cherry-800 text-2xl sm:lg md:text-xl lg:text-4xl font-sans leading-tight">
-                        Instituto de Información e Investigación Geográfica, Estadística y Catastral del Estado de
-                        México IGECEM
-                    </h2>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    </head>
+
+    <body class="bg-gray-100">
+        <div class="flex flex-col flex-1 w-full">
+            {{-- Header --}}
+            <div class="ml-10 mr-10">
+                <div class="grid grid-cols-1 md:grid-cols-12 p-4 items-center">
+                    <div class="col-span-1 md:col-span-3">
+                        <img src="{{ asset('assets/img/logo_h1.png') }}" alt="Logo" class="w-full md:w-auto">
+                        <hr class="hidden">
+                        <span class="hidden sm:block font-light text-2xl text-center text-gold-500">Secretería de
+                            Finanzas</span>
+                    </div>
+                    <div class="col-span-1 md:col-span-9">
+                        <h2
+                            class="hidden sm:block font-montserrat font-light text-cherry-800 text-2xl sm:lg md:text-xl lg:text-4xl font-sans leading-tight">
+                            Instituto de Información e Investigación Geográfica, Estadística y Catastral del Estado de
+                            México IGECEM
+                        </h2>
+                    </div>
                 </div>
             </div>
+            {{-- Navbar --}}
+            @include('layouts.navigation')
         </div>
-        {{-- Navbar --}}
-        @include('layouts.navigation')
-    </div>
-    {{-- Contenido --}}
-    <main class="h-full mb-7">
-        <div class="sm:pl-10 sm:pr-10">
-            {{ $slot }}
-        </div>
-    </main>
+        {{-- Contenido --}}
+        <main class="h-full mb-7">
+            <div class="sm:pl-10 sm:pr-10">
+                {{ $slot }}
+            </div>
+        </main>
 
-    @if (isset($scripts))
-        {{ $scripts }}
-    @endif
-</body>
+        @if (isset($scripts))
+            {{ $scripts }}
+        @endif
+    </body>
 
-</html>
+    </html>

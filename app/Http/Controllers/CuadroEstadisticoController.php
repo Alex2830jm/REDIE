@@ -27,7 +27,7 @@ class CuadroEstadisticoController extends Controller
                         $subquery->where('id', $rol);
                     });
                 });
-            //Solo muestra los sectores y temas relacionados a los temas con los que cuenta
+                //Solo muestra los sectores y temas relacionados a los temas con los que cuenta
             })->with('sectores', function ($query) use ($rol) {
                 $query->with('temas');
                 $query->whereHas('temas', function ($q) use ($rol) {
@@ -36,6 +36,7 @@ class CuadroEstadisticoController extends Controller
                     });
                 })->orderBy('id', 'ASC');
             })
+            ->orderBy('id', 'ASC')
             ->get();
         return view('index')->with([
             'grupos' => $grupos
@@ -117,7 +118,8 @@ class CuadroEstadisticoController extends Controller
     public function viewFile(Request $request)
     {
         abort_if(Gate::denies('ce.viewFile'), 403);
-        $file = CEArchivos::find($request->get('idFile'));
+        $file = CEArchivos::findOrFail($request->get('idFile'));
+        $file->ce;
         return response()->json($file);
     }
 
@@ -141,7 +143,7 @@ class CuadroEstadisticoController extends Controller
         $tema = optional($ce->tema)->numGrupo . '.-' . optional($ce->tema)->nombreGrupo;
 
         $fileName = $request->get('yearPost') . '.' . $file->getClientOriginalExtension();
-        $rutaFile = "public/{$grupo}/{$sector}/{$tema}/{$ce->numeroCE}";
+        $rutaFile = "public/" . $grupo . "/" . $sector . "/" . $tema . "/" . $ce->numeroCE;
 
         $filePath = $file->storeAs($rutaFile, $fileName);
 
@@ -168,7 +170,8 @@ class CuadroEstadisticoController extends Controller
     }
 
 
-    public function deleteFileCE(Request $request) {
+    public function deleteFileCE(Request $request)
+    {
         $file = CEArchivos::findOrFail($request->get('idFile'));
         $deleteFile = Storage::delete(str_replace('storage/', 'public/', $file->urlFile));
 
@@ -185,9 +188,7 @@ class CuadroEstadisticoController extends Controller
         }
 
         return redirect()->route('home');
-
     }
-
 
     //Funciones para la carga masiva de archivos
     public function infoCuadroEstadistico(Request $request)
@@ -204,17 +205,18 @@ class CuadroEstadisticoController extends Controller
 
     public function storeFiles(Request $request)
     {
+        //dd($request);
         if (!$request->file('fileCE')) {
             return response()->json(['error' => 'No se recibio ningún archivo'], 400);
         }
-        
+
         $fileSC = [];
-        
+
         $index = $request->get('indexFile');
         foreach ($index as $i => $index) {
             if ($request->get('idCE')[$index] == 0) {
                 $fileSC[] = $request->get('fileName')[$index];
-            } else{
+            } else {
                 $ce = CuadroEstadistico::find($request->get('idCE')[$index]);
                 $file = $request->file('fileCE')[$index];
 
@@ -245,17 +247,9 @@ class CuadroEstadisticoController extends Controller
             }
         }
 
+        $files = implode(", ", $fileSC);
 
-        //dd($fileSC);
-        /* $filesSCE = json_encode($fileSC, JSON_PRETTY_PRINT);
-        notyf()
-            ->position('x', 'center')
-            ->position('y', 'top')
-            ->addWarning('Los archivos correspondientes a: ' . $filesSCE . ', no se registraron ya que no se encontraron los C.E'); */
-        notyf()
-            ->position('x', 'center')
-            ->position('y', 'top')
-            ->addSuccess('Archivos Guardados Correctamente');
-        return redirect()->route('home');
+        $message = 'Los archivos correspondientes a: ' . $files . ', no se pudieron registrar. <br> Te recomendamos intentar registrar uno por uno';
+        return redirect()->route('home')->with(['message' => $message]);
     }
 }

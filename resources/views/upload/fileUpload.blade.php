@@ -4,15 +4,52 @@
         yearPost: '',
         loadingFile: false,
         totalFiles: '',
+        totalSize: '',
+        messageMax: false,
     
         async filesUpload(event) {
-            let files = Array.from(event.target.files);
-            this.totalFile = files.length;
+            const notyf = new Notyf({
+                position: { x: 'center', y: 'top' },
+                duration: 5000
+            });
+
             this.loadingFile = true;
+            let files = Array.from(event.target.files);
+
+            if(this.documents.length >= 20) {
+                notyf.open({
+                    type: 'warning',
+                    background: 'orange',
+                    message: 'Solo se pueden subir 20 archivos',
+                    color: 'white',
+                    icon: { class: 'material-icons', tag: 'i' }
+                });
+
+                this.loadingFile = false;
+                return
+            }
+    
             let existingFiles = new Set(this.documents.map(doc => doc.name));
             let newFiles = files.filter(file => !existingFiles.has(file.name));
+
+            let currentSizeMB = this.documents.reduce((acc, file) => acc + file.rawSize, 0) / 1048576;
+            let newFilesSizeMB = newFiles.reduce((acc, file) => acc + file.size, 0) / 1048576;
+
+            if (currentSizeMB + newFilesSizeMB > 30) {
+                notyf.open({
+                    type: 'warning',
+                    background: 'orange',
+                    message: 'El total de archivos no puede superar los 30 MB',
+                    color: 'white',
+                    icon: { class: 'material-icons', tag: 'i' }
+                });
+                this.loadingFile = false;
+                return;
+            }
+
             let fileDataArray = await Promise.all(newFiles.map(async (file) => {
-                let data = await $.get(`{{ route('upload.infoCuadroEstadistico') }}?numero_ce=${file.name}`);
+                let response = await fetch(`{{ route('upload.infoCuadroEstadistico') }}?numero_ce=${file.name}`)
+                let data = await response.json();
                 let fileData = {
                     file: file,
                     url: URL.createObjectURL(file),
@@ -20,9 +57,10 @@
                     preview: ['xlsx', 'xls', 'csv'].includes(file.name.split('.').pop().toLowerCase()),
                     size: file.size > 1024 ?
                         file.size > 1048576 ?
-                        Math.round(file.size / 1048576) + 'MB' :
-                        Math.round(file.size / 1024) + 'KB' : file.size + 'B',
+                        (file.size / 1048576).toFixed(2) + 'MB' :
+                        (file.size / 1024).toFixed(1) + 'KB' : file.size + 'B',
                     progress: 0,
+                    rawSize: file.size,
                     idCE: data.cuadroEstadistico.length > 0 ? data.cuadroEstadistico[0].id : 0,
                     nameCE: data.cuadroEstadistico.length > 0 ? data.cuadroEstadistico[0].nombreCuadroEstadistico : 'No existe el cuadro estadistico',
                 };
@@ -44,12 +82,24 @@
                 reader.readAsArrayBuffer(file);
                 return fileData;
             }));
-    
-            this.documents = [...this.documents, ...fileDataArray];
-            console.log(this.documents);
-    
-            this.addFiletToInput();
 
+            if (this.documents.length + fileDataArray.length > 20) {
+                notyf.open({
+                    type: 'warning',
+                    background: 'orange',
+                    message: 'Solo se pueden subir 20 archivos',
+                    color: 'white',
+                    icon: { class: 'material-icons', tag: 'i' }
+                });
+    
+                fileDataArray = fileDataArray.slice(0, 20 - this.documents.length);
+            }
+
+            
+            this.totalSize = (parseFloat(currentSizeMB) + parseFloat(newFilesSizeMB)).toFixed(2);
+
+            this.documents = [...this.documents, ...fileDataArray];
+            this.addFiletToInput();
             this.loadingFile = false;
         },
     
@@ -83,21 +133,19 @@
                         @php
                             $year = date('Y');
                             for ($i = $year; $i >= 2010; $i--) {
-                                echo '
-                                    <div>
-                                        <label for="year_' . $i .'" 
-                                            class="flex cursor-pointer items-center justify-center rounded-md border border-gray-300 bg-gray-100 px-3 py-2 text-gray-900 hover:border-gray-400 has-[:checked]:border-blue-500 has-[:checked]:bg-blue-500 has-[:checked]:text-white">
-                                            <input x-model="yearPost" type="radio" name="yearPost" value="' . $i .'" id="year_' . $i .'" class="sr-only"  />
-                                            <p class="text-sm font-medium"> ' . $i . ' </p>
-                                        </label>
-                                    </div>
-                                ';
+                                echo '<div>
+                                    <label for="year_' . $i . '" 
+                                        class="flex cursor-pointer items-center justify-center rounded-md border border-gray-300 bg-gray-100 px-3 py-2 text-gray-900 hover:border-gray-400 has-[:checked]:border-blue-500 has-[:checked]:bg-blue-500 has-[:checked]:text-white">
+                                        <input x-model="yearPost" type="radio" name="yearPost" value="' . $i . '" id="year_' . $i . '" class="sr-only"  />
+                                        <p class="text-sm font-medium"> ' . $i . ' </p>
+                                    </label>
+                                </div>';
                             }
                         @endphp
                     </div>
 
                     <h2 class="text-lg font-semibold text-gray-500">Agrega los archivos para subir</h2>
-                    <label id="select-image">
+                    <label for="select_files">
                         <div class="flex items-center justify-center w-full mb-5">
                             <div
                                 class="flex flex-col items-center justify-center w-full h-40 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-100 hover:bg-gray-200">
@@ -116,18 +164,28 @@
                                             class="font-semibold">Click para subir
                                             archivo</span> o puedes arrastrarlo y soltarlo</p>
                                     <p x-show="yearPost != ''" class="text-xs text-gray-500"> XLSX, XLS or CVS (MAX:
-                                        5MB)</p>
+                                        30MB)</p>
+
+                                    <p x-show="yearPost != ''" class="text-xs text-gray-500"> Puedes subir un maximo de 20 archivos </p>
                                 </div>
-                                <input type="file" name="fileCE[]" @change="filesUpload($event)" hidden multiple
-                                    accept=".xlsx, .xls, .csv" x-ref="fileInput"
-                                    x-bind:disabled="yearPost === ''" />
+                                <input id="select_files" type="file" name="fileCE[]" @change="filesUpload($event)"
+                                    hidden multiple accept=".xlsx, .xls, .csv" x-ref="fileInput"
+                                    x-bind:disabled="!yearPost">
                             </div>
                         </div>
                     </label>
 
+                    <x-file-loader show="loadingFile" />
+
                     <template x-if="documents.length > 0">
                         <div class="">
-                            <h2 class="text-lg font-semibold text-gray-500">Listado de archivos por subir</h2>
+                            <div class="flex flex-row justify-between">
+                                <h2 class="text-lg font-semibold text-gray-500">Listado de archivos por subir</h2>
+                                <h2 class="text-lg font-semibold text-gray-500"
+                                    x-text="'Total de archivos: ' + documents.length + ' de 20'"></h2>
+                                <h2 class="text-lg font-semibold text-gray-500"
+                                    x-text="'Tamaño de archivos: ' + totalSize + 'MB'"></h2>
+                            </div>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
                                 <template x-for="(document, index) in documents" :key="index">
                                     <div x-show="document.preview">
@@ -211,8 +269,6 @@
                             </div>
                         </div>
                     </template>
-
-                    <x-file-loader show="loadingFile" />
                 </div>
             </form>
         </div>

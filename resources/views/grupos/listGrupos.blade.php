@@ -2,7 +2,7 @@
 <div x-data="{
     openListGrupos: false,
     openListTemas: false,
-        
+
     async cuadrosEstadisticos(event) {
         const tema_id = event.currentTarget.value;
         this.openListTemas = false;
@@ -33,6 +33,17 @@
             </div>
         </button>
     </div>
+
+    @if (session('message'))
+        <script>
+            Swal.fire({
+                title: 'Error !!',
+                text: '{{ session('message') }}',
+                icon: 'warning',
+                confirmButtonText: 'Aceptar'
+            })
+        </script>
+    @endif
 
     <div class="px-4 py-3 md:flex md:gap-4">
         <div :class="openListGrupos ? 'translate-x-0 opacity-100' : '-translate-x-full opacity-0'"
